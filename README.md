@@ -20,10 +20,10 @@
 
 [2.] Small Dataset's : We often don't have enough Dataset to train a Transformer Model, Thats Why IntegratedPipeline Offers a Highly optimized Transformer that supports scarce dataset processing, Using Alpha-Based computing as a Warm-up for training, it provides a direct Boost for the transformer to be efficient in scarce-data Environment.
 
-[3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's Large ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later Training from the given dat'as, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
+[3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's Large ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later Training from the given data's, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
 # Requirements:
-[~] To Quickly Run IntegratedPipeline, Requirements for it include's:
+[~] To Quickly Run IntegratedPipeline, Requirements include's:
 - Windows Native OS 
 - Linux x86_64 and Raspberry Pi
 - Python 3.13+
@@ -34,8 +34,8 @@
 
 # Steps for Usage:
 1. Download:
-   - AbstractIntegratedModule.pyd (For Windows),
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
+   - AbstractIntegratedModule.pyd and Windows compatible object file's (For Windows), 
+   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so and Linux x86_64 compatible object file's (For linux x86_64) 
    - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
      
 2. Create CSV file that contains training labels and titles:
@@ -44,15 +44,15 @@
       window_title, label
       "Thesis.docx", focused_work,high,writing thesis
       "Microsoft Excel", work,medium,data analysis
-      "YouTube - Google Chrome", distracted,high,watching videos
+      "YouTube -> Google Chrome", distracted,high,watching videos
       "Slack", communication,high,team chat
       "VSCode", focused_work,high,coding
-      "netflix.com - Google Chrome", break,high,Netflix break
+      "netflix.com -> Google Chrome", break,high,Netflix break
       "Outlook", work,medium,checking email
       "System Settings", system designing,low,configuring computer
       "GitHub", creating and editing repo, research
-      "README.md - VS Code", focused_work,medium,reading docs
-      "Amazon.com - Chrome", personal work,high,shopping
+      "README.md -> VS Code", focused_work,medium,reading docs
+      "Amazon.com -> Chrome", personal work,high,shopping
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
@@ -87,7 +87,6 @@
                     ]
                         
    titles, _, label_map = main_prediction.load_labels_from_csv(<your_filename>, <target_title>, <target_label>)
-   datasets, X = main_model.data_preparation(titles, label_map)
    results, chosen_label, confidence = main_model.advanced_prediction_method(self, titles, label_map, example_rules,
                                 show_proba=False, top_k=3, 
                                 use_transformer=True,
@@ -96,7 +95,29 @@
 
    # ... more features you can add
    ```
-   5. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
+   
+   5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+      Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
+      - Example:
+   ```
+   test_titles = [
+    ("Opening Thesis.docx", "slight_work"),
+    ("Watching YouTube and Google Chrome", "distracted"),
+    ("Watching Slack", "communication"),
+    ("Programming in Visual Studio Code", "focused_work"),
+    ("Watching netflix.com -> Chrome", "break"),
+    ]
+   
+   prediction_result = main_model.manager.advanced_prediction_method( 
+            [t[0] for t in test_titles],  # titles is enough due to reduce computing power needed for tfidf transformation.
+            label_map,
+            example_rules,
+            show_proba=True
+            )
+   
+   ```
+   
+   6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
    
 
