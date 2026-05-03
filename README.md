@@ -9,7 +9,8 @@
 
 # Abstract Weight Encoder (AWE) Intro:
 [=] AWE is a specialized custom weight shaping method that used eigenvalue and spectral methods to calculate covariance inside a given input data, and shape the correct Weight from the given eigenvalue, AWE Works by processing input and then captures the necessary eigenvalue to shape a properly initialized Weight that aligns with input data complexity, So, MLP training will be much more consistent and robust against noise.
-[~] For a much In-Depth Explanation You can visit This repository:
+
+[~] For a much In-Depth Explanation You can visit This repository to learn more about AWE and its performance results:
 - Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
 # Why IntegratedPipeline?
@@ -34,6 +35,7 @@
    - AbstractIntegratedModule.pyd (For Windows),
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
    - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
+     
 2. Create CSV file that contains training labels and titles:
    -  Example format:
       ```
@@ -92,11 +94,9 @@
 
    # ... more features you can add
    ```
+   5. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
    
-   
-
-
 
 # Main Components:
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
