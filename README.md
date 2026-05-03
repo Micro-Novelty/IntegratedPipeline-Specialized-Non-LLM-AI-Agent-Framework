@@ -1,6 +1,6 @@
 # IntegratedPipeline---Custom-AI-Agent-Core-library
 
-[~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Peer-To-Peer Sharing, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
+[~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
 
 <img width="393" height="385" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
 
@@ -10,7 +10,7 @@
 # Abstract Weight Encoder (AWE) Intro:
 [=] AWE is a specialized custom weight shaping method that used eigenvalue and spectral methods to calculate covariance inside a given input data, and shape the correct Weight from the given eigenvalue, AWE Works by processing input and then captures the necessary eigenvalue to shape a properly initialized Weight that aligns with input data complexity, So, MLP training will be much more consistent and robust against noise.
 [~] For a much In-Depth Explanation You can visit This repository:
-Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
+- Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
 # Why IntegratedPipeline?
 [~] IntegratedPipeline is a great choice for deploying Edge-device AI Agentic framework and High-end Embedded systems, With its Custom Research-Grade Multi-Layer-Perceptron (AWE) and Enhanced Transformer Embedding that can directly tolerate scarce Data using Weighted Confidence assembling for better reliability over Messy environments, such as:
@@ -136,7 +136,7 @@ Purpose: SQLite-based persistence for models, attention weights, node memories, 
 ---
 12. AgentDistributedInference 
 Purpose: The distributed agent system - can act as a server or client, handles SSL/TLS security, rate limiting, authentication, peer-to-peer prediction requests, memory synchronization, ensemble voting, and trust management between agents.
---
+---
 14. QueryNode  
 Purpose: Manages trust relationships and identity verification between nodes. Evaluates node agreement, establishes connections, performs safety checks, and maintains the network of trusted peers.
 ---
