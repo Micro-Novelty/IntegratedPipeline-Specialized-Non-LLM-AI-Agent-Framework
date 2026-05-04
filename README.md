@@ -1,4 +1,4 @@
-# IntegratedPipeline---Custom-AI-Agent-Core-library
+# IntegratedPipeline-Specialized-AI-Agent-library
 
 [~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
 
@@ -14,11 +14,11 @@
 - Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
 # Why IntegratedPipeline?
-[~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments, to High-end Embedded systems.
+[~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments, to efficiently run on High-end Embedded systems as a distributed network.
 
 [=] IntegratedPipeline offers:
 1. Local-Based AI Orchestrator:
-   - IntegratedPipeline Creates its own SQLite Database inside Your Computer, This database is used directly to store the AI Memory, Attention weights, and predicted Output, all without leaving the machine, The Database will be created Automatically once you run the library.
+   - IntegratedPipeline Creates its own SQLite Database inside Your Computer, This database is used directly to store the AI Memory, Attention weights, and predicted Output, identified peer, all without leaving the machine, The Database will be created Automatically once you run the library.
 
 2. Continously Learning behavior for an Agent: different from LLM that is static and cannot improve beyond its given training condition, AI Agent using IntegratedPipeline has a dynamic, flexible continously learning algorithm with both supervised and unsupervised learning present, The learned input and predicted Output will be stored in the database, allowing it to recall its memory during processing and find matching known prediction given if input matched with the stored input inside the database. this Continous learning behavior is efficient because its not relying on weights for memory, allowing flexible and predictable behavior inside a given environment.
    
@@ -26,8 +26,19 @@
   - IntegratedPipeline has 2 Different type's of AI Architecture stacked together, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm, The reason why those Models complement and used together :
       - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based weights get diluted over time.
       - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training with minimal head's and dimension's.
+   
+4. flexible and secure Peer-to-Peer Coordination:
+   - IntegratedPipeline offers Peer to Peer communication capabilities, Where the IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system, or externally via:
+   - secure socket using user SSL,
+   - Alpha rate limiting,
+   - HMAC secret key,
+   - and IP validation.
+   [~] The Agent has 2 Roles for Peer-to-Peer coordination:
+        - Server provider: the peer Agent can start a server to listen for peer client's
+        - Connecting Agent: the peer Agent which role is to connect to other peer that has or have opened and provided a server listener to act as a receiver.
 
-[=] With its Specialized Multi-Layer-Perceptron (AWE) and Optimized Transformer module with optimized Embedding that can directly tolerate scarce Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
+
+[=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
 
 [1.] User data's : User data is often messy and ambiguous, The Specialized MLP will do the job for shaping the necessary Weight to complement for the Ambiguous noisy pattern, AWE MLP is highly robust to noise, proven in synthetic Environment such as scikit-learn Make-Classification scarce and Noisy Input robustness during generalization test. making it a great fit for messy, Scarce data.
 
