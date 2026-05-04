@@ -27,15 +27,7 @@
       - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based weights get diluted over time.
       - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training with minimal head's and dimension's.
 
-
-
-<img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
-
-<img width="720" height="388" alt="WhatsApp Image 2026-05-04 at 17 44 04" src="https://github.com/user-attachments/assets/b1efedf6-5aa1-431e-89da-5f422549b453" />
-
-
-   
-With its Specialized Multi-Layer-Perceptron (AWE) and Optimized Transformer module with optimized Embedding that can directly tolerate scarce Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
+[=] With its Specialized Multi-Layer-Perceptron (AWE) and Optimized Transformer module with optimized Embedding that can directly tolerate scarce Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
 
 [1.] User data's : User data is often messy and ambiguous, The Specialized MLP will do the job for shaping the necessary Weight to complement for the Ambiguous noisy pattern, AWE MLP is highly robust to noise, proven in synthetic Environment such as scikit-learn Make-Classification scarce and Noisy Input robustness during generalization test. making it a great fit for messy, Scarce data.
 
@@ -140,7 +132,12 @@ With its Specialized Multi-Layer-Perceptron (AWE) and Optimized Transformer modu
    
    6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
-   
+
+# Detailed process of Alpha-computing:
+
+<img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
+
+<img width="720" height="388" alt="WhatsApp Image 2026-05-04 at 17 44 04" src="https://github.com/user-attachments/assets/b1efedf6-5aa1-431e-89da-5f422549b453" />
 
 # Main Components:
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
