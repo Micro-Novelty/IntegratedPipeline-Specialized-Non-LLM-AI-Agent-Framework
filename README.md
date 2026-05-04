@@ -22,10 +22,10 @@
 
 2. Continously Learning behavior for an Agent: different from LLM that is static and cannot improve beyond its given training condition, AI Agent using IntegratedPipeline has a dynamic, flexible continously learning algorithm with both supervised and unsupervised learning present, The learned input and predicted Output will be stored in the database, allowing it to recall its memory during processing and find matching known prediction given if input matched with the stored input inside the database. this Continous learning behavior is efficient because its not relying on weights for memory, allowing flexible and predictable behavior inside a given environment.
    
-3. Robust Specialized MLP and Transformer:
-  - IntegratedPipeline has 2 Different types of AI Architecture stacked, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm, The reason why those Models complement and used together with each other :
+3. Robust Specialized MLP and Transformer Architecture:
+  - IntegratedPipeline has 2 Different type's of AI Architecture stacked together, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm, The reason why those Models complement and used together :
       - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based weights get diluted over time.
-      - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training.
+      - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training with minimal head's and dimension's.
 
 
 
