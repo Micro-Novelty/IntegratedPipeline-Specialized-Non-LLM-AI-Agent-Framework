@@ -47,19 +47,19 @@
 [3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's Large ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later Training from the given data's, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
 # Requirements:
-[~] To Quickly Run IntegratedPipeline, Requirements include's:
+[~] To run and execute IntegratedPipeline, Requirement's include:
 - Windows Native OS 
 - Linux x86_64 and Raspberry Pi
 - Python 3.13+
-- AbstractIntegratedModule.pyd (Main Module)
+- AbstractIntegratedModule.pyd (For windows machine)
 - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)
 - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
 - CSV file that contains training labels and titles.
 
-# Steps for Usage:
+# Step's for Usage:
 1. Download:
-   - AbstractIntegratedModule.pyd and Windows compatible object file's (For Windows), 
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so and Linux x86_64 compatible object file's (For linux x86_64) 
+   - AbstractIntegratedModule.pyd (For Windows), 
+   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
    - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
      
 2. Create CSV file that contains training labels and titles:
@@ -140,7 +140,7 @@
             )
    
    ```
-   
+
    6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
 
