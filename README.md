@@ -50,8 +50,11 @@
 
 # Requirements:
 [~] To run and execute IntegratedPipeline, Requirement's include:
-- Windows Native OS 
-- Linux x86_64 and Raspberry Pi
+- Machine (Choose one minimal, specified for your needs):
+   - Windows Native OS 
+   - Linux x86_64
+   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
+
 - Python 3.13+
 - AbstractIntegratedModule.pyd (For windows machine)
 - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)
