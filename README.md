@@ -66,6 +66,43 @@
    - AbstractIntegratedModule.pyd (For Windows), 
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
    - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
+   ```
+   # Download from release
+   # AbstractIntegratedModule.pyd (windows) /
+   # Abstractcpython-39-x86_64-linux-gnu.so (x86_64) /
+   # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so   
+   ```
+   
+   [=] Steps for installation:
+   1. Clone repository:
+         - ```
+           git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
+           cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
+
+           # prerequisites (Raspberry pi OS)
+           # Update system
+           sudo apt-get update
+           sudo apt-get upgrade -y
+
+           # Install Python 3.13 and development tools
+           sudo apt-get install python3.13 python3.13-dev python3.13-venv -y
+
+           # Install additional build tools
+           sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y   
+           ```
+   2. Create a virtual environment:
+       - ```
+         # Create virtual environment (windows)
+         python -m venv venv
+         # Activate virtual environment
+         venv\Scripts\activate
+         
+         # Create virtual environment (x86_64) (ARM64 / raspberry pi)
+         python3.13 -m venv venv
+         # Activate virtual environment
+         source venv/bin/activate
+         ```
+         
      
 2. Create CSV file that contains training labels and titles:
    -  Example format:
