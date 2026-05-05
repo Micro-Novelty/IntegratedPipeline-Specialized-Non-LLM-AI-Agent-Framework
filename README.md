@@ -147,6 +147,7 @@
 input_ids, _ = main_model.input_encoding(dataset)
 sequence_inputs = main_model.sequence_encoding(dataset)
 X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(rules, dataset)
+
 main_model.initialize_fitting()
 X_raw_features = main_model.tfidf.transform(X_raw_generation).toarray()
 transformer_features = main_model.transformer_pooled_features(sequence_inputs)
@@ -154,18 +155,22 @@ X_features = np.concatenate([X_raw_features, transformer_features], axis=-1)
 
 peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybrid') # peer-to-peer calibration is inside this function
 ```
-[~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree. Consider using this setup below for using stand-alone peer-to-peer main function without being wrapped in other parent function, allowing flexible and auditable peer-to-peer sharing for probability coordination:
+[~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree on certain output. Consider using this setup below for using stand-alone peer-to-peer main function without being wrapped in other parent function, allowing flexible and auditable peer-to-peer sharing for probability coordination:
 ```
 from AbstractIntegratedModule import WeightedEnsemblePredictor
 from AbstractIntegratedModule import Transformer
-from AbstractIntegratedModule import AgentDistributedInference
-
-ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider using the same memory name used in your previous pipeline
 
 num_classes = len(label_map)
 # if you haven't fit the Tfidf:
 # main_model.initialize_fitting(test_titles[0][0])
+
+ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider using the same memory name used in your previous pipeline
 transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes) # you can audit how much parameter the transformer needs.
+main_model.model2 = transformer # overwrite previous transformer initialization
+
+# consider using ssl for secure peer to peer coordination
+main_model.distribution.ssl_cert_file = <path_to_your_ssl_cert_file> 
+main_model.distribution.ssl_key_file = <path_to_your_ssl_key_file>
 
 dataset, _ = main_model.data_preparation(titles, label_map)
 sequence_input = main_model.sequence_encoding(dataset)
@@ -179,8 +184,12 @@ probs = main_model.predict_ensemble(sequence_input, X_features, y, method='dynam
 
 agreement = main_model.agreement
 calibrated_probability = main_model._handle_distributed_connections(probs, attn_weights, sequence_input, agreement)
+
+# if an Agent experience a failure, consider using this function to reduce peer trust for safer flexible coordination:
+# main_model.distribution.report_failure(id(main_model), '<task_name>', reason='<unknown>') # you can add the task_name and reason
+# main_model.distribution.print_network_status() # to show other peers info.
 ```
-Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
+[~] Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
 
 6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
