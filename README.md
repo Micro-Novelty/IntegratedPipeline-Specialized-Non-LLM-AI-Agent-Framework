@@ -211,8 +211,11 @@ A_final = α · A_fixed + (1 − α) · A_learned.
 - A_learned → dynamic, trainable attention (Q, K, V)
 - α ∈ [0, 1] → controls how much each path contributes
   
-[~] Forward Pass: Controlling Information Flow
+[~] Forward Pass -> Controlling Information Flow:
 During the forward pass, alpha determines what representation the model uses.
+If α is high (e.g., 0.8–1.0): Model relies mostly on stable attention
+→ outputs are consistent → less noise → safer early training, If α is low (e.g., 0.0–0.3), Model relies mostly on learned attention, → more expressive → but unstable early on.
+So in forward propagation, alpha is essentially, “How much do I trust learned attention vs safe attention?”
 
 [~] Backward Pass -> Controlling Gradient Flow:
 When gradients flow backward:
@@ -220,10 +223,6 @@ When gradients flow backward:
     - Mathematically:
         - dA_fixed   = α · dA_final
         - dA_learned = (1 − α) · dA_final
-
-If α is high (e.g., 0.8–1.0): Model relies mostly on stable attention
-→ outputs are consistent → less noise → safer early training, If α is low (e.g., 0.0–0.3), Model relies mostly on learned attention, → more expressive → but unstable early on.
-So in forward propagation, alpha is essentially, “How much do I trust learned attention vs safe attention?”
 
 [~] Simple Explanation:
 1. If α (alpha) is high: → most gradient goes to fixed path → learned attention gets very little update → training is stable but slow
