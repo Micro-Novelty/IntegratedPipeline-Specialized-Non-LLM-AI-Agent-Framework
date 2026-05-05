@@ -133,7 +133,7 @@
     ]
    
    prediction_result = main_prediction.advanced_prediction_method( 
-            [t[0] for t in test_titles],  # titles is enough due to reduce computing power needed for tfidf transformation.
+            [t[0] for t in test_titles],  # titles is enough to reduce computing power from tfidf transformation.
             label_map,
             example_rules,
             show_proba=True
@@ -192,19 +192,23 @@ Note: this calibrated_probability is later used to calculate confidence and chos
 <img width="720" height="388" alt="WhatsApp Image 2026-05-04 at 17 44 04" src="https://github.com/user-attachments/assets/b1efedf6-5aa1-431e-89da-5f422549b453" />
 🧠 What Alpha-Based Computation Actually Does
 At its core, alpha (α) is a control parameter that blends two different information paths inside your transformer:
-A_final = α · A_fixed + (1 − α) · A_learned
-Where:
-A_fixed → stable, non-trainable (or minimally changing) attention
-A_learned → dynamic, trainable attention (Q, K, V)
-α ∈ [0, 1] → controls how much each path contributes
+A_final = α · A_fixed + (1 − α) · A_learned.
+[~] Where: 
+- A_fixed → stable, non-trainable (or minimally changing) attention
+- A_learned → dynamic, trainable attention (Q, K, V)
+- α ∈ [0, 1] → controls how much each path contributes
+- 
 [~] Forward Pass: Controlling Information Flow
 During the forward pass, alpha determines what representation the model uses.
+
 If α is high (e.g., 0.8–1.0): Model relies mostly on stable attention
 → outputs are consistent → less noise → safer early training, If α is low (e.g., 0.0–0.3), Model relies mostly on learned attention, → more expressive → but unstable early on.
 So in forward propagation, alpha is essentially, “How much do I trust learned attention vs safe attention?”
+
 [~] Simple Explanation:
 1. If α (alpha) is high: → most gradient goes to fixed path → learned attention gets very little update → training is stable but slow
 2. If α is low: → most gradient goes to learned attention → fast learning → but noisy / unstable
+   
 [=] Why This Matters for Training
 1. Without alpha: attention starts random → gradients noisy → model stuck (~10% accuracy)
 2. With alpha: early stage -> rely on stable structure → meaningful gradients
