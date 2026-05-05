@@ -74,12 +74,10 @@
    ```
    
    [=] Steps for installation:
+   Note: AbstractIntegratedModule doesn't have any libraries dependency, the required dependency is already present in each binary in the .pyd and .so file.
    1. Clone repository:
          - ```
-           git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
-           cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
-
-           # prerequisites (Raspberry pi OS)
+           # prerequisites (for Raspberry pi OS Only)
            # Update system
            sudo apt-get update
            sudo apt-get upgrade -y
@@ -88,9 +86,26 @@
            sudo apt-get install python3.13 python3.13-dev python3.13-venv -y
 
            # Install additional build tools
-           sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y   
-           ```
-   2. Create a virtual environment:
+           sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y
+
+           # Clone immediately for Windows and x86_64 only without prerequisites          
+           git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
+           cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework     
+           ```   
+   2. Install System Dependencies (for x86_64 installation):
+      ```
+      # Ubuntu/Debian
+      sudo apt-get update
+      sudo apt-get install python3.13 python3.13-dev python3.13-venv
+
+      # CentOS/RHEL
+      sudo yum install python313 python313-devel
+
+      # Fedora
+      sudo dnf install python3.13 python3.13-devel
+      ```
+      
+   3. Create a virtual environment:
        - ```
          # Create virtual environment (windows)
          python -m venv venv
@@ -103,8 +118,33 @@
          source venv/bin/activate
          ```
          
+   4. Copy AbstractIntegratedModule binary:
+      - ```
+        # For windows:
+        # Copy the .pyd file to your project root
+        # AbstractIntegratedModule.pyd
+        copy C:\path\to\AbstractIntegratedModule.pyd .\AbstractIntegratedModule.pyd
+        
+        # Copy the .so file to your project root (for x86_64)
+        cp /path/to/AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so ./AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so
+        
+        # Copy ARM64 / Raspberry pi binary
+        cp /path/to/AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so ./AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so
+
+   5. Verify Installation:
+      - ```
+        python -c "from AbstractIntegratedModule import IntegratedPipeline; print('✓ Installation successful!')"
+        ```
+        
+   6. Run test_initialization.py for quick test of successful imports:
+      - ```
+        # run this for quick import test.
+        python test_installation.py
+        ```
+           
+         
      
-2. Create CSV file that contains training labels and titles:
+3. Create CSV file that contains training labels and titles:
    -  Example format:
       ```
       window_title, label
@@ -122,7 +162,7 @@
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
-3. Use IntegratedPipeline as in this example:
+4. Use IntegratedPipeline as in this example:
    ```
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
@@ -162,7 +202,7 @@
    # ... more features you can add
    ```
    
-4. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example:
    ```
@@ -183,7 +223,7 @@
    
    ```
 
-5. Peer-to-Peer Probability coordination:
+6. Peer-to-Peer Probability coordination:
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
 input_ids, _ = main_model.input_encoding(dataset)
