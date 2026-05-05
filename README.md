@@ -210,9 +210,16 @@ A_final = α · A_fixed + (1 − α) · A_learned.
 - A_fixed → stable, non-trainable (or minimally changing) attention
 - A_learned → dynamic, trainable attention (Q, K, V)
 - α ∈ [0, 1] → controls how much each path contributes
-- 
+  
 [~] Forward Pass: Controlling Information Flow
 During the forward pass, alpha determines what representation the model uses.
+
+[~] Backward Pass -> Controlling Gradient Flow:
+When gradients flow backward:
+- dA_final → splits into two paths
+    - Mathematically:
+        - dA_fixed   = α · dA_final
+        - dA_learned = (1 − α) · dA_final
 
 If α is high (e.g., 0.8–1.0): Model relies mostly on stable attention
 → outputs are consistent → less noise → safer early training, If α is low (e.g., 0.0–0.3), Model relies mostly on learned attention, → more expressive → but unstable early on.
