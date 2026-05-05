@@ -158,13 +158,14 @@ peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybr
 ```
 from AbstractIntegratedModule import WeightedEnsemblePredictor
 from AbstractIntegratedModule import Transformer
+from AbstractIntegratedModule import AgentDistributedInference
 
 ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider using the same memory name used in your previous pipeline
 
 num_classes = len(label_map)
 # if you haven't fit the Tfidf:
 # main_model.initialize_fitting(test_titles[0][0])
-transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes)
+transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes) # you can audit how much parameter the transformer needs.
 
 dataset, _ = main_model.data_preparation(titles, label_map)
 sequence_input = main_model.sequence_encoding(dataset)
@@ -174,12 +175,14 @@ probs = main_model.predict_ensemble(sequence_input, X_features, y, method='dynam
 # 3 options for method:
 # 1. Dynamic: allow flexible, efficient weighting from both transformer and MLP,
 # 2. meta: for a much more in-depth weighting from both model,
-# 3. calibration: allow calibrating probability for both model outputs based on MLP perspective weights assembling.
+# 3. calibration: allow calibrating probability for both model outputs based on both best weights assembling.
 
+agreement = main_model.agreement
 calibrated_probability = main_model._handle_distributed_connections(probs, attn_weights, sequence_input, agreement)
 ```
+Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
 
-6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
+6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 
 # Detailed process of Alpha-computing:
