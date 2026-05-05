@@ -66,12 +66,12 @@
    - AbstractIntegratedModule.pyd (For Windows), 
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
    - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
-   ```
-   # Download from release
-   # AbstractIntegratedModule.pyd (windows) /
-   # Abstractcpython-39-x86_64-linux-gnu.so (x86_64) /
-   # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so   
-   ```
+   -  ```
+      # Download from release
+      # AbstractIntegratedModule.pyd (windows) /
+      # Abstractcpython-39-x86_64-linux-gnu.so (x86_64) /
+      # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so   
+      ```
    
    [=] Steps for installation:
    Note: AbstractIntegratedModule doesn't have any libraries dependency, the required dependency is already present in each binary in the .pyd and .so file.
@@ -144,7 +144,7 @@
            
          
      
-3. Create CSV file that contains training labels and titles:
+2. Create CSV file that contains training labels and titles:
    -  Example format:
       ```
       window_title, label
@@ -162,7 +162,7 @@
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
-4. Use IntegratedPipeline as in this example:
+3. Use IntegratedPipeline as in this example:
    ```
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
@@ -202,7 +202,7 @@
    # ... more features you can add
    ```
    
-5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+4. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example:
    ```
@@ -223,7 +223,7 @@
    
    ```
 
-6. Peer-to-Peer Probability coordination:
+5. Peer-to-Peer Probability coordination:
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
 input_ids, _ = main_model.input_encoding(dataset)
