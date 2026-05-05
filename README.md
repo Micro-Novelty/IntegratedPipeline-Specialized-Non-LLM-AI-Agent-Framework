@@ -46,6 +46,8 @@
 
 [3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's Large ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later Training from the given data's, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
+
+
 # Requirements:
 [~] To run and execute IntegratedPipeline, Requirement's include:
 - Windows Native OS 
@@ -194,13 +196,15 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 
+
 # Detailed process of Alpha-computing:
 
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
 
 <img width="720" height="388" alt="WhatsApp Image 2026-05-04 at 17 44 04" src="https://github.com/user-attachments/assets/b1efedf6-5aa1-431e-89da-5f422549b453" />
 🧠 What Alpha-Based Computation Actually Does
-At its core, alpha (α) is a control parameter that blends two different information paths inside your transformer:
+
+At its core, alpha (α) is a control parameter that blends two different information paths inside a given transformer:
 A_final = α · A_fixed + (1 − α) · A_learned.
 [~] Where: 
 - A_fixed → stable, non-trainable (or minimally changing) attention
@@ -221,6 +225,8 @@ So in forward propagation, alpha is essentially, “How much do I trust learned 
 [=] Why This Matters for Training
 1. Without alpha: attention starts random → gradients noisy → model stuck (~10% accuracy)
 2. With alpha: early stage -> rely on stable structure → meaningful gradients
+
+
 
 # Main Components:
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
