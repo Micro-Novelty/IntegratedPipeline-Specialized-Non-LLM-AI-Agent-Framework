@@ -154,7 +154,30 @@ X_features = np.concatenate([X_raw_features, transformer_features], axis=-1)
 
 peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybrid') # peer-to-peer calibration is inside this function
 ```
-[~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree.
+[~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree. Consider using this setup below for using stand-alone peer-to-peer main function without being wrapped in other parent function, allowing flexible and auditable peer-to-peer sharing for probability coordination:
+```
+from AbstractIntegratedModule import WeightedEnsemblePredictor
+from AbstractIntegratedModule import Transformer
+
+ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider using the same memory name used in your previous pipeline
+
+num_classes = len(label_map)
+# if you haven't fit the Tfidf:
+# main_model.initialize_fitting(test_titles[0][0])
+transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes)
+
+dataset, _ = main_model.data_preparation(titles, label_map)
+sequence_input = main_model.sequence_encoding(dataset)
+_, attn_weights = transformer.forward(sequence_input)
+
+probs = main_model.predict_ensemble(sequence_input, X_features, y, method='dynamic', embedded=True)
+# 3 options for method:
+# 1. Dynamic: allow flexible, efficient weighting from both transformer and MLP,
+# 2. meta: for a much more in-depth weighting from both model,
+# 3. calibration: allow calibrating probability for both model outputs based on MLP perspective weights assembling.
+
+calibrated_probability = main_model._handle_distributed_connections(probs, attn_weights, sequence_input, agreement)
+```
 
 6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
@@ -164,6 +187,24 @@ peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybr
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
 
 <img width="720" height="388" alt="WhatsApp Image 2026-05-04 at 17 44 04" src="https://github.com/user-attachments/assets/b1efedf6-5aa1-431e-89da-5f422549b453" />
+🧠 What Alpha-Based Computation Actually Does
+At its core, alpha (α) is a control parameter that blends two different information paths inside your transformer:
+A_final = α · A_fixed + (1 − α) · A_learned
+Where:
+A_fixed → stable, non-trainable (or minimally changing) attention
+A_learned → dynamic, trainable attention (Q, K, V)
+α ∈ [0, 1] → controls how much each path contributes
+[~] Forward Pass: Controlling Information Flow
+During the forward pass, alpha determines what representation the model uses.
+If α is high (e.g., 0.8–1.0): Model relies mostly on stable attention
+→ outputs are consistent → less noise → safer early training, If α is low (e.g., 0.0–0.3), Model relies mostly on learned attention, → more expressive → but unstable early on.
+So in forward propagation, alpha is essentially, “How much do I trust learned attention vs safe attention?”
+[~] Simple Explanation:
+1. If α (alpha) is high: → most gradient goes to fixed path → learned attention gets very little update → training is stable but slow
+2. If α is low: → most gradient goes to learned attention → fast learning → but noisy / unstable
+[=] Why This Matters for Training
+1. Without alpha: attention starts random → gradients noisy → model stuck (~10% accuracy)
+2. With alpha: early stage -> rely on stable structure → meaningful gradients
 
 # Main Components:
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
