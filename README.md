@@ -80,7 +80,7 @@
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
-4. Use IntegratedPipeline as in this example:
+3. Use IntegratedPipeline as in this example:
    ```
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
@@ -120,7 +120,7 @@
    # ... more features you can add
    ```
    
-   5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+4. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example:
    ```
@@ -132,7 +132,7 @@
     ("Watching netflix.com -> Chrome", "break"),
     ]
    
-   prediction_result = main_model.manager.advanced_prediction_method( 
+   prediction_result = main_prediction.advanced_prediction_method( 
             [t[0] for t in test_titles],  # titles is enough due to reduce computing power needed for tfidf transformation.
             label_map,
             example_rules,
@@ -141,7 +141,22 @@
    
    ```
 
-   6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
+5. Peer-to-Peer Probability coordination:
+   - To Make the Agent cooperate with other peers, consider using this setup:
+```
+input_ids, _ = main_model.input_encoding(dataset)
+sequence_inputs = main_model.sequence_encoding(dataset)
+X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(rules, dataset)
+main_model.initialize_fitting()
+X_raw_features = main_model.tfidf.transform(X_raw_generation).toarray()
+transformer_features = main_model.transformer_pooled_features(sequence_inputs)
+X_features = np.concatenate([X_raw_features, transformer_features], axis=-1)
+
+peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybrid') # peer-to-peer calibration is inside this function
+```
+[~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree.
+
+6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, and much more.
 
 
 # Detailed process of Alpha-computing:
