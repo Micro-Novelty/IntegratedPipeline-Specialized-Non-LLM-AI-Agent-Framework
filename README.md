@@ -108,6 +108,7 @@
      docker run -it --gpus all -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py
      ```
 5. For Single Agent and Multi-Agent P2P:
+   
    [=] Single agent:
    ```bash
    # Build image
