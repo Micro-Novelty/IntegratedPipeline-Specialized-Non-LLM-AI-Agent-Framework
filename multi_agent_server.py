@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Note: you still need to edit ServerAgent class for more features and flexibility.
 """
 Multi-Agent Server Script for IntegratedPipeline
 
@@ -100,7 +101,7 @@ class ServerAgent:
     - Handle SSL/TLS security
     """
     
-    def __init__(self, port=AGENT_PORT, host=AGENT_HOST, memory_name=MEMORY_NAME):
+    def __init__(self, port=AGENT_PORT, host=AGENT_HOST, memory_name=MEMORY_NAME, example_rules):
         """Initialize the server agent."""
         self.port = port
         self.host = host
@@ -110,7 +111,7 @@ class ServerAgent:
         self.peers = {}  # {peer_id: {host, port, last_seen, status}}
         self.peer_lock = threading.Lock()
         self.max_peers = MAX_PEERS
-        self.peer_timeout = PEER_TIMEOUT
+        self.peer_timeout = PEER_TIMEOUT 
         
         # Statistics
         self.stats = {
@@ -126,7 +127,10 @@ class ServerAgent:
         # Try to initialize IntegratedPipeline
         self.pipeline = None
         self.initialize_pipeline()
-        
+
+        self.label_map = self.pipeline.load_labels_from_csv('<your_filename>', '<your_csv_title>', '<title_label>')
+        self.example_rules = example_rules
+
         # Start time
         self.start_time = time.time()
         
@@ -373,9 +377,10 @@ class ServerAgent:
         Returns:
             dict with prediction results
         """
+        
         try:
             if self.pipeline:
-                results, prediction, confidence = 
+                results, prediction, confidence = self.pipeline.advanced_prediction_method(title, self.label_map, self.example_rules, show_proba=True)
                 result = {
                     'prediction': prediction,
                     'confidence': confidence,
@@ -469,12 +474,15 @@ def main():
                         help=f'Maximum peers allowed (default: {MAX_PEERS})')
     
     args = parser.parse_args()
+
+    example_rules = '<example-rules>'
     
     # Create and start server
     server = ServerAgent(
         port=args.port,
         host=args.host,
         memory_name=args.memory
+        example_rules
     )
     
     logger.info("=" * 70)
