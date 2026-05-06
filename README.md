@@ -38,10 +38,11 @@
         - Connecting Agent: the peer Agent which role is to connect to other peer that has or have opened and provided a server listener to act as a receiver.
 
 5. Cross-Session memory availability:
-   - IntegratedPipeline offers share-able Memory from the database, included capability below:
+   - IntegratedPipeline offers share-able Memory capability, included capability below:
      - Exportable memory: this allows a flexible memory saving for later use, such as cross transfer memory between model, the memory is saved as .json file.
-     - Importable Memory: allowing to import memory from the exported .json file.
+     - Importable Memory: allowing to import memory from the exported .json file directly for the model to use.
      - syncing with other model: socket-based communication to export memory to other external machine.
+       [=] Note: socket Syncing is unsecure witout additional security layer wrapped, For a safer syncing, directly transfer the .json file memory to the target machine via other ways such as manual send.
      - list sessions: listing available sessions using model's memory name.
 
 [=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
@@ -293,7 +294,13 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 ```
 [~] Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
 
-6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
+6. Cross-Session availability:
+   - To use Cross-session avialability to transfer or import memory, consider using this setup:
+     - ```
+       main_model._cross_session_availability() # cross session capability function
+       ```
+
+7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 # Troubleshooting
 1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'"
@@ -304,6 +311,7 @@ Solution:
    ls -la AbstractIntegratedModule*.so  # Linux
    dir AbstractIntegratedModule.pyd     # Windows
    ```
+   
 
    - [=] Check Python path:
    ```
