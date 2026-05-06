@@ -275,7 +275,82 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 
 6. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
+# Troubleshooting
+1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'"
+Solution:
 
+[=] Verify the binary file is in the correct location:
+```
+ls -la AbstractIntegratedModule*.so  # Linux
+dir AbstractIntegratedModule.pyd     # Windows
+```
+
+[=] Check Python path:
+```
+python -c "import sys; print('\n'.join(sys.path))"
+```
+[~] Note: - Move binary to project root if not already there
+      - Ensure you're using Python 3.13+
+      
+2. Issue 2: "ImportError: DLL load failed" (Windows)
+Solution:
+
+   - 1. Ensure AbstractIntegratedModule.pyd is in your project root
+   - 2. Install Visual C++ redistributables:
+      Download from: https://support.microsoft.com/en-us/help/2977003
+   - 3. Verify Python architecture (32-bit vs 64-bit) matches the .pyd file
+
+
+3. Issue 3: "Permission denied" (Linux/Raspberry Pi)
+[=] Solution:
+
+```
+# Make sure you have read permissions
+chmod 644 AbstractIntegratedModule.cpython-39-*.so
+# If in virtual environment, ensure it's activated
+source venv/bin/activate
+```
+
+4. Issue 4: Missing Dependencies
+Solution:
+```
+# Reinstall all dependencies
+pip install --upgrade pip setuptools wheel
+pip install numpy pandas scikit-learn matplotlib scipy requests
+
+# Verify installation
+pip list
+```
+
+5. Issue 5: Virtual Environment Issues
+Solution:
+```
+# Deactivate current environment
+deactivate
+
+# Create a fresh virtual environment
+python -m venv fresh_venv
+
+# Activate it
+source fresh_venv/bin/activate  # Linux/Raspberry Pi
+# or
+fresh_venv\Scripts\activate     # Windows
+
+# Reinstall
+pip install --upgrade pip
+pip install numpy pandas scikit-learn matplotlib scipy
+```
+
+6. Issue 6: Raspberry Pi - "Bus error" or Performance Issues
+Solution:
+   - [=] Ensure adequate swap space:
+   ```
+   free -h  # Check current swap
+   sudo nano /etc/dphys-swapfile  # Increase if needed
+   ```
+
+   - Close unnecessary applications before running
+   - Consider using a faster SD card (UHS-I or better)
 
 # Detailed process of Alpha-computing:
 
