@@ -22,7 +22,7 @@ git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning
 cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
 ```
 
-# Build the Docker image
+### 2. Build the Docker image
 ```bash
 # Build image with tag
 docker build -t integrated-pipeline:latest .
@@ -31,7 +31,7 @@ docker build -t integrated-pipeline:latest .
 docker build -t integrated-pipeline:v1.0.0 .
 ```
 
-# Run integratedPipeline
+### 3. Run integratedPipeline
 ```bash
 docker run -it --name integrated-agent integrated-pipeline:latest python
 ```
@@ -44,7 +44,7 @@ manager = PipelinePredictionManager(model)
 print("✓ IntegratedPipeline initialized successfully!")
 ```
 
-# Run bash shell
+### 4. Run bash shell
 ```bash
 # Access full container shell
 docker run -it integrated-pipeline:latest bash
@@ -53,7 +53,13 @@ docker run -it integrated-pipeline:latest bash
 python main.py
 ```
 
-# Start a container
+### 5. Run python script
+```bash
+# Mount current directory and run script
+docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/your_script.py
+```
+
+### 6. Start a container
 ```bash
 docker run -it --name my-agent integrated-pipeline:latest
 
@@ -62,12 +68,12 @@ docker ps -a
 
 ```
 
-# stop Container
+### 7. stop Container
 ```bash
 docker stop my-agent
 ```
 
-# Image Management
+### 8. Image Management
 ```bash
 docker images
 
@@ -81,7 +87,7 @@ docker rmi integrated-pipeline:latest
 docker build --no-cache -t integrated-pipeline:latest .
 ```
 
-# Volume Mounting
+### 9. Volume Mounting
 [=] Mount local directory for data access
 ```bash
 # Linux/Mac
@@ -94,7 +100,7 @@ docker run -it -v ${PWD}/data:/app/data integrated-pipeline:latest python main.p
 docker run -it -v %cd%/data:/app/data integrated-pipeline:latest python main.py
 ```
 
-[=] View logs
+### View logs
 ```bash
 # View container logs
 docker logs my-agent
