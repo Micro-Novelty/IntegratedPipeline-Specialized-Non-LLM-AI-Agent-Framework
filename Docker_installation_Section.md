@@ -17,4 +17,85 @@ cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
 ```
 
 # Build the Docker image
+```bash
+# Build image with tag
 docker build -t integrated-pipeline:latest .
+
+# Or with a specific version
+docker build -t integrated-pipeline:v1.0.0 .
+```
+
+# Run integratedPipeline
+```bash
+docker run -it --name integrated-agent integrated-pipeline:latest python
+```
+[=] For python shell:
+```
+from AbstractIntegratedModule import IntegratedPipeline, PipelinePredictionManager
+
+model = IntegratedPipeline('agent_memory')
+manager = PipelinePredictionManager(model)
+print("✓ IntegratedPipeline initialized successfully!")
+```
+
+# Run bash shell
+```bash
+# Access full container shell
+docker run -it integrated-pipeline:latest bash
+
+# Inside container:
+python main.py
+```
+
+# Start a container
+```bash
+docker run -it --name my-agent integrated-pipeline:latest
+
+# list running containers:
+docker ps -a
+
+```
+
+# stop Container
+```bash
+docker stop my-agent
+```
+
+# Image Management
+```bash
+docker images
+
+# view image details:
+docker inspect integrated-pipeline:latest
+
+# remove images
+docker rmi integrated-pipeline:latest
+
+# rebuild image (no-cache)
+docker build --no-cache -t integrated-pipeline:latest .
+```
+
+# Volume Mounting
+[=] Mount local directory for data access
+```bash
+# Linux/Mac
+docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py
+
+# Windows PowerShell
+docker run -it -v ${PWD}/data:/app/data integrated-pipeline:latest python main.py
+
+# Windows CMD
+docker run -it -v %cd%/data:/app/data integrated-pipeline:latest python main.py
+```
+
+[=] View logs
+```bash
+# View container logs
+docker logs my-agent
+
+# Follow logs in real-time
+docker logs -f my-agent
+
+# Last 50 lines
+docker logs --tail 50 my-agent
+```
