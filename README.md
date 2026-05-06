@@ -1,6 +1,6 @@
 # IntegratedPipeline-Specialized-AI-Agent-library
 
-[~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
+[~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer (Multi-Agent) Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
 
 <img width="393" height="385" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
 
@@ -27,7 +27,7 @@
       - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based weights get diluted over time.
       - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training with minimal head's and dimension's.
    
-4. flexible and secure Peer-to-Peer Coordination:
+4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
    - IntegratedPipeline offers Peer to Peer communication capabilities, Where the IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system, or externally via:
    - secure socket using user SSL,
    - Alpha rate limiting,
@@ -80,7 +80,46 @@
 3. ARM64 - Raspberry Pi
    - Installation may take 30+ minutes due to ARM architecture
    - Monitor system resources during installation
-   -Consider using faster storage (USB SSD) for better performance
+   - Consider using faster storage (USB SSD) for better performance
+
+# Docker set:
+1. See Docker_Installation_Section.md for a Quick start.
+   
+2. Run IntegratedPipeline in a Container:
+    - ```bash
+      docker run -it --name integrated-agent integrated-pipeline:latest python
+      ```
+   - In python shell:
+       - ```
+         from AbstractIntegratedModule import IntegratedPipeline, PipelinePredictionManager
+         model = IntegratedPipeline('agent_memory')
+         print("✓ IntegratedPipeline initialized successfully!")
+         ```
+         
+3. Run script:
+   ```bash
+   # Mount your local directory and run a script
+   docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py # main.py could be replaced
+   ```
+   
+4. Run with GPU Support (Optional):
+   - ```bash
+     # For NVIDIA GPU support
+     docker run -it --gpus all -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py
+     ```
+5. For Multi-Agent P2P, Consider docker-compose:
+   - ```bash
+     # Start multiple agents
+     # Start multiple agents
+     docker-compose up -d
+
+     # View logs
+     docker-compose logs -f
+
+     # Stop all agents
+     docker-compose down
+     ```
+
 
 # Step's for Usage:
 1. Download:
