@@ -61,6 +61,20 @@
 - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
 - CSV file that contains training labels and titles.
 
+# System-Specific Notes
+1. Windows:
+   - Requires Visual C++ Build Tools for compatibility
+   - Use PowerShell or CMD (not WSL bash for best results)
+     
+2. Linux:
+   - Ensure gcc and build-essential are installed
+   - Different distributions may require different package managers
+     
+3. ARM64 - Raspberry Pi
+   - Installation may take 30+ minutes due to ARM architecture
+   - Monitor system resources during installation
+   -Consider using faster storage (USB SSD) for better performance
+
 # Step's for Usage:
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows), 
