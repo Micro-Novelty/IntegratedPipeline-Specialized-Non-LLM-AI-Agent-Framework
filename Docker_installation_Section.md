@@ -8,6 +8,12 @@ Docker provides a containerized environment with all dependencies pre-installed.
 
 ## Quick Start with Docker
 
+### 0. Clone repository
+```bash
+git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
+cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
+```
+
 ### 1. Build the Docker Image
 
 ```bash
