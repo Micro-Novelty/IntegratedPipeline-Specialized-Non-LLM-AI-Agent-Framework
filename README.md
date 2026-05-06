@@ -14,7 +14,7 @@
 - Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
 # Why IntegratedPipeline?
-[~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments, to efficiently run on High-end Embedded systems as a distributed network.
+[~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments. while still run efficiently on High-end Embedded systems in single-instance or as a distributed network during multi Agent cooperation.
 
 [=] IntegratedPipeline offers:
 1. Local-Based AI Orchestrator:
