@@ -83,7 +83,7 @@
    - Consider using faster storage (USB SSD) for better performance
 
 # Docker set:
-1. See Docker_Installation_Section.md for a Quick start.
+1. See Docker_Installation_Section.md for a in-depth start.
    
 2. Run IntegratedPipeline in a Container:
     - ```bash
@@ -107,7 +107,17 @@
      # For NVIDIA GPU support
      docker run -it --gpus all -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py
      ```
-5. For Multi-Agent P2P, Consider docker-compose:
+5. For Single Agent and Multi-Agent P2P:
+   [=] Single agent:
+   ```bash
+   # Build image
+   docker build -t integrated-pipeline:latest .
+
+   # Run single agent
+   docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python
+   ```
+   
+   [=] Multi agent P2P (Consider docker-compose) :
    - ```bash
      # Start multiple agents
      # Start multiple agents
