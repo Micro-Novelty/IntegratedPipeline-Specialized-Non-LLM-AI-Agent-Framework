@@ -37,6 +37,12 @@
         - Server provider: the peer Agent can start a server to listen for peer client's
         - Connecting Agent: the peer Agent which role is to connect to other peer that has or have opened and provided a server listener to act as a receiver.
 
+5. Cross-Session memory availability:
+   - IntegratedPipeline offers share-able Memory from the database, included capability below:
+     - Exportable memory: this allows a flexible memory saving for later use, such as cross transfer memory between model, the memory is saved as .json file.
+     - Importable Memory: allowing to import memory from the exported .json file.
+     - syncing with other model: socket-based communication to export memory to other external machine.
+     - list sessions: listing available sessions using model's memory name.
 
 [=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
 
