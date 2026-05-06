@@ -82,7 +82,7 @@
    - Monitor system resources during installation
    - Consider using faster storage (USB SSD) for better performance
 
-# Docker set:
+# Quickstart with Docker:
 1. See Docker_Installation_Section.md for a in-depth start.
    
 2. Run IntegratedPipeline in a Container:
@@ -132,7 +132,7 @@
      ```
 
 
-# Step's for Usage:
+# Step's for in-depth Usage:
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows), 
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
