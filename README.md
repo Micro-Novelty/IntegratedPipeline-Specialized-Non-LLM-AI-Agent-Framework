@@ -237,6 +237,7 @@
    ```
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
+   import numpy as np
 
    memory_name = 'agent_memory'
    main_model = IntegratedPipeline(memory_name, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
@@ -262,8 +263,21 @@
                         (r'google|search|wiki|wiki|article', 'information'),
                         (r'stackoverflow|github|docs|documentation', 'research'),
                     ]
-                        
-   titles, _, label_map = main_prediction.load_labels_from_csv(<your_filename>, <target_title>, <target_label>)
+   
+   # test samples with more sophisticated rules and more complex titles for prediction
+   test_titles = [
+    ("Opening Thesis.docx", "slight_work"),
+    ("Watching YouTube and Google Chrome", "distracted"),
+    ("Watching Slack", "communication"),
+    ("Programming in Visual Studio Code", "focused_work"),
+    ("Watching netflix.com - Chrome", "break"),
+    ]  
+
+               
+   titles, y, label_map = main_prediction.load_labels_from_csv(<your_filename>, <target_title>, <target_label>)
+   # small training with simple titles
+   main_model.train(titles, y)
+      
    results, chosen_label, confidence = main_prediction.advanced_prediction_method(titles, label_map, example_rules,
                                 show_proba=False, top_k=3, 
                                 use_transformer=True,
@@ -275,18 +289,10 @@
    
 4. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
-      - Example:
+      - Example without transformer:
    ```
-   test_titles = [
-    ("Opening Thesis.docx", "slight_work"),
-    ("Watching YouTube and Google Chrome", "distracted"),
-    ("Watching Slack", "communication"),
-    ("Programming in Visual Studio Code", "focused_work"),
-    ("Watching netflix.com -> Chrome", "break"),
-    ]
-   
    prediction_result = main_prediction.advanced_prediction_method( 
-            [t[0] for t in test_titles],  # titles is enough to reduce computing power from tfidf transformation.
+            [t[0] for t in test_titles],  # titles is enough for MLP Classification.
             label_map,
             example_rules,
             show_proba=True
@@ -297,16 +303,17 @@
 5. Peer-to-Peer Probability coordination:
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
-input_ids, _ = main_model.input_encoding(dataset)
-sequence_inputs = main_model.sequence_encoding(dataset)
-X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(rules, dataset)
 
-main_model.initialize_fitting()
+dataset, _ = main_model.data_preparation(test_titles, label_map)
+sequence_inputs = main_model.sequence_encoding(dataset)
+X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(example_rules, dataset)
+
+main_model.initialize_fitting(dataset)
 X_raw_features = main_model.tfidf.transform(X_raw_generation).toarray()
 transformer_features = main_model.transformer_pooled_features(sequence_inputs)
 X_features = np.concatenate([X_raw_features, transformer_features], axis=-1)
 
-peer_probability_calibration = main_model.predict_proba(input_ids, X, type='Hybrid') # peer-to-peer calibration is inside this function
+peer_probability_calibration = main_model.predict_proba(sequence_inputs, X_features, type='Hybrid', embedded=True) # peer-to-peer calibration is inside this function
 ```
 [~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree on certain output. Consider using this setup below for using stand-alone peer-to-peer main function without being wrapped in other parent function, allowing flexible and auditable peer-to-peer sharing for probability coordination:
 ```
@@ -315,7 +322,7 @@ from AbstractIntegratedModule import Transformer
 
 num_classes = len(label_map)
 # if you haven't fit the Tfidf:
-# main_model.initialize_fitting(test_titles[0][0])
+# main_model.initialize_fitting(dataset)
 
 ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider using the same memory name used in your previous pipeline
 transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes) # you can audit how much parameter the transformer needs.
