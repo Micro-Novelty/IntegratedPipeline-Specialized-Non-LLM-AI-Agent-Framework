@@ -262,17 +262,20 @@
                         (r'chrome|firefox|edge|safari|browser', 'browsing'),
                         (r'google|search|wiki|wiki|article', 'information'),
                         (r'stackoverflow|github|docs|documentation', 'research'),
+
+                        # more rules
                     ]
    
    # test samples with more sophisticated rules and more complex titles for prediction
+   # (title, intent)
    test_titles = [
     ("Opening Thesis.docx", "slight_work"),
     ("Watching YouTube and Google Chrome", "distracted"),
     ("Watching Slack", "communication"),
     ("Programming in Visual Studio Code", "focused_work"),
     ("Watching netflix.com - Chrome", "break"),
+   # more titles 
     ]  
-
                
    titles, y, label_map = main_prediction.load_labels_from_csv(<your_filename>, <target_title>, <target_label>)
    # small training with simple titles
