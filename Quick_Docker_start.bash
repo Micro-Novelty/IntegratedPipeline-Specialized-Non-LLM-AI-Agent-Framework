@@ -1,6 +1,13 @@
 # Quick start commands
 
-# start agents
+# for single agent:
+# Build image
+docker build -t integrated-pipeline:latest .
+
+# Run single agent
+docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python
+
+# start agents for P2P
 docker-compose up -d
 
 # All agents
