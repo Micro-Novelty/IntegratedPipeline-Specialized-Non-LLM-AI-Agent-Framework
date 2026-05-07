@@ -243,7 +243,7 @@
    main_prediction = PipelinePredictionManager(main_model, label_csv='example_manual_training.txt', target_title='window_title', label='label')
    # example_manual_training is a .txt file that contain csv format like above example.
    
-   examples_rules = [
+   example_rules = [
                         # === WORK / PRODUCTIVITY ===
                         (r'code|programming|develop|debug|compile|script', 'focused_work'),
                         (r'vscode|visual_studio|ide|terminal|shell', 'focused_work'),
@@ -264,7 +264,7 @@
                     ]
                         
    titles, _, label_map = main_prediction.load_labels_from_csv(<your_filename>, <target_title>, <target_label>)
-   results, chosen_label, confidence = main_model.advanced_prediction_method(self, titles, label_map, example_rules,
+   results, chosen_label, confidence = main_prediction.advanced_prediction_method(titles, label_map, example_rules,
                                 show_proba=False, top_k=3, 
                                 use_transformer=True,
                                 return_attention=False,
