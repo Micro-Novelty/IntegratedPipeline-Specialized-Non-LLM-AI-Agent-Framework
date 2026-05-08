@@ -4,10 +4,10 @@
 
 <img width="393" height="385" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
 
-## MANN Intro:
+## MANN Intro
 [=] Memory augmented Neural network (MANN) is a neural network architecture coupled with an external, dynamic memory module, allowing it to store, retrieve, and update information similarly to a computer's RAM. Unlike traditional networks that store knowledge only in weight parameters, MANNs excel at fast learning, long-term dependency handling, and episodic recall, In IntegratedPipeline, Its memory is stored in a custom database inside your local machine, then later used for memory retrieval, transfered to the AI Dictionary where it can finnaly recall its memory when input condition matched with memory.
 
-## Abstract Weight Encoder (AWE) Intro:
+## Abstract Weight Encoder (AWE) Intro
 [=] AWE is a specialized custom weight shaping method that used eigenvalue and spectral methods to calculate covariance inside a given input data, and shape the correct Weight from the given eigenvalue, AWE Works by processing input and then captures the necessary eigenvalue to shape a properly initialized Weight that aligns with input data complexity, So, MLP training will be much more consistent and robust against noise.
 
 [~] For a much In-Depth Explanation You can visit This repository to learn more about AWE and its performance results:
@@ -55,7 +55,7 @@
 
 
 
-## Requirements:
+## Requirements
 [~] To run and execute IntegratedPipeline, Requirement's include:
 - Machine (Choose one minimal, specified for your needs):
    - Windows Native OS 
@@ -82,7 +82,7 @@
    - Monitor system resources during installation
    - Consider using faster storage (USB SSD) for better performance
 
-## Quickstart with Docker:
+## Quickstart with Docker
 1. See Docker_Installation_Section.md for a in-depth start.
    
 2. Run IntegratedPipeline in a Container:
@@ -132,7 +132,7 @@
      ```
 
 
-## Step's for in-depth Usage:
+## Step's for in-depth Usage
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows), 
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
@@ -438,7 +438,7 @@ Solution:
    - Close unnecessary applications before running
    - Consider using a faster SD card (UHS-I or better)
 
-## Detailed process of Alpha-computing:
+## Detailed process of Alpha-computing
 
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
 
@@ -475,7 +475,7 @@ When gradients flow backward:
 
 
 
-## Main Components:
+## Main Components
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
 
 1. GeometricWeightShaping
