@@ -529,14 +529,14 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 ## Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
 - [Go to MANN Intro](#MANN-Intro)
-- [Go to Abstract Weight Encoder (AWE) Intro](#AWE-Intro)
-- [Go to Why IntegratedPipeline?](#IntegratedPipeline-Features)
-- [Go to Requirements](#requirements)
-- [Go to System-Specific Notes](#System-Notes)
-- [Go to Quickstart with Docker](#Quickstart)
-- [Go to Step's for in-depth Usage](#Usage)
+- [Go to Abstract Weight Encoder (AWE) Intro](#Abstract-Weight-Encoder-(AWE)-Intro)
+- [Go to Why IntegratedPipeline?](#Why-IntegratedPipeline?)
+- [Go to Requirements](#Requirements)
+- [Go to System-Specific-Notes](#System-Specific-Notes)
+- [Go to Quickstart with Docker](#Quickstart-with-Docker)
+- [Go to Step's for in-depth Usage](#Step's-for-in-depth-Usage)
 - [Go to Troubleshooting](#Troubleshooting)
-- [Go to Detailed process of Alpha-computing](#Alpha-computing)
+- [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
 - [Go to Main Components](#Components)
 
 
