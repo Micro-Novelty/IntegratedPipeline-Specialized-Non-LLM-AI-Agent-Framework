@@ -1,59 +1,41 @@
 # Stage 1: Builder (for compilation)
 FROM python:3.13-slim AS builder
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    g++ \
-    make \
-    python3-dev \
-    cython3 \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /build
-
-# Copy only requirements first (for caching)
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
-
-# Copy your Cython source
-COPY *.pyx .
-COPY setup.py .
-
-# Build your .so files
-RUN python setup.py build_ext --inplace
-
-# Stage 2: Runtime (smaller image)
 FROM python:3.13-slim
 
 # Create non-root user
-RUN useradd --create-home --shell /bin/bash aweuser
-
-# Install runtime dependencies only
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+RUN useradd -m -u 1000 aweuser
 
 WORKDIR /app
 
-# Copy built artifacts from builder
-COPY --from=builder /build/*.so /app/
-COPY --from=builder /root/.local /home/aweuser/.local
+# Copy only what's needed
+COPY --chown=aweuser:aweuser *.so .
+COPY --chown=aweuser:aweuser main.py .
 
-# Copy application code
-COPY . .
-
-# Set ownership to non-root user
-RUN chown -R aweuser:aweuser /app
-
-# Switch to non-root user
 USER aweuser
 
-# Python path
-ENV PYTHONPATH=/app
-ENV PATH=/home/aweuser/.local/bin:$PATH
-
-# Run
-# can use test_installation.py or main.py (your_script)
+# No pip install needed!
+# test_installation.py could be changed 
 CMD ["python", "test_installation.py"] 
 
+# for multi agent support
+# Stage 1: Copy pre-compiled libraries for different architectures
+FROM alpine:latest AS amd64
+COPY awe_mlp.cpython-39-x86_64-linux-gnu.so /libs/x86_64/
+
+FROM alpine:latest AS arm64
+COPY awe_mlp.cpython-39-aarch64-linux-gnu.so /libs/aarch64/
+
+# Stage 2: Final runtime
+FROM python:3.13-slim
+
+# Detect architecture and copy correct .so
+COPY --from=amd64 /libs/x86_64/* /app/ 2>/dev/null || true
+COPY --from=arm64 /libs/aarch64/* /app/ 2>/dev/null || true
+
+# Fallback to any .so file
+COPY *.so . 2>/dev/null || true
+
+COPY main.py .
+
+CMD ["python", "test_installation.py"]
