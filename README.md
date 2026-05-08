@@ -84,11 +84,18 @@
    - Consider using faster storage (USB SSD) for better performance
 
 ## Quickstart with Docker
-1. See Docker_Installation_Section.md for a in-depth start.
-   
+0. See Docker_Installation_Section.md for a in-depth start.
+
+1. Build Image:
+   - Download Dockerfile file in the code section.
+   - build image:
+   - ```bash
+     sudo docker build -t integrated-agent.
+     ```
+     
 2. Run IntegratedPipeline in a Container:
     - ```bash
-      docker run -it --name integrated-agent integrated-pipeline:latest python
+      docker run -it --name ai-agent integrated-agent:latest python
       ```
    - In python shell:
        - ```
@@ -100,23 +107,24 @@
 3. Run script:
    ```bash
    # Mount your local directory and run a script
-   docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py # main.py could be replaced
+   docker run -it -v $(pwd)/data:/app/data integrated-agent:latest python main.py # main.py could be replaced
    ```
    
 4. Run with GPU Support (Optional):
    - ```bash
      # For NVIDIA GPU support
-     docker run -it --gpus all -v $(pwd)/data:/app/data integrated-pipeline:latest python main.py
+     docker run -it --gpus all -v $(pwd)/data:/app/data integrated-agent:latest python main.py
      ```
+     
 5. For Single Agent and Multi-Agent P2P:
    
    [=] Single agent:
    ```bash
    # Build image
-   docker build -t integrated-pipeline:latest .
+   docker build -t integrated-agent:latest .
 
    # Run single agent
-   docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python
+   docker run -it -v $(pwd)/data:/app/data integrated-agent:latest python
    ```
    
    [=] Multi agent P2P (Consider docker-compose) :
