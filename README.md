@@ -2,7 +2,7 @@
 
 [~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer (Multi-Agent) Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
 
-<img width="693" height="395" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
+<img width="725" height="465" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
 
 ## MANN Intro
 [=] Memory augmented Neural network (MANN) is a neural network architecture coupled with an external, dynamic memory module, allowing it to store, retrieve, and update information similarly to a computer's RAM. Unlike traditional networks that store knowledge only in weight parameters, MANNs excel at fast learning, long-term dependency handling, and episodic recall, In IntegratedPipeline, Its memory is stored in a custom database inside your local machine, then later used for memory retrieval, transfered to the AI Dictionary where it can finnaly recall its memory when input condition matched with memory.
