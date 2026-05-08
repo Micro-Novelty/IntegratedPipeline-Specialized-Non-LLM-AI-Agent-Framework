@@ -1,6 +1,6 @@
 # IntegratedPipeline-Specialized-AI-Agent-library
 
-[~] IntegratedPipeline is a standalone Custom AI Agent Library for memory Augmented Agentic Framework, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently on High-end embedded systems, where the AI Can directly and continously learn data's with minimal compute, with augmented memory init, Secure Peer-To-Peer (Multi-Agent) Sharing with ssl as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized Transformer for Scarce Data.
+[~] IntegratedPipeline is a standalone Specialized AI Agent Library for memory Augmented Agentic Framework orchestrator, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Sharing with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized efficient Transformer for Scarce Data with Alpha-based computation.
 
 <img width="725" height="465" alt="1000077388-removebg-preview" src="https://github.com/user-attachments/assets/c7794da0-f9c5-4c61-8b63-642700b965f5" />
 
@@ -265,6 +265,8 @@
 
                         # more rules
                     ]
+   # activate explainability capability to explain uncertainty:
+   main_model.show_explainability_details = True
    
    # test samples with more sophisticated rules and more complex titles for prediction
    # (title, intent)
@@ -540,7 +542,7 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 - [Go to Main Components](#Components)
 
 ## License
-[=] LICENSE: - MIT, (2026), See LICENSE.md for more information.
+[=] LICENSE: - MIT (2026) || See LICENSE file for more information.
 
 
 
