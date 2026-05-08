@@ -528,7 +528,7 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 
 ## Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
-- [Go to MANN Intro](#MANN Intro)
+- [Go to MANN Intro](#MANN-Intro)
 - [Go to Abstract Weight Encoder (AWE) Intro](#AWE-Intro)
 - [Go to Why IntegratedPipeline?](#IntegratedPipeline-Features)
 - [Go to Requirements](#requirements)
