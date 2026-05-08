@@ -539,6 +539,9 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 - [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
 - [Go to Main Components](#Components)
 
+## License
+[=] LICENSE: - MIT, (2026), See LICENSE.md for more information.
+
 
 
 
