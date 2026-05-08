@@ -339,9 +339,9 @@ dataset, _ = main_model.data_preparation(titles, label_map)
 sequence_input = main_model.sequence_encoding(dataset)
 _, attn_weights = transformer.forward(sequence_input)
 
-probs = main_model.predict_ensemble(sequence_input, X_features, y, method='dynamic', embedded=True)
-# 3 options for method:
-# 1. Dynamic: allow flexible, efficient weighting from both transformer and MLP,
+probs = ensemble_method.predict_ensemble(sequence_input, X_features, y, method='dynamic', embedded=True)
+# 3 options for ensemble weighting method:
+# 1. dynamic: allow flexible, efficient weighting from both transformer and MLP,
 # 2. meta: for a much more in-depth weighting from both model,
 # 3. calibration: allow calibrating probability for both model outputs based on both best weights assembling.
 
