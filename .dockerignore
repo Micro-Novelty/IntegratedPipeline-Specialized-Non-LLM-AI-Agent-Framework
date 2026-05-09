@@ -24,6 +24,7 @@ docs/
 
 # Database (should be volume)
 *.db
+*.log
 
-# Your compiled library is already copied
-# But avoid re-copying source
+*.pkl
+*.joblib
