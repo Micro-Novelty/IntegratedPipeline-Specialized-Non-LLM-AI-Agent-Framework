@@ -25,7 +25,7 @@
    
 3. Robust Specialized MLP and Transformer Architecture:
   - IntegratedPipeline has 2 Different type's of AI Architecture stacked together, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm, The reason why those Models complement and used together :
-      - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based weights get diluted over time.
+      - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding.
       - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed projection training with minimal head's and dimension's.
    
 4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
@@ -85,7 +85,7 @@
    - Consider using faster storage (USB SSD) for better performance
 
 ## Quickstart with Docker
-0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Docker_Quick_start.bash](Docker_Quick_start.bash) for a quick start.
+0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start.bash](Quick_Docker_start.bash) for a quick start.
 
 1. Build Image:
    - Clone repository:
