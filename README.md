@@ -85,7 +85,7 @@
    - Consider using faster storage (USB SSD) for better performance
 
 ## Quickstart with Docker
-0. See [Docker_installation_Section.md](Docker_installation_Section.md) for a in-depth start.
+0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Docker_Quick_start.bash](Docker_Quick_start.bash) for a quick start.
 
 1. Build Image:
    - Clone repository:
