@@ -509,7 +509,7 @@ When gradients flow backward:
 
 ## Main Components
 [=] A deeper look of IntegratedPipeline architecture.
-     - Note:
+     
       1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
       2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
        
