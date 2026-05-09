@@ -582,6 +582,7 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
   - [requirements-dev.txt](requirements-dev.txt) for contributors requirements.
+  - [architecture_diagram.js](architecture_diagram.js).
 
 ## License
 [=] LICENSE: - MIT (2026) || See [LICENSE](LICENSE) for more information.
