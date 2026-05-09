@@ -508,10 +508,8 @@ When gradients flow backward:
 
 
 ## Main Components
-[=] A deeper look of IntegratedPipeline architecture.
-     
-      1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
-      2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
+[=] 1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
+    2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
        
 [=] With 17 total architectures working together as a standalone library that is efficient and robust, Main components include:
     
@@ -562,6 +560,7 @@ Purpose: The main orchestration class that ties everything together - handles te
 ---
 16. PipelinePredictionManager
 Purpose: High-level prediction interface that loads labels from CSV, performs regular/advanced/hybrid predictions, displays results, and calculates entropy for uncertainty estimation.
+---
 
 ## Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
