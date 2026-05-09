@@ -573,6 +573,7 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
   - [ROADMAP.md](ROADMAP.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
+  - [requirements-dev.txt](requirements-dev.txt) for contributors requirements.
 
 ## License
 [=] LICENSE: - MIT (2026) || See [LICENSE](LICENSE) for more information.
