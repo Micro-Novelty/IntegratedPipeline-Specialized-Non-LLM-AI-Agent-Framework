@@ -89,6 +89,7 @@
    - Note Consider checking:
      - [start.sh](start.sh) for Quick single agent.
      - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Quick cluster start for multi-agent, 1 server, 5 clients running.
+     - [main.py](main.py) for executing a python script in the container.
    
 
 1. Build Image:
