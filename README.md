@@ -490,10 +490,12 @@ So in forward propagation, alpha is essentially, “How much do I trust learned 
 
 [~] Backward Pass -> Controlling Gradient Flow:
 When gradients flow backward:
+```
 - dA_final → splits into two paths
     - Mathematically:
         - dA_fixed   = α · dA_final
         - dA_learned = (1 − α) · dA_final
+```
 
 [~] Simple Explanation:
 1. If α (alpha) is high: → most gradient goes to fixed path → learned attention gets very little update → training is stable but slow
@@ -507,8 +509,9 @@ When gradients flow backward:
 
 ## Main Components
 [=] A deeper look of IntegratedPipeline architecture.
-       - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
-       - Note: consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
+     - Note:
+      1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
+      2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
        
 [=] With 17 total architectures working together as a standalone library that is efficient and robust, Main components include:
     
