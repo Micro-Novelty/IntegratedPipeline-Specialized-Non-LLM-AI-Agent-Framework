@@ -4,8 +4,8 @@ services:
   # Agent 1 - Server (Port 5000)
   agent-1:
     build: .
-    container_name: integrated-agent-1
-    image: integrated-pipeline:latest
+    container_name: ai-agent-1
+    image: integrated-agent:latest # downloaded image
     ports:
       - "5000:5000"
     environment:
@@ -29,8 +29,8 @@ services:
   # Agent 2 - Client (Port 5001)
   agent-2:
     build: .
-    container_name: integrated-agent-2
-    image: integrated-pipeline:latest
+    container_name: ai-agent-2
+    image: integrated-agent:latest
     ports:
       - "5001:5001"
     environment:
@@ -53,8 +53,8 @@ services:
   # Agent 3 - Client (Port 5002)
   agent-3:
     build: .
-    container_name: integrated-agent-3
-    image: integrated-pipeline:latest
+    container_name: ai-agent-3
+    image: integrated-agent:latest
     ports:
       - "5002:5002"
     environment:
