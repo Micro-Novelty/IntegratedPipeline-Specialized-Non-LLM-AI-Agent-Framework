@@ -50,7 +50,7 @@ python main.py
 ### 5. Run python script
 ```bash
 # Mount current directory and run script
-docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/your_script.py
+docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/main.py
 ```
 
 ### 6. Start a container
