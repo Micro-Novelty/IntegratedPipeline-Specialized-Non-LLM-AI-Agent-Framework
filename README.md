@@ -88,6 +88,11 @@
 0. See Docker_Installation_Section.md for a in-depth start.
 
 1. Build Image:
+   - Clone repository:
+   - ```bash
+     git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
+     cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
+     ```
    - Download Dockerfile file in the code and release section.
      - If the downloaded Dockerfile has .txt extension, remove the extension:
      - ```bash
