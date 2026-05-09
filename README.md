@@ -237,10 +237,10 @@
         python -c "from AbstractIntegratedModule import IntegratedPipeline; print('✓ Installation successful!')"
         ```
         
-   6. Run test_initialization.py for quick test of successful imports:
+   6. Run main.py for quick test of successful imports:
       - ```
         # run this for quick import test.
-        python test_installation.py
+        python main.py
         ```
            
          
