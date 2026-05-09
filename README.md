@@ -55,7 +55,7 @@
 [3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's Large ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later Training from the given data's, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
 [=] Architectural-Overview
-<img width="8000" height="500" alt="WhatsApp Image 2026-05-09 at 15 49 18" src="https://github.com/user-attachments/assets/e7921ece-f024-49e4-a208-af7faff428b5" />
+<img width="800" height="500" alt="WhatsApp Image 2026-05-09 at 15 49 18" src="https://github.com/user-attachments/assets/e7921ece-f024-49e4-a208-af7faff428b5" />
 
 
 ## Requirements
