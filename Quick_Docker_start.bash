@@ -2,10 +2,25 @@
 
 # for single agent:
 # Build image
-docker build -t integrated-pipeline:latest .
+docker build -t integrated-agent:latest .
 
 # Run single agent
-docker run -it -v $(pwd)/data:/app/data integrated-pipeline:latest python
+# docker run -it -v $(pwd)/data:/app/data integrated-agent:latest python #simpler start
+
+# using activity_log.db (database file), 
+# consider running the integratedPipeline in python first to automatically populate the data in the database.
+# This provide interactive shell:
+docker run -it --rm \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/activity_log.db:/app/activity_log.db \
+  integrated-agent:latest python
+
+# Run single agent in background
+docker run -d \
+  --name ai-agent \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/activity_log.db:/app/activity_log.db \
+  integrated-agent:latest
 
 # start agents for P2P
 docker-compose up -d
@@ -29,3 +44,9 @@ docker-compose down
 
 # stop and remove data
 docker-compose down -v
+
+# Remove all stopped containers
+docker container prune
+
+# Remove unused images
+docker image prune
