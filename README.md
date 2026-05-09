@@ -85,7 +85,7 @@
    - Consider using faster storage (USB SSD) for better performance
 
 ## Quickstart with Docker
-0. See Docker_Installation_Section.md for a in-depth start.
+0. See [Docker_installation_Section.md](Docker_installation_Section.md) for a in-depth start.
 
 1. Build Image:
    - Clone repository:
@@ -561,7 +561,7 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 - [Go to Main Components](#Components)
 
 ## License
-[=] LICENSE: - MIT (2026) || See LICENSE file for more information.
+[=] LICENSE: - MIT (2026) || See [LICENSE](LICENSE) for more information.
 
 
 
