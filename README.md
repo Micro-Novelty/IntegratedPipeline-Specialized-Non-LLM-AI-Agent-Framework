@@ -46,7 +46,7 @@
        [=] Note: socket Syncing is unsecure witout additional security layer wrapped, For a safer syncing, directly transfer the .json file memory to the target machine via other ways such as manual send.
      - list sessions: listing available sessions using model's memory name.
 
-[=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability over Messy, noisy environments, such as:
+[=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data, using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability during training and prediction over Messy, noisy environments, such as:
 
 [1.] User data's : User data is often messy and ambiguous, The Specialized MLP will do the job for shaping the necessary Weight to complement for the Ambiguous noisy pattern, AWE MLP is highly robust to noise, proven in synthetic Environment such as scikit-learn Make-Classification scarce and Noisy Input robustness during generalization test. making it a great fit for messy, Scarce data.
 
@@ -64,6 +64,7 @@
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
 
 - Python 3.13+
+- Dockerfile (For Container)
 - AbstractIntegratedModule.pyd (For windows machine)
 - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)
 - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
@@ -87,7 +88,11 @@
 0. See Docker_Installation_Section.md for a in-depth start.
 
 1. Build Image:
-   - Download Dockerfile file in the code section.
+   - Download Dockerfile file in the code and release section.
+     - If the downloaded Dockerfile has .txt extension, remove the extension:
+     - ```bash
+       mv Dockerfile.txt Dockerfile
+       ```
    - build image:
    - ```bash
      sudo docker build -t integrated-agent.
