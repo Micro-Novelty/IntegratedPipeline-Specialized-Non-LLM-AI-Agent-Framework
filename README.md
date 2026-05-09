@@ -507,6 +507,7 @@ When gradients flow backward:
 
 ## Main Components
 [=] With a total of 17 different stacked Architectures, The main Component's of IntegratedPipeline is:
+    - Note: consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
 
 1. GeometricWeightShaping
 Purpose: Analyzes the geometric structure of data (anisotropy, spectral properties, complexity) and generates optimal weight matrices based on that geometry. Essentially teaches the model how to "understand" the shape of data before processing it, Highly robust to noise, making it an excellent fit for messy environment.
@@ -568,6 +569,10 @@ Purpose: High-level prediction interface that loads labels from CSV, performs re
 - [Go to Troubleshooting](#Troubleshooting)
 - [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
 - [Go to Main Components](#Components)
+- Consider checking:
+  - [ROADMAP.md](ROADMAP.md)
+  - [Contributing.md](Contributing.md)
+  - [changelog.md](changelog.md)
 
 ## License
 [=] LICENSE: - MIT (2026) || See [LICENSE](LICENSE) for more information.
