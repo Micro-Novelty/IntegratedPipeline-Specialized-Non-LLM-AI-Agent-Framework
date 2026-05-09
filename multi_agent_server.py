@@ -475,7 +475,7 @@ def main():
     
     args = parser.parse_args()
 
-    example_rules = '<example-rules>'
+    example_rules = '<insert_example-rules>'
     
     # Create and start server
     server = ServerAgent(
