@@ -380,7 +380,10 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 # main_model.distribution.print_network_status() # to show other peers info.
 ```
 [~] Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
-
+   - Consider checking:
+     - [multi_agent_client.py](multi_agent_client.py) for a quick easier start for client.
+     - [multi_agent_server.py](multi_agent_server.py) for a quick easier start for client.
+        
 6. Cross-Session availability:
    - To use Cross-session avialability to transfer or import memory, consider using this setup:
      - ```
