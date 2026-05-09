@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntegratedPipeline — Flow Diagram</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --border: #1a2332;
+    --accent-geo: #00d4aa;
+    --accent-trans: #4f8eff;
+    --accent-mlp: #ff6b4a;
+    --accent-mem: #c084fc;
+    --accent-exp: #fbbf24;
+    --accent-dist: #34d399;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-bright: #f8fafc;
+    --glow-geo: rgba(0,212,170,0.15);
+    --glow-trans: rgba(79,142,255,0.15);
+    --glow-mlp: rgba(255,107,74,0.15);
+    --glow-mem: rgba(192,132,252,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent-geo);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: var(--text-bright);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .header h1 span {
+    background: linear-gradient(135deg, var(--accent-geo), var(--accent-trans));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.8s 0.1s ease both;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Flow container */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Stage */
+  .stage {
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .stage:nth-child(1) { animation-delay: 0.1s; }
+  .stage:nth-child(2) { animation-delay: 0.2s; }
+  .stage:nth-child(3) { animation-delay: 0.3s; }
+  .stage:nth-child(4) { animation-delay: 0.4s; }
+  .stage:nth-child(5) { animation-delay: 0.5s; }
+  .stage:nth-child(6) { animation-delay: 0.6s; }
+  .stage:nth-child(7) { animation-delay: 0.7s; }
+  .stage:nth-child(8) { animation-delay: 0.8s; }
+
+  .stage-inner {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .stage-inner:hover {
+    border-color: var(--hover-color, var(--accent-geo));
+    box-shadow: 0 0 32px var(--hover-glow, var(--glow-geo));
+  }
+
+  .stage-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stage-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .stage-title {
+    flex: 1;
+  }
+
+  .stage-title h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 2px;
+  }
+
+  .stage-title p {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+
+  .stage-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .stage-body {
+    padding: 16px 20px;
+  }
+
+  /* Function list */
+  .fn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+  }
+
+  .fn-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .fn-item:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .fn-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .fn-name {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .fn-name strong {
+    display: block;
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 400;
+    margin-bottom: 1px;
+  }
+
+  /* Split stages (parallel) */
+  .parallel-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    animation: fadeUp 0.6s 0.45s ease both;
+  }
+
+  .parallel-label {
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    animation: fadeDown 0.6s 0.4s ease both;
+  }
+
+  /* Connector arrows */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 0;
+    position: relative;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--conn-color, var(--accent-geo)), transparent);
+    opacity: 0.4;
+  }
+
+  .connector-arrow {
+    font-size: 14px;
+    color: var(--conn-color, var(--accent-geo));
+    opacity: 0.6;
+    line-height: 1;
+    margin-top: -4px;
+  }
+
+  .connector-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Decision diamond */
+  .decision-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+    animation: fadeUp 0.6s 0.55s ease both;
+  }
+
+  .decision {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 24px;
+    text-align: center;
+    position: relative;
+    min-width: 280px;
+  }
+
+  .decision-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-exp);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .decision-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .decision-branches {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 8px;
+  }
+
+  .branch-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .branch-label.yes { color: var(--accent-geo); }
+  .branch-label.no { color: var(--accent-mlp); }
+
+  /* Memory aside */
+  .memory-aside {
+    position: relative;
+    animation: fadeUp 0.6s 0.35s ease both;
+  }
+
+  .memory-aside .stage-inner {
+    border-style: dashed;
+  }
+
+  /* Output stage */
+  .output-stage .stage-inner {
+    background: linear-gradient(135deg, rgba(0,212,170,0.05), rgba(79,142,255,0.05));
+  }
+
+  /* Detail panel (expandable) */
+  .detail-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .stage-inner.expanded .detail-panel {
+    max-height: 600px;
+  }
+
+  .expand-btn {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+    user-select: none;
+  }
+
+  .expand-btn:hover { color: var(--text); }
+
+  .expand-icon {
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+
+  .stage-inner.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Data type pills */
+  .data-flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .data-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .data-pill {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.5px;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Pulse on active nodes */
+  @keyframes pulse-border {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .pulse { animation: pulse-border 2s ease infinite; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--text);
+    max-width: 240px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+    line-height: 1.6;
+  }
+
+  .tooltip.visible { opacity: 1; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .parallel-wrapper {
+      grid-template-columns: 1fr;
+    }
+    .fn-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Flow path indicator */
+  .flow-path {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+
+  .path-item {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .path-arrow {
+    color: var(--text-dim);
+    opacity: 0.4;
+    font-size: 10px;
+  }
+
+  .path-item.active {
+    color: var(--accent-geo);
+  }
+
+  /* Section divider */
+  .section-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 4px 0;
+    padding: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-label">AbstractIntegratedModule</div>
+    <h1><span>IntegratedPipeline</span><br>Flow Architecture</h1>
+    <p>Complete input-to-output data flow with geometric weight shaping, hybrid inference, memory gating, and distributed peer consensus.</p>
+  </div>
+
+  <!-- Flow path breadcrumb -->
+  <div class="flow-path">
+    <span class="path-item active">RAW INPUT</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">ENCODING</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">GEOMETRIC SHAPING</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">PARALLEL INFERENCE</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">MEMORY GATE</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">CALIBRATION</span>
+    <span class="path-arrow">→</span>
+    <span class="path-item">OUTPUT</span>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-geo)"></div>
+      <span>GEOMETRIC CORE</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-trans)"></div>
+      <span>TRANSFORMER</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-mlp)"></div>
+      <span>MLP</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-mem)"></div>
+      <span>MEMORY / STORAGE</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-exp)"></div>
+      <span>DECISION / GATE</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--accent-dist)"></div>
+      <span>DISTRIBUTED PEERS</span>
+    </div>
+  </div>
+
+  <div class="flow">
+
+    <!-- STAGE 1: RAW INPUT -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-geo); --hover-glow:var(--glow-geo);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(0,212,170,0.1); color:var(--accent-geo);">⬡</div>
+          <div class="stage-title">
+            <h3>1 — Raw Input Reception</h3>
+            <p>Text, structured data, or feature vectors enter the pipeline</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(0,212,170,0.1); color:var(--accent-geo); border:1px solid rgba(0,212,170,0.2);">ENTRY</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>data_preparation()</strong>Validates and structures raw input data</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>auto_generate_labels_from_texts()</strong>Optionally generates labels automatically</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>validate_writable_path()</strong>Ensures storage paths are ready</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>initialize_fitting()</strong>Prepares pipeline state for training</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">ACCEPTS →</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">raw text</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">structured data</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">feature arrays</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">labels (optional)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-geo)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- STAGE 2: ENCODING -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-geo); --hover-glow:var(--glow-geo);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(0,212,170,0.1); color:var(--accent-geo);">⟨⟩</div>
+          <div class="stage-title">
+            <h3>2 — Encoding & Feature Generation</h3>
+            <p>Raw input converted to dense numeric representations</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(0,212,170,0.1); color:var(--accent-geo); border:1px solid rgba(0,212,170,0.2);">ENCODE</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>text_encoder()</strong>TF-IDF or Count vectorization of text</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>encode()</strong>General-purpose encoding dispatcher</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>input_encoding()</strong>Prepares input tensor for models</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>sequence_encoding()</strong>Preserves order for transformer</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>feature_generation()</strong>Derives geometric features</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>shape_adaptation()</strong>Reshapes tensors to model spec</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>initialize_model_encoding()</strong>Sets up encoder infrastructure</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>automatic_parameterization()</strong>Auto-selects encoding params</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">OUTPUTS →</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">TF-IDF vectors</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">token sequences</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">feature matrices</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-geo)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+
+    <!-- STAGE 3: GEOMETRIC WEIGHT SHAPING -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-geo); --hover-glow:var(--glow-geo); border-color:rgba(0,212,170,0.25);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(0,212,170,0.15); color:var(--accent-geo);">◈</div>
+          <div class="stage-title">
+            <h3>3 — Geometric Weight Shaping</h3>
+            <p>The novel core — weights shaped by spectral manifold geometry before inference</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(0,212,170,0.15); color:var(--accent-geo); border:1px solid rgba(0,212,170,0.35);">NOVEL CORE</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>eigenvalue_encoder()</strong>Decomposes weight matrices into eigenspaces</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>spectral_signature()</strong>Generates spectral fingerprint of weights</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>AME_Encoder()</strong>Anisotropy Manifold Encoding of weights</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>anisotropy_measurement()</strong>Measures directional variance in weight space</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>abstract_weight_shaping()</strong>Applies geometric constraints abstractly</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>weight_shaping()</strong>Reshapes weights along geometric manifold</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>spectral_similarity()</strong>Compares weight configs geometrically</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">EFFECT →</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">geometrically constrained weights</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">spectral manifold</span>
+          <span class="data-pill" style="color:var(--accent-geo); border-color:rgba(0,212,170,0.3)">anisotropy map</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-trans)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+      <div class="connector-label">encoded features → both models</div>
+    </div>
+
+    <!-- STAGE 4: PARALLEL INFERENCE -->
+    <div class="parallel-label">⟵ PARALLEL INFERENCE — BOTH RUN SIMULTANEOUSLY ⟶</div>
+    <div class="parallel-wrapper">
+
+      <!-- Transformer branch -->
+      <div class="stage" style="animation-delay:0.45s">
+        <div class="stage-inner" style="--hover-color:var(--accent-trans); --hover-glow:var(--glow-trans);" onclick="toggleExpand(this)">
+          <div class="stage-header">
+            <div class="stage-icon" style="background:rgba(79,142,255,0.1); color:var(--accent-trans);">⬡</div>
+            <div class="stage-title">
+              <h3>4a — Transformer</h3>
+              <p>Sequential pattern + attention quality</p>
+            </div>
+            <div class="stage-tag" style="background:rgba(79,142,255,0.1); color:var(--accent-trans); border:1px solid rgba(79,142,255,0.2);">TRANS</div>
+          </div>
+          <div class="stage-body">
+            <div class="fn-grid">
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-trans)"></div>
+                <div class="fn-name"><strong>transformer_input_encoding()</strong>Prepares sequence for transformer</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-trans)"></div>
+                <div class="fn-name"><strong>transformer_pooled_features()</strong>Extracts pooled representation</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-trans)"></div>
+                <div class="fn-name"><strong>multi_head_attention()</strong>Mixed + fixed attention heads</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-trans)"></div>
+                <div class="fn-name"><strong>attention_quality_computing()</strong>Scores attention pattern quality</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-trans)"></div>
+                <div class="fn-name"><strong>transformer_utilities()</strong>Layer norm, softmax, forward pass</div>
+              </div>
+            </div>
+          </div>
+          <div class="data-flow">
+            <span class="data-label">OUT →</span>
+            <span class="data-pill" style="color:var(--accent-trans); border-color:rgba(79,142,255,0.3)">class probs</span>
+            <span class="data-pill" style="color:var(--accent-trans); border-color:rgba(79,142,255,0.3)">attention weights</span>
+            <span class="data-pill" style="color:var(--accent-trans); border-color:rgba(79,142,255,0.3)">confidence score</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MLP branch -->
+      <div class="stage" style="animation-delay:0.45s">
+        <div class="stage-inner" style="--hover-color:var(--accent-mlp); --hover-glow:var(--glow-mlp);" onclick="toggleExpand(this)">
+          <div class="stage-header">
+            <div class="stage-icon" style="background:rgba(255,107,74,0.1); color:var(--accent-mlp);">◫</div>
+            <div class="stage-title">
+              <h3>4b — MLP</h3>
+              <p>Focused sparse inference + fast generalization</p>
+            </div>
+            <div class="stage-tag" style="background:rgba(255,107,74,0.1); color:var(--accent-mlp); border:1px solid rgba(255,107,74,0.2);">MLP</div>
+          </div>
+          <div class="stage-body">
+            <div class="fn-grid">
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-mlp)"></div>
+                <div class="fn-name"><strong>mlp_training_features()</strong>Prepares features for MLP</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-mlp)"></div>
+                <div class="fn-name"><strong>focused_forward()</strong>Attention-guided sparse activation</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-mlp)"></div>
+                <div class="fn-name"><strong>mlp_predict()</strong>Full MLP inference pass</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-mlp)"></div>
+                <div class="fn-name"><strong>utility_MLP_set()</strong>Configures MLP utility settings</div>
+              </div>
+              <div class="fn-item">
+                <div class="fn-dot" style="background:var(--accent-mlp)"></div>
+                <div class="fn-name"><strong>automatic_dense_layer()</strong>Auto-configures dense architecture</div>
+              </div>
+            </div>
+          </div>
+          <div class="data-flow">
+            <span class="data-label">OUT →</span>
+            <span class="data-pill" style="color:var(--accent-mlp); border-color:rgba(255,107,74,0.3)">class probs</span>
+            <span class="data-pill" style="color:var(--accent-mlp); border-color:rgba(255,107,74,0.3)">entropy score</span>
+            <span class="data-pill" style="color:var(--accent-mlp); border-color:rgba(255,107,74,0.3)">confidence score</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-exp)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+      <div class="connector-label">both outputs → hybrid fusion</div>
+    </div>
+
+    <!-- STAGE 5: HYBRID FUSION + DECISION -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-exp); --hover-glow:rgba(251,191,36,0.15);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(251,191,36,0.1); color:var(--accent-exp);">⊕</div>
+          <div class="stage-title">
+            <h3>5 — Hybrid Fusion & Agreement Gate</h3>
+            <p>MLP and Transformer outputs compared — confidence decides the path forward</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(251,191,36,0.1); color:var(--accent-exp); border:1px solid rgba(251,191,36,0.2);">GATE</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>hybrid_prediction()</strong>Combines MLP + Transformer outputs</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>cosine_robust_similarity()</strong>Measures agreement between models</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>cosine_similarity()</strong>Standard similarity comparison</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>anisotropy_measurement()</strong>Geometric agreement analysis</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>predict_proba()</strong>Full probability distribution output</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>_softmax()</strong>Internal probability normalization</div>
+            </div>
+          </div>
+          <!-- Decision branches visual -->
+          <div style="margin-top:16px; padding:12px; background:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.1); border-radius:8px;">
+            <div style="font-size:11px; color:var(--accent-exp); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">AGREEMENT OUTCOMES</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div style="padding:8px; background:rgba(0,212,170,0.06); border:1px solid rgba(0,212,170,0.15); border-radius:6px;">
+                <div style="font-size:11px; color:var(--accent-geo); margin-bottom:3px;">✓ MODELS AGREE</div>
+                <div style="font-size:10px; color:var(--text-dim)">Confidence boosted → direct to memory gate</div>
+              </div>
+              <div style="padding:8px; background:rgba(255,107,74,0.06); border:1px solid rgba(255,107,74,0.15); border-radius:6px;">
+                <div style="font-size:11px; color:var(--accent-mlp); margin-bottom:3px;">✗ MODELS DISAGREE</div>
+                <div style="font-size:10px; color:var(--text-dim)">Confidence reduced → calibration or peer query</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">OUTPUTS →</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">fused probabilities</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">agreement score</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">confidence level</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-mem)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+      <div class="connector-label">fused output → memory lookup</div>
+    </div>
+
+    <!-- STAGE 6: MEMORY GATE -->
+    <div class="stage memory-aside">
+      <div class="stage-inner" style="--hover-color:var(--accent-mem); --hover-glow:var(--glow-mem);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(192,132,252,0.1); color:var(--accent-mem);">◎</div>
+          <div class="stage-title">
+            <h3>6 — Memory Gate & Cross-Session Retrieval</h3>
+            <p>SQLite memory checked for geometrically similar past predictions</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(192,132,252,0.1); color:var(--accent-mem); border:1px solid rgba(192,132,252,0.2);">MEMORY</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>model_memory_gate()</strong>Gates prediction through stored memory</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>model_probability_gate()</strong>Gates probabilities through memory</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>_cross_session_availability()</strong>Checks cross-session memory state</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>modular_prediction_saving()</strong>Saves current prediction to memory</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>modular_probability_saving()</strong>Saves probability distribution</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>AME_Encoder()</strong>Encodes current input geometrically for matching</div>
+            </div>
+          </div>
+          <!-- Memory state visual -->
+          <div style="margin-top:16px; padding:12px; background:rgba(192,132,252,0.04); border:1px solid rgba(192,132,252,0.1); border-radius:8px;">
+            <div style="font-size:11px; color:var(--accent-mem); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">MEMORY DECISION PATHS</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div style="padding:8px; background:rgba(192,132,252,0.06); border:1px solid rgba(192,132,252,0.15); border-radius:6px;">
+                <div style="font-size:11px; color:var(--accent-mem); margin-bottom:3px;">✓ MEMORY HIT</div>
+                <div style="font-size:10px; color:var(--text-dim)">Similar past prediction found → calibrate with stored attention weights</div>
+              </div>
+              <div style="padding:8px; background:rgba(100,116,139,0.06); border:1px solid rgba(100,116,139,0.15); border-radius:6px;">
+                <div style="font-size:11px; color:var(--text-dim); margin-bottom:3px;">✗ MEMORY MISS</div>
+                <div style="font-size:10px; color:var(--text-dim)">No match → proceed with current prediction, save for future</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">SQLite TABLES →</span>
+          <span class="data-pill" style="color:var(--accent-mem); border-color:rgba(192,132,252,0.3)">model_storage</span>
+          <span class="data-pill" style="color:var(--accent-mem); border-color:rgba(192,132,252,0.3)">model_attn_storage</span>
+          <span class="data-pill" style="color:var(--accent-mem); border-color:rgba(192,132,252,0.3)">agent_attn_storage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-dist)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+      <div class="connector-label">if uncertain → peer query</div>
+    </div>
+
+    <!-- STAGE 7: DISTRIBUTED PEER (CONDITIONAL) -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-dist); --hover-glow:rgba(52,211,153,0.15); border-color:rgba(52,211,153,0.2);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(52,211,153,0.1); color:var(--accent-dist);">⬡⬡</div>
+          <div class="stage-title">
+            <h3>7 — Distributed Peer Consensus <span style="font-size:11px; color:var(--text-dim); font-family:'Space Mono'">[CONDITIONAL]</span></h3>
+            <p>Triggered when local confidence is below threshold — peer agents consulted</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(52,211,153,0.1); color:var(--accent-dist); border:1px solid rgba(52,211,153,0.2);">OPTIONAL</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>_handle_distributed_connections()</strong>Manages peer connection during prediction</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>request_prediction()</strong>Requests inference from peer agent</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>request_ensemble_vote()</strong>Requests vote from multiple peers</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>handle_peer_uncertainty()</strong>Handles uncertain peer responses</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>_calibrate_peer_probs()</strong>Calibrates peer probabilities</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-dist)"></div>
+              <div class="fn-name"><strong>sync_memory_with_agent()</strong>Syncs learned memory to peer</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">PEER PROTOCOL →</span>
+          <span class="data-pill" style="color:var(--accent-dist); border-color:rgba(52,211,153,0.3)">HMAC signed</span>
+          <span class="data-pill" style="color:var(--accent-dist); border-color:rgba(52,211,153,0.3)">TLS encrypted</span>
+          <span class="data-pill" style="color:var(--accent-dist); border-color:rgba(52,211,153,0.3)">trust scored</span>
+          <span class="data-pill" style="color:var(--accent-dist); border-color:rgba(52,211,153,0.3)">ensemble voted</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:var(--accent-exp)">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+      <div class="connector-label">calibrated probabilities → final output</div>
+    </div>
+
+    <!-- STAGE 8: CALIBRATION -->
+    <div class="stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-exp); --hover-glow:rgba(251,191,36,0.15);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:rgba(251,191,36,0.1); color:var(--accent-exp);">⟳</div>
+          <div class="stage-title">
+            <h3>8 — Probability Calibration & Confidence Assembly</h3>
+            <p>Final probabilities assembled from all sources and calibrated</p>
+          </div>
+          <div class="stage-tag" style="background:rgba(251,191,36,0.1); color:var(--accent-exp); border:1px solid rgba(251,191,36,0.2);">CALIBRATE</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>_calibrate_probs()</strong>Calibrates using memory + attention data</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>predict_single()</strong>Single-sample full pipeline prediction</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>predict_async()</strong>Non-blocking async prediction</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>prediction_batch()</strong>Batch processing of multiple inputs</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>_batch_hybrid_prediction()</strong>Batch hybrid inference</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>safe_pickle_save_with_feedback()</strong>Saves calibrated model state</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-flow">
+          <span class="data-label">ASSEMBLES →</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">MLP probs</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">Transformer probs</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">Memory calibration</span>
+          <span class="data-pill" style="color:var(--accent-exp); border-color:rgba(251,191,36,0.3)">Peer votes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="--conn-color:#f8fafc">
+      <div class="connector-line" style="background:linear-gradient(to bottom, #f8fafc, transparent)"></div>
+      <div class="connector-arrow" style="color:#f8fafc">▼</div>
+    </div>
+
+    <!-- STAGE 9: OUTPUT -->
+    <div class="stage output-stage">
+      <div class="stage-inner" style="--hover-color:var(--accent-geo); --hover-glow:var(--glow-geo); border-color:rgba(0,212,170,0.3);" onclick="toggleExpand(this)">
+        <div class="stage-header">
+          <div class="stage-icon" style="background:linear-gradient(135deg,rgba(0,212,170,0.2),rgba(79,142,255,0.2)); color:var(--text-bright);">★</div>
+          <div class="stage-title">
+            <h3>9 — Final Output + Explainability</h3>
+            <p>Predicted class, confidence scores, attention focus, and geometric explanation</p>
+          </div>
+          <div class="stage-tag" style="background:linear-gradient(135deg,rgba(0,212,170,0.15),rgba(79,142,255,0.15)); color:var(--text-bright); border:1px solid rgba(0,212,170,0.3);">OUTPUT</div>
+        </div>
+        <div class="stage-body">
+          <div class="fn-grid">
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>explain_decision()</strong>Full human-readable explanation</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-trans)"></div>
+              <div class="fn-name"><strong>_get_attention_focus()</strong>What the model attended to most</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-geo)"></div>
+              <div class="fn-name"><strong>_get_geometric_features()</strong>Geometric feature explanation</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>explain_confidence()</strong>Why confidence is high or low</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-mem)"></div>
+              <div class="fn-name"><strong>get_decision_history()</strong>Full audit trail of past decisions</div>
+            </div>
+            <div class="fn-item">
+              <div class="fn-dot" style="background:var(--accent-exp)"></div>
+              <div class="fn-name"><strong>analyze_with_feedback()</strong>Accepts human correction → retrains</div>
+            </div>
+          </div>
+
+          <!-- Output format -->
+          <div style="margin-top:16px; display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:8px;">
+            <div style="padding:10px 12px; background:rgba(0,212,170,0.06); border:1px solid rgba(0,212,170,0.15); border-radius:8px; text-align:center;">
+              <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent-geo)">CLASS</div>
+              <div style="font-size:10px; color:var(--text-dim); margin-top:2px; letter-spacing:1px">PREDICTED LABEL</div>
+            </div>
+            <div style="padding:10px 12px; background:rgba(79,142,255,0.06); border:1px solid rgba(79,142,255,0.15); border-radius:8px; text-align:center;">
+              <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent-trans)">PROB[]</div>
+              <div style="font-size:10px; color:var(--text-dim); margin-top:2px; letter-spacing:1px">FULL DISTRIBUTION</div>
+            </div>
+            <div style="padding:10px 12px; background:rgba(255,107,74,0.06); border:1px solid rgba(255,107,74,0.15); border-radius:8px; text-align:center;">
+              <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent-mlp)">CONF</div>
+              <div style="font-size:10px; color:var(--text-dim); margin-top:2px; letter-spacing:1px">CONFIDENCE SCORE</div>
+            </div>
+            <div style="padding:10px 12px; background:rgba(192,132,252,0.06); border:1px solid rgba(192,132,252,0.15); border-radius:8px; text-align:center;">
+              <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent-mem)">ATTN</div>
+              <div style="font-size:10px; color:var(--text-dim); margin-top:2px; letter-spacing:1px">ATTENTION FOCUS</div>
+            </div>
+            <div style="padding:10px 12px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.15); border-radius:8px; text-align:center;">
+              <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent-exp)">WHY</div>
+              <div style="font-size:10px; color:var(--text-dim); margin-top:2px; letter-spacing:1px">EXPLANATION TEXT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK LOOP -->
+    <div style="margin-top:32px; padding:20px; border:1px dashed rgba(0,212,170,0.2); border-radius:12px; background:rgba(0,212,170,0.02); animation: fadeUp 0.6s 0.9s ease both;">
+      <div style="font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--accent-geo); margin-bottom:12px; letter-spacing:1px;">↺ CONTINUOUS LEARNING FEEDBACK LOOP</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:8px;">
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-geo)"></div>
+          <div class="fn-name"><strong>_learn_from_feedback()</strong>Updates model from single correction</div>
+        </div>
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-geo)"></div>
+          <div class="fn-name"><strong>_batch_train_from_feedback()</strong>Batch update from corrections</div>
+        </div>
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-geo)"></div>
+          <div class="fn-name"><strong>consolidate_supervised_memories()</strong>Merges corrections into main memory</div>
+        </div>
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-geo)"></div>
+          <div class="fn-name"><strong>training_necessary_condition()</strong>Evaluates if retraining is needed</div>
+        </div>
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-geo)"></div>
+          <div class="fn-name"><strong>train()</strong>Full pipeline retraining with geometric shaping</div>
+        </div>
+        <div class="fn-item">
+          <div class="fn-dot" style="background:var(--accent-mem)"></div>
+          <div class="fn-name"><strong>save_complete_pipeline()</strong>Persists updated model to SQLite</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; font-size:11px; color:var(--text-dim); line-height:1.7;">
+        Human correction → focused_backward() on relevant neurons → geometric weight re-shaping → updated spectral signatures → saved to memory → future predictions immediately improved
+      </div>
+    </div>
+
+  </div><!-- end .flow -->
+
+  <!-- Footer note -->
+  <div style="margin-top:48px; text-align:center; font-size:11px; color:var(--text-dim); line-height:1.8; animation: fadeUp 0.6s 1s ease both;">
+    <span style="color:var(--accent-geo)">◈</span> Click any stage to highlight it &nbsp;·&nbsp;
+    All stages run on pure numpy — no framework dependency &nbsp;·&nbsp;
+    Peer stage only activates when local confidence &lt; threshold
+  </div>
+
+</div><!-- end .page -->
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+  function toggleExpand(el) {
+    el.classList.toggle('expanded');
+  }
+
+  // Subtle parallax on scroll
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    document.body.style.backgroundPositionY = (y * 0.3) + 'px';
+  });
+
+  // Highlight connected stages on hover
+  const stages = document.querySelectorAll('.stage-inner');
+  stages.forEach(stage => {
+    stage.addEventListener('mouseenter', () => {
+      stage.style.transform = 'translateY(-1px)';
+    });
+    stage.addEventListener('mouseleave', () => {
+      stage.style.transform = '';
+    });
+  });
+</script>
+
+</body>
+</html>
