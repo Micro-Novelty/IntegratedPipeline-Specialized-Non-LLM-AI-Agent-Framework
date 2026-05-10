@@ -2,7 +2,7 @@
 
 [~] IntegratedPipeline is a standalone Specialized AI Agent Library for memory Augmented Agentic Framework orchestrator, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Sharing with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized efficient Transformer for Scarce Data with Alpha-based computation.
 
-<img width="1400" height="600" alt="WhatsApp Image 2026-05-08 at 18 33 28" src="https://github.com/user-attachments/assets/8ce1a934-c5e4-4949-913b-d092dd2321e7" />
+<img width="1600" height="600" alt="WhatsApp Image 2026-05-10 at 18 17 37" src="https://github.com/user-attachments/assets/aaf10427-7ff6-4f54-837d-58d46049de78" />
 
 
 ## MANN Intro
