@@ -12,6 +12,9 @@ Peer-to-Peer agent coordination
 SQLite-based memory persistence
 Multi-platform support (Windows, Linux, Raspberry Pi)
 
+[0.1.1] - 2026-05-08 
+[=] Specific Bug fixed for P2P Robustness, in _handle_distributed_connections(), removing undefined variables that caused specific Failed connection.
+
 [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
