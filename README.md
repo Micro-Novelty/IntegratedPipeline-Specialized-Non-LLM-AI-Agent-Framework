@@ -107,6 +107,7 @@
      git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
      cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
      ```
+   - Navigate to your project file.
    - Download Dockerfile file in the code and release section.
      - If the downloaded Dockerfile has .txt extension, remove the extension:
      - ```bash
@@ -153,6 +154,7 @@
    
    [=] Multi agent P2P (Consider docker-compose) :
    - Note: Use the provided [docker-compose.yml](docker-compose.yml) for Quick multi-agent.
+   - Make sure you already navigate to your project folder, and run:
    - ```bash
      # Start multiple agents
      docker-compose up -d
