@@ -73,6 +73,7 @@
 
 - Python 3.13+
 - Dockerfile (For Container)
+- Python scripts (Such as main.py) for Dockerfile use.
 - AbstractIntegratedModule.pyd (For windows machine)
 - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)
 - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
