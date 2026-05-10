@@ -336,7 +336,7 @@
    ```
 
 5. Peer-to-Peer Probability coordination:
-   - Each peer is both server and client simultaneously during P2P.
+   - Each peer is both server and client simultaneously for robustness and resilience during  during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
 
@@ -392,6 +392,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
    - Consider checking:
      - [multi_agent_client.py](multi_agent_client.py) for a quick easier start for client.
      - [multi_agent_server.py](multi_agent_server.py) for a quick easier start for client.
+   - If you get undefined NoneType Behavior when using .accept(), consider see [Troubleshooting](#Troubleshooting) Issue 7 for a Quick fix.
         
 6. Cross-Session availability:
    - To use Cross-session avialability to transfer or import memory, consider using this setup:
@@ -476,6 +477,17 @@ Solution:
        ```
    - Close unnecessary applications before running
    - Consider using a faster SD card (UHS-I or better)
+     
+7. Issue 7: P2P Undefined Connection:
+   If you get this warning:
+   - ```
+     [❌] Failed to connect to <host>:<port>: Nonetype object has no attribute .accept()
+     ```
+     - [=] Solution:
+     - ```
+       # initiate socket first
+       main_model.distribution.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+       ```
 
 ## Detailed process of Alpha-computing
 
