@@ -99,7 +99,7 @@
      - [start.sh](start.sh) for Quick single agent.
      - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Quick cluster start for multi-agent, 1 server, 5 clients running.
      - [main.py](main.py) for executing a python script in the container.
-   
+     - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
 
 1. Build Image:
    - Clone repository:
