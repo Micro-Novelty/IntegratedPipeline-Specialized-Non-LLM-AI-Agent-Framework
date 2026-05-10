@@ -152,6 +152,7 @@
    ```
    
    [=] Multi agent P2P (Consider docker-compose) :
+   - Note: Use the provided [docker-compose.yml](docker-compose.yml) for Quick multi-agent.
    - ```bash
      # Start multiple agents
      docker-compose up -d
