@@ -336,6 +336,7 @@
    ```
 
 5. Peer-to-Peer Probability coordination:
+   - Each peer is both server and client simultaneously during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
 
@@ -378,9 +379,12 @@ probs = ensemble_method.predict_ensemble(sequence_input, X_features, y, method='
 # 3. calibration: allow calibrating probability for both model outputs based on both best weights assembling.
 
 agreement = main_model.agreement
+
+# start server to initiate socket for P2P listener
+main_model.distribution.start_server()
 calibrated_probability = main_model._handle_distributed_connections(probs, attn_weights, sequence_input, agreement)
 
-# if an Agent experience a failure, consider using this function to reduce peer trust for safer flexible coordination:
+# if an Agent experience a failure on tasks, consider using this function to reduce peer trust for safer flexible coordination:
 # main_model.distribution.report_failure(id(main_model), '<task_name>', reason='<unknown>') # you can add the task_name and reason
 # main_model.distribution.print_network_status() # to show other peers info.
 ```
