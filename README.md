@@ -402,8 +402,8 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 ```
 [~] Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
    - Consider checking:
-     - [multi_agent_client.py](multi_agent_client.py) for a quick easier start for client.
-     - [multi_agent_server.py](multi_agent_server.py) for a quick easier start for client.
+     - [multi_agent_client.py](multi_agent_client.py) for a In-depth start for client testing.
+     - [multi_agent_server.py](multi_agent_server.py) for a In-depth start for server testing.
    - If you get undefined NoneType Behavior when using .accept(), consider see [Troubleshooting](#Troubleshooting) Issue 7 for a Quick fix.
         
 6. Cross-Session availability:
