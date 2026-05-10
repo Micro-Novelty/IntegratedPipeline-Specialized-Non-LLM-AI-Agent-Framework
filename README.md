@@ -154,7 +154,6 @@
    [=] Multi agent P2P (Consider docker-compose) :
    - ```bash
      # Start multiple agents
-     # Start multiple agents
      docker-compose up -d
 
      # View logs
