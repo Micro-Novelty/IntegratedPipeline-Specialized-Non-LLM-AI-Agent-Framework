@@ -107,15 +107,15 @@
      git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
      cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
      ```
-   - Navigate to the folder: Use the cd command to enter the directory containing the file.
-   - ```
-     cd /path/to/your/folder
-     ```
    - Download Dockerfile file in the code and release section.
      - If the downloaded Dockerfile has .txt extension, remove the extension:
      - ```bash
        mv Dockerfile.txt Dockerfile
        ```
+   - Navigate to the folder: Use the cd command to enter the directory containing the Dockerfile file.
+   - ```
+     cd /path/to/your/folder
+     ```   
    - build image:
    - ```bash
      sudo docker build -t integrated-agent.
