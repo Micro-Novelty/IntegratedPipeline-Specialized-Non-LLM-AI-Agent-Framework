@@ -487,6 +487,9 @@ Solution:
      - ```
        # initiate socket first
        main_model.distribution.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+       main_model.distribution.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+       main_model.distribution.socket.bind(('0.0.0.0', self.port)) # self.port could be changed with other ports
+       main_model.distribution.socket.listen(5) # listens for 5 seconds
        ```
 
 ## Detailed process of Alpha-computing
