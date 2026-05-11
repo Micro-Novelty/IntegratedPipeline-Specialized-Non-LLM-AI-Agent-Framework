@@ -120,9 +120,12 @@
    - [.env](.env)
    - In the code or release section.
      
-     - If the downloaded Dockerfile has .txt extension, remove the extension:
+     - If the downloaded Dockerfile or .dockerignore or .env has .txt extension, remove the extension:
      - ```bash
+       # remove .txt extension
        mv Dockerfile.txt Dockerfile
+       mv .env.txt .env
+       mv .dockerignore.txt .dockerignore
        ```
    - Navigate to the folder: Use the cd command to enter the directory containing the Dockerfile and entrypoint.sh file.
    - ```
