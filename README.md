@@ -124,8 +124,8 @@
      - ```bash
        # remove .txt extension
        mv Dockerfile.txt Dockerfile
-       mv .env.txt .env
-       mv .dockerignore.txt .dockerignore
+       mv env.txt .env
+       mv dockerignore.txt .dockerignore
        ```
    - Navigate to the folder: Use the cd command to enter the directory containing the Dockerfile and entrypoint.sh file.
    - ```
