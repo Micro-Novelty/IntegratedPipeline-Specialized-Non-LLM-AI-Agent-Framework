@@ -107,6 +107,13 @@
           docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/main.py
           ```
      - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
+     - [.env](.env) is used for environment setup, for example in:
+     - ```
+       # the {AGENT_MODE} is directly changed and set by .env automatically.
+       AGENT_MODE=${AGENT_MODE}
+       AGENT_PORT=${AGENT_PORT}
+       ```
+       [=] Note: put the .env in the same folder as your Dockerfile for multi-agent setup later.
 
 1. Build Image:
    - Clone repository:
