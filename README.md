@@ -98,6 +98,7 @@
    - Note Consider checking:
      - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
      - [start.sh](start.sh) for Quick single agent in Docker.
+     - [entrypoint.sh](entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile)
      - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent Docker cluster, What it does:
        - Starts a multi-agent Docker cluster — runs docker-compose up -d in detached mode (background), scaling the agent-client service to 5 simultaneous instances, alongside whatever server is defined in the docker-compose.yml.
        - Tails the logs — runs docker-compose logs -f which streams live logs from all containers (server + all 5 clients) to your terminal until you hit Ctrl+C.
@@ -113,12 +114,12 @@
      git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
      cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
      ```
-   - Download Dockerfile file in the code and release section.
+   - Download [Dockerfile](Dockerfile) and [entrypoint.sh](entrypoint.sh) file in the code and release section.
      - If the downloaded Dockerfile has .txt extension, remove the extension:
      - ```bash
        mv Dockerfile.txt Dockerfile
        ```
-   - Navigate to the folder: Use the cd command to enter the directory containing the Dockerfile file.
+   - Navigate to the folder: Use the cd command to enter the directory containing the Dockerfile and entrypoint.sh file.
    - ```
      cd /path/to/your/folder
      ```   
