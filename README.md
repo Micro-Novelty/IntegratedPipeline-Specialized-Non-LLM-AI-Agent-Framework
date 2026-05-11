@@ -71,7 +71,7 @@
    - Linux x86_64
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
 
-- Python 3.13+
+- Supports Python 3.13 Only (Robust, Stable version)
 - Dockerfile (For Container)
 - Python scripts (Such as main.py) for Dockerfile use.
 - AbstractIntegratedModule.pyd (For windows machine)
