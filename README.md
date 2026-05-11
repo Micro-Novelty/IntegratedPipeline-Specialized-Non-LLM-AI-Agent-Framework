@@ -377,6 +377,7 @@ ensemble_method = WeightedEnsemblePredictor(main_model, memory_name) # consider 
 transformer = Transformer(main_model.vocab_size, d_model=32, n_heads=4, num_classes=num_classes) # you can audit how much parameter the transformer needs.
 main_model.model2 = transformer # overwrite previous transformer initialization
 
+# main_model.distribution is AgentDistributedInference() class
 # consider using ssl for secure peer to peer coordination
 main_model.distribution.ssl_cert_file = <path_to_your_ssl_cert_file> 
 main_model.distribution.ssl_key_file = <path_to_your_ssl_key_file>
@@ -395,6 +396,9 @@ agreement = main_model.agreement
 
 # start server to initiate socket for P2P listener
 main_model.distribution.start_server()
+
+# set connection timeout (Optional)
+main_model.distribution.connection_timeout = 30 # 30 seconds before timeout
 calibrated_probability = main_model._handle_distributed_connections(probs, attn_weights, sequence_input, agreement)
 
 # if an Agent experience a failure on tasks, consider using this function to reduce peer trust for safer flexible coordination:
