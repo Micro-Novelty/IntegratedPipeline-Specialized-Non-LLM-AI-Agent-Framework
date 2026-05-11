@@ -98,7 +98,7 @@
    - Note Consider checking:
      - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
      - [start.sh](start.sh) for Quick single agent in Docker.
-     - [entrypoint.sh](entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile)
+     - [entrypoint.sh](entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile and put in the same folder with Dockerfile after its downloaded)
      - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent Docker cluster, What it does:
        - Starts a multi-agent Docker cluster — runs docker-compose up -d in detached mode (background), scaling the agent-client service to 5 simultaneous instances, alongside whatever server is defined in the docker-compose.yml.
        - Tails the logs — runs docker-compose logs -f which streams live logs from all containers (server + all 5 clients) to your terminal until you hit Ctrl+C.
@@ -107,21 +107,19 @@
           docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/main.py
           ```
      - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
-     - [.env](.env) is used for environment setup to automatically set a variable, for example in:
-     - ```
-       # the {AGENT_MODE} is directly changed and set by .env automatically.
-       AGENT_MODE=${AGENT_MODE}
-       AGENT_PORT=${AGENT_PORT}
-       ```
-       [=] Note: This method is optional for beginner use, you can modify entrypoint.sh or [docker-compose.yml](docker-compose.yml) first to use the variables inside .env file and apply the variable name to the shell script or .yml script that contains the AGENT_PORT or etc, and put the .env in the same folder as your Dockerfile for multi-agent setup later.
-
+     - [.env](.env) is used for environment setup in [entrypoint.sh](entrypoint.sh), this file must be in the same folder with Dockerfile and entrypoint.sh after its downloaded.
 1. Build Image:
    - Clone repository:
    - ```bash
      git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
      cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
      ```
-   - Download [Dockerfile](Dockerfile) and [entrypoint.sh](entrypoint.sh) file in the code and release section.
+   - Download:
+   - [Dockerfile](Dockerfile),
+   - [entrypoint.sh](entrypoint.sh)
+   - [.env](.env)
+   - In the code or release section.
+     
      - If the downloaded Dockerfile has .txt extension, remove the extension:
      - ```bash
        mv Dockerfile.txt Dockerfile
