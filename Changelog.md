@@ -15,6 +15,13 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 ### [0.1.1] - 2026-05-08 
 [=] Specific Bug fixed for P2P Robustness, in _handle_distributed_connections(), removing undefined variables that caused specific Failed connection.
 
+### [0.1.2] - 2026-05-11
+[=] Bug fixed:
+- fix: conflicting roles in _handle_distributed-connections() in specific cases
+- fix: fix check rate limit unbounded grow
+- fix: added another authentication identification for P2P in handle client function
+- fix connect_agent function contains undefined variables in last condition.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
