@@ -96,10 +96,12 @@
 ## Quickstart with Docker
 0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start.bash](Quick_Docker_start.bash) for a quick start.
    - Note Consider checking:
-     - [Dockerfile](Dockerfile) contains all the instructions need to assemble a container.
-     - [start.sh](start.sh) for Quick single agent.
-     - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Quick cluster start for multi-agent, 1 server, 5 clients running.
-     - [main.py](main.py) for executing a python script in the container.
+     - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
+     - [start.sh](start.sh) for Quick single agent in Docker.
+     - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent Docker cluster, What it does:
+       - Starts a multi-agent Docker cluster — runs docker-compose up -d in detached mode (background), scaling the agent-client service to 5 simultaneous instances, alongside whatever server is defined in the docker-compose.yml.
+       - Tails the logs — runs docker-compose logs -f which streams live logs from all containers (server + all 5 clients) to your terminal until you hit Ctrl+C.
+     - [main.py](main.py) for executing a python script in the Docker container that used main.py.
      - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
 
 1. Build Image:
