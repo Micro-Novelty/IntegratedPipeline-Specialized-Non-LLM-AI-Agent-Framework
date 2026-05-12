@@ -108,6 +108,7 @@
           ```
      - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
      - [.env](.env) is used for environment setup in [entrypoint.sh](entrypoint.sh), this file must be in the same folder with Dockerfile and entrypoint.sh after its downloaded.
+
 1. Build Image:
    - Clone repository:
    - ```bash
@@ -135,8 +136,13 @@
    - ```bash
      sudo docker build -t integrated-agent.
      ```
+2. Download library dependencies:
+   [=] Required libraries:
+   - Numpy
+   - Scikit-learn
+   - pandas
      
-2. Run IntegratedPipeline in a Container:
+4. Run IntegratedPipeline in a Container:
     - ```bash
       docker run -it --name ai-agent integrated-agent:latest python
       ```
@@ -147,19 +153,19 @@
          print("✓ IntegratedPipeline initialized successfully!")
          ```
          
-3. Run script:
+5. Run script:
    ```bash
    # Mount your local directory and run a script
    docker run -it -v $(pwd)/data:/app/data integrated-agent:latest python main.py # main.py could be replaced
    ```
    
-4. Run with GPU Support (Optional):
+6. Run with GPU Support (Optional):
    - ```bash
      # For NVIDIA GPU support
      docker run -it --gpus all -v $(pwd)/data:/app/data integrated-agent:latest python main.py
      ```
      
-5. For Single Agent and Multi-Agent P2P:
+7. For Single Agent and Multi-Agent P2P:
    
    [=] Single agent:
    ```bash
