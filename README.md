@@ -275,18 +275,18 @@
 2. Create CSV file that contains training labels and titles:
    -  Example format:
       ```
-      window_title, label
-      "Thesis.docx", focused_work,high,writing thesis
-      "Microsoft Excel", work,medium,data analysis
-      "YouTube -> Google Chrome", distracted,high,watching videos
-      "Slack", communication,high,team chat
+      window_title,label
+      "Thesis.docx",focused_work,high,writing-thesis
+      "Microsoft Excel",work,medium,data-analysis
+      "YouTube -> Google Chrome",distracted,high,watching-videos
+      "Slack",communication,high,team-chat
       "VSCode", focused_work,high,coding
-      "netflix.com -> Google Chrome", break,high,Netflix break
-      "Outlook", work,medium,checking email
-      "System Settings", system designing,low,configuring computer
-      "GitHub", creating and editing repo, research
-      "README.md -> VS Code", focused_work,medium,reading docs
-      "Amazon.com -> Chrome", personal work,high,shopping
+      "netflix.com -> Google Chrome",break,high,Netflix-break
+      "Outlook",work,medium,checking-email
+      "System Settings",system designing,low,configuring-computer
+      "GitHub",creating-and-editing-repo,research
+      "README.md -> VS Code",focused_work,medium,reading-docs
+      "Amazon.com -> Chrome",personal-work,high,shopping
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
