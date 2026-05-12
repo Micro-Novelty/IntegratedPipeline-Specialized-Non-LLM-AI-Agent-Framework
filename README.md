@@ -202,7 +202,12 @@
       ```
    
    [=] Steps for installation:
-   Note: AbstractIntegratedModule doesn't have any libraries dependency, the required dependency is already present in each binary in the .pyd and .so file.
+   Note: AbstractIntegratedModule has 3 library dependencies that must be installed on your computer:
+   - [=] Required Libraries:
+   - Numpy
+   - Scikit-learn
+   - pandas
+   
    1. Clone repository:
          - ```
            # prerequisites (for Raspberry pi OS Only)
@@ -272,7 +277,7 @@
            
          
      
-2. Create CSV file that contains training labels and titles:
+3. Create CSV file that contains training labels and titles:
    -  Example format:
       ```
       window_title,label
@@ -290,7 +295,7 @@
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
-3. Use IntegratedPipeline as in this example:
+4. Use IntegratedPipeline as in this example:
    ```
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
@@ -340,7 +345,7 @@
    # small training with simple titles
    main_model.train(titles, y)
       
-   results, chosen_label, confidence = main_prediction.advanced_prediction_method(titles, label_map, example_rules,
+   results, chosen_label, confidence = main_prediction.advanced_prediction_method(test_titles, label_map, example_rules,
                                 show_proba=False, top_k=3, 
                                 use_transformer=True,
                                 return_attention=False,
@@ -349,7 +354,7 @@
    # ... more features you can add
    ```
    
-4. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example without transformer:
    ```
@@ -362,7 +367,7 @@
    
    ```
 
-5. Peer-to-Peer Probability coordination:
+6. Peer-to-Peer Probability coordination:
    - Each peer is both server and client simultaneously for robustness and resilience during  during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
 ```
@@ -522,6 +527,8 @@ Solution:
        main_model.distribution.socket.bind(('0.0.0.0', self.port)) # self.port could be changed with other ports
        main_model.distribution.socket.listen(5) # listens for 5 seconds
        ```
+8. Issue 8: Cannot compare using '<' with str and float data:
+   - This happens when one of the labels extracted from your CSV file has NaN value, consider replace NaN with actual labels.
 
 ## Detailed process of Alpha-computing
 
