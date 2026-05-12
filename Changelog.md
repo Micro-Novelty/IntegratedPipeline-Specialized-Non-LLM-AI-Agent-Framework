@@ -22,6 +22,10 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - fix: added another authentication identification for P2P in handle client function
 - fix connect_agent function contains undefined variables in last condition.
 
+### [0.1.3] 2026-05-12
+[=] Bug fixed:
+- conflicting str and float during confidence handling in advanced prediction method
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
