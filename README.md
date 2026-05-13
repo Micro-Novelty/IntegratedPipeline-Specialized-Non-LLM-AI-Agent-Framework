@@ -44,7 +44,7 @@
      - Exportable memory: this allows a flexible memory saving for later use, such as cross transfer memory between model, the memory is saved as .json file after exporting.
      - Importable Memory: allowing to import memory from the exported .json file directly for the model to use.
      - syncing with other model: socket-based communication to export memory to other external machine.
-       [=] Note: socket Syncing is unsecure witout additional security layer wrapped, For a safer syncing, directly transfer the .json file memory to the target machine via other ways such as manual send.
+       - [=] Note: socket Syncing is unsecure witout additional security layer wrapped, For a safer syncing, directly transfer the .json file memory to the target machine via other ways such as manual send.
      - list sessions: listing available sessions using model's memory name.
 
 [=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding that can directly tolerate low samples-amount of Data, using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability during training and prediction over Messy, noisy environments, such as:
