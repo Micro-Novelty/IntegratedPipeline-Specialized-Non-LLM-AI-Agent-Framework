@@ -100,9 +100,9 @@
 0. See [Docker_installation_Section](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start](Quick_Docker_start.sh) for a quick start.
    - Note Consider checking:
      - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
-     - [start.sh](start.sh) for Quick single agent in Docker.
+     - [start.sh](start.sh) for Quick single agent start in Docker container.
      - [entrypoint.sh](entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile and put in the same folder with Dockerfile after its downloaded)
-     - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent Docker cluster, What it does:
+     - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent cluster start in Docker container, What it does:
        - Starts a multi-agent Docker cluster — runs docker-compose up -d in detached mode (background), scaling the agent-client service to 5 simultaneous instances, alongside whatever server is defined in the docker-compose.yml.
        - Tails the logs — runs docker-compose logs -f which streams live logs from all containers (server + all 5 clients) to your terminal until you hit Ctrl+C.
      - [main.py](main.py) for executing a python script in the Docker container that used main.py, like in this code:
