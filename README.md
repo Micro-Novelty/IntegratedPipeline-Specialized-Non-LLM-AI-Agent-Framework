@@ -94,7 +94,7 @@
    - Consider using faster storage (USB SSD) for better performance
 
 ## Quickstart with Docker
-0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start.bash](Quick_Docker_start.bash) for a quick start.
+0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start.bash](Quick_Docker_start.sh) for a quick start.
    - Note Consider checking:
      - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
      - [start.sh](start.sh) for Quick single agent in Docker.
