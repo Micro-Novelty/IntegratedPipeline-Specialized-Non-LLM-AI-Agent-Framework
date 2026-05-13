@@ -1,20 +1,20 @@
-# IntegratedPipeline-Specialized-AI-Agent-library
+# [=] IntegratedPipeline-Specialized-AI-Agent-library
 
 [~] IntegratedPipeline is a standalone Specialized AI Agent Library for Non-LLL memory Augmented Agentic Framework orchestrator, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized efficient Transformer for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment, or Messy environments.
 
 <img width="1600" height="600" alt="WhatsApp Image 2026-05-10 at 18 17 37" src="https://github.com/user-attachments/assets/aaf10427-7ff6-4f54-837d-58d46049de78" />
 
 
-## MANN Intro
+## [+] MANN Intro
 [=] Memory augmented Neural network (MANN) is a neural network architecture coupled with an external, dynamic memory module, allowing it to store, retrieve, and update information similarly to a computer's RAM. Unlike traditional networks that store knowledge only in weight parameters, MANNs excel at fast learning, long-term dependency handling, and episodic recall, In IntegratedPipeline, Its memory is stored in a custom database inside your local machine, then later used for memory retrieval, transfered to the AI Dictionary where it can finnaly recall its memory when input condition matched with memory.
 
-## Abstract Weight Encoder (AWE) Intro
+## [+] Abstract Weight Encoder (AWE) Intro
 [=] AWE is a specialized custom weight shaping method that used eigenvalue and spectral methods to calculate covariance inside a given input data, and shape the correct Weight from the given eigenvalue, AWE Works by processing input and then captures the necessary eigenvalue to shape a properly initialized Weight that aligns with input data complexity, So, MLP training will be much more consistent and robust against noise.
 
 [~] For a much In-Depth Explanation You can visit This repository to learn more about AWE and its performance results:
 - Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
-## Why IntegratedPipeline?
+## [+] Why IntegratedPipeline?
 [~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments. while still run efficiently on High-end Embedded systems in single-instance or as a distributed network during multi Agent cooperation.
 
 [=] IntegratedPipeline offers:
@@ -64,7 +64,7 @@
 
 
 
-## Requirements
+## [=] Requirements
 [~] To run and execute IntegratedPipeline, Requirement's include:
 - Machine (Choose one minimal, specified for your needs):
    - Windows Native OS 
@@ -77,12 +77,12 @@
 - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
 - CSV file that contains training labels and titles.
 
-### Requirements for Docker container
+### [=] Requirements for Docker container
 - Dockerfile (For Container assembler) 
 - Python scripts (Such as main.py for Dockerfile use).
 - entrypoint.sh (for smart entry Dockerfile container usage).
   
-## System-Specific Notes
+## [=] System-Specific Notes
 1. Windows:
    - Requires Visual C++ Build Tools for compatibility
    - Use PowerShell or CMD (not WSL bash for best results)
@@ -96,7 +96,7 @@
    - Monitor system resources during installation
    - Consider using faster storage (USB SSD) for better performance
 
-## Quickstart with Docker
+## [=] Docker Container Application
 0. See [Docker_installation_Section.md](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start.bash](Quick_Docker_start.sh) for a quick start.
    - Note Consider checking:
      - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
@@ -198,7 +198,7 @@
      ```
 
 
-## Step's for in-depth Usage
+## [=] Step's for in-depth Usage
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows), 
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
@@ -447,7 +447,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 
 7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
-## Troubleshooting
+## [+] Troubleshooting
 1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'"
 Solution:
 
@@ -539,7 +539,7 @@ Solution:
 8. Issue 8: Cannot compare using '<' with str and float data:
    - This happens when one of the labels extracted from your CSV file has NaN value, consider replace NaN with actual labels.
 
-## Detailed process of Alpha-computing
+## [=] Detailed process of Alpha-computing
 
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
 
