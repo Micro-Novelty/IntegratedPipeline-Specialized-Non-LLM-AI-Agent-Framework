@@ -35,9 +35,9 @@
    - Alpha rate limiting,
    - HMAC secret key,
    - and IP validation.
-   [~] The Agent has 2 Roles for Peer-to-Peer coordination:
+   [~] Each agent has double roles during P2P:
         - Server provider: the peer Agent can start a server to listen for peer client's
-        - Connecting Agent: the peer Agent which role is to connect to other peer that has or have opened and provided a server listener to act as a receiver.
+        - Connecting Agent: the peer Agent which happens to connect to other peer that has or have opened and provided a server listener to act as a receiver.
 
 5. Cross-Session memory availability:
    - IntegratedPipeline offers share-able Memory capability, included capability below:
