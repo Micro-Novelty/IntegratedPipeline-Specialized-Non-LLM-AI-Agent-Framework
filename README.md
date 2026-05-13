@@ -19,7 +19,7 @@
 
 [=] IntegratedPipeline offers:
 1. Local-Based AI Orchestrator:
-   - IntegratedPipeline Creates its own SQLite Database inside Your Computer, This database is used directly to store the AI Memory, Attention weights, predicted Output, and identified peer, all without leaving the machine, The Database will be created Automatically once you run the library. 
+   - IntegratedPipeline Creates its own SQLite Database inside Your Computer once the library is executed, This database is used directly to store the AI Memory, Attention weights, predicted Output, and identified peer, all without leaving the machine, The Database will be created Automatically once you run the library, database name saved as activity_log.db. 
 
 2. Continously Learning behavior for an Agent:
    - different from LLM that is static and cannot improve beyond its given training condition, AI Agent using IntegratedPipeline has a dynamic, flexible continously learning behavior with conditional training algorithms included in the library that has both supervised and unsupervised learning present, The learned input and predicted Output will be stored in the database, allowing it to recall its memory during processing and find matching known prediction given if input matched with the stored input inside the database. this Continous learning behavior is efficient because its not relying on weights for memory, allowing flexible and predictable behavior inside a given environment.
