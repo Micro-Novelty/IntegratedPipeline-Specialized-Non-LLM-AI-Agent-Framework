@@ -41,7 +41,7 @@
 
 5. Cross-Session memory availability:
    - IntegratedPipeline offers share-able Memory capability, included capability below:
-     - Exportable memory: this allows a flexible memory saving for later use, such as cross transfer memory between model, the memory is saved as .json file.
+     - Exportable memory: this allows a flexible memory saving for later use, such as cross transfer memory between model, the memory is saved as .json file after exporting.
      - Importable Memory: allowing to import memory from the exported .json file directly for the model to use.
      - syncing with other model: socket-based communication to export memory to other external machine.
        [=] Note: socket Syncing is unsecure witout additional security layer wrapped, For a safer syncing, directly transfer the .json file memory to the target machine via other ways such as manual send.
