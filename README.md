@@ -30,8 +30,9 @@
       - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
    
 4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
-   - IntegratedPipeline offers Peer to Peer communication capabilities, Where the IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system, or externally via:
+   - IntegratedPipeline offers Peer to Peer communication capabilities asynchronously, Where IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system, or externally by using asynchronous request for prediction request, is secured Using:
    - secure socket using user SSL,
+   - API key,
    - Alpha rate limiting,
    - HMAC secret key,
    - and IP validation.
@@ -72,7 +73,7 @@
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
 
 - Supports Python 3.13 Only (Robust, Stable version)
-- Download [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
+- Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
    - AbstractIntegratedModule.pyd (For windows machine).
    - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
