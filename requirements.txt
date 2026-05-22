@@ -11,6 +11,7 @@ Library requirements to run AbstractIntegratedModule:
 - scikit-learn
 - numpy
 - aiohttp
+- psutil
 
 AbstractIntegratedModule.pyd (For windows machine)
 AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)
