@@ -26,8 +26,8 @@
    
 3. Robust Specialized MLP and Transformer Architecture:
   - IntegratedPipeline has 2 Different type's of AI Architecture stacked together, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm for contextual reasoning, The reason why those Models complement and used together :
-      - Specialized MLP Provides robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN (Feed-forward-network) because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding, making AWE Generated weight causes inefficient inside Transformer dynamic FFN/QKV projection.
-      - Specialized Transformer provides robust advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
+      - Specialized MLP Provides synchronous robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN (Feed-forward-network) because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding, making AWE Generated weight causes inefficient inside Transformer dynamic FFN/QKV projection.
+      - Specialized Transformer provides robust synchronous advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
    
 4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
    - IntegratedPipeline offers Peer to Peer communication capabilities asynchronously, Where IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system (Synchronous prediction from peer previous data), or externally, by using asynchronous request for initiating prediction, P2P is secured Using:
@@ -388,6 +388,9 @@ from AbstractIntegratedModule import PipelineAsyncManager
 from AbstractIntegratedModule import SecurityConfig
 
 print(" = TESTING ASYNCHRONOUS PREDICTION MANAGER = ")
+# Set discovery secret (in production, use environment variable)
+secret_key = 'my-ultra-safe-secret-key-for-authentication' # you can customize this key
+
 
 security_config = SecurityConfig(
       max_text_length=10000, # can be extended
@@ -415,20 +418,24 @@ async_manager = PipelineAsyncManager(main_model,
 async_manager.start(method='Transformer_included', bootstrap_token=None) # boothstrap token is optional for better security
 
 texts = {'test_titles': test_titles, 'label_map': label_map, 'rules': rules, 'use_transformer': True}
-regular_predict = async_manager.predict(texts, timeout=60) # regular prediction
+regular_predict = async_manager.predict(
+   texts=texts,
+   timeout=60,
+   retries=None
+   api_key=secret_key) # advanced prediction method for asynchronous prediction.
 
-# with retries: async_manager.predict(texts, timeout=60, retries=5) # 5 times retry if failed
+# with retries: async_manager.predict(texts, timeout=60, retries=5, api_key=secret_key) # 5 times retry if failed
 
 print('[==] Initiating advanced batch prediction')
-predicted_output = async_manager.advanced_batch_prediction(test_titles, label_map, rules)
- # for better and faster advanced prediction, consider using batch advanced prediction 
+predicted_output = async_manager.advanced_batch_prediction(test_titles, label_map, rules, secret_key)
+# for better and faster advanced prediction, consider using advanced batch prediction like in the above example
 
 ```
 [=] Note:
  - Asynchronous prediction used Event loop that handles incoming request, There are conditions where event loop will not start and can't accet requests:
    - CPU Above > 95%    - Disk space is < 100 MB
    - RAM above > 95%
- - When event loop is not triggered, Asynchronous prediction can't be initiated and must be restarted.
+ - When event loop is not triggered, Asynchronous prediction can't be initiated and must be restarted/retried.
 
 7. Peer-to-Peer Probability coordination:
    - Each peer is both server and client simultaneously for robustness and resilience during during P2P.
@@ -443,9 +450,6 @@ import traceback
 prediction_manager = PipelinePredictionManager(main_model, label_csv=<your_training_labels.txt>, target_title=<target_title>, label=<target_label>)
 
 print("=== SECURE PEER-TO-PEER CLUSTER ===")
-
-# Set discovery secret (in production, use environment variable)
-secret_key = 'my-ultra-safe-secret-key-for-authentication' # you can customize this key
 
 # CohesiveAgentDeployment is deeply tied and coupled with AgentDistributedInference,
 # if you already set an SSL cert and key, CohesiveAgentDeployment will use the SSL directly from AgentDistributedInference
@@ -462,7 +466,7 @@ agent1 = CohesiveAgentDeployment(
      trusted_networks=['127.0.0.1/32', '192.168.1.0/24'], # for trusted networks, you need to provide the list of IPs of your peers.
      peer_discovery_port=5555, # peer port to start P2P
      secret_key=secret_key,
-     shared_auth_token=secret_key,
+     shared_auth_token=secret_key, # your previous initialized secret_key
      predict_manager=prediction_manager,
      peer_config = <'your_peer_ip_lists.json'> # you need to create .json file that contains your peer IP and Port lists
      consecutive_peer_config = <'your_second_fallback_peer_ip_lists.json'> # same for this one too, but for fallback.
