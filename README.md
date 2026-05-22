@@ -391,6 +391,7 @@
 ```python
 from AbstractIntegratedModule import PipelineAsyncManager
 from AbstractIntegratedModule import SecurityConfig
+from AbstractIntegratedModule import SecurityLevel
 
 print(" = TESTING ASYNCHRONOUS PREDICTION MANAGER = ")
 # Set discovery secret (in production, use environment variable)
@@ -422,17 +423,17 @@ async_manager = PipelineAsyncManager(main_model,
 
 async_manager.start(method='Transformer_included', bootstrap_token=None) # boothstrap token is optional for better security
 
-texts = {'test_titles': test_titles, 'label_map': label_map, 'rules': rules, 'use_transformer': True}
+texts = {'test_titles': test_titles, 'label_map': label_map, 'rules': example_rules, 'use_transformer': True}
 regular_predict = async_manager.predict(
    texts=texts,
    timeout=60,
-   retries=None
+   retries=None,
    api_key=secret_key) # advanced prediction method for asynchronous prediction.
 
 # with retries: async_manager.predict(texts, timeout=60, retries=5, api_key=secret_key) # 5 times retry if failed
 
 print('[==] Initiating advanced batch prediction')
-predicted_output = async_manager.advanced_batch_prediction(test_titles, label_map, rules, secret_key)
+predicted_output = async_manager.advanced_batch_prediction(test_titles, label_map, example_rules, secret_key, client_ip=None) # you can add client_ip to provide a robust authentication paired with secret_key
 # for better and faster advanced prediction, consider using advanced batch prediction like in the above example
 
 ```
