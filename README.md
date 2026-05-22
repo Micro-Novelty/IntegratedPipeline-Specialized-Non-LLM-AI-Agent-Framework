@@ -30,11 +30,11 @@
       - Specialized Transformer provides robust synchronous advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
    
 4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
-   - IntegratedPipeline offers Peer to Peer communication capabilities asynchronously, Where IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system (Synchronous prediction from peer previous data), or externally, by using asynchronous request for initiating prediction, P2P is secured Using:
+   - IntegratedPipeline offers Peer to Peer communication capabilities asynchronously, Where IntegratedPipeline directly checks for other Peer presence directly to the local database present in the local computer or system (Synchronous prediction from peer previous data in the database), or externally, by using asynchronous request for initiating prediction, P2P is secured Using:
    - secure socket using user provided SSL CERT. on both client and server,
-   - API key,
+   - API key for requesting,
    - Alpha rate limiting,
-   - HMAC secret key,
+   - HMAC secret key for authentication,
    - and IP validation.
    [~] Each agent has double roles during P2P:
         - Server provider: the peer Agent can start a server to listen for peer client's
@@ -50,7 +50,7 @@
 
 [=] With its Specialized Multi-Layer-Perceptron (using AWE Encoder) and Optimized Transformer module with optimized Embedding, IntegratedPipeline can directly tolerate low samples-amount of Data, including noisy ambiguous data, using Weighted Confidence assembling from both specialized MLP and Transformer for better reliability during training and prediction over Messy, noisy environments, such as:
 
-[1.] User data's : User data is often messy and ambiguous, The Specialized MLP will do the job for shaping the necessary Weight to complement for the Ambiguous noisy pattern, AWE MLP is highly robust to noise, proven in synthetic Environment such as scikit-learn Make-Classification scarce and Noisy Input robustness during generalization test. making it a great fit for messy, Scarce data.
+[1.] User data's : User data is often messy and ambiguous, Specialized MLP with AWE will do the job for shaping the necessary Weight to complement for the Ambiguous noisy pattern, AWE MLP is highly robust to noise, proven in synthetic Environment such as scikit-learn Make-Classification scarce and Noisy Input robustness during generalization test. making it a great fit for messy, Scarce data.
 
 [2.] Small Dataset's : We often don't have enough Dataset to train a Transformer Model, Thats Why IntegratedPipeline Offers a Highly optimized Transformer that supports scarce dataset processing, Using Alpha-Based computing as a Warm-up for training, it provides a direct Boost for the transformer to be efficient during training in scarce-data Environment.
 
@@ -383,7 +383,7 @@
 6. Asynchronous prediction:
   - Asynchronous prediction request is important and is critical because it keeps prediction interfaces responsive, maximizes local hardware efficiency, and enables apps to handle background tasks seamlessly without waiting on remote server responses,
   - for asynchronous prediction handling, consider using this setup
-```
+```python
 from AbstractIntegratedModule import PipelineAsyncManager
 from AbstractIntegratedModule import SecurityConfig
 
@@ -441,7 +441,7 @@ predicted_output = async_manager.advanced_batch_prediction(test_titles, label_ma
    - Each peer is both server and client simultaneously for robustness and resilience during during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
    - [=] for ensemble prediction from multiple peers, exchanging predicted label with each other, consider using this setup:
-```
+```python
 from AbstractIntegratedModule import CohesiveAgentDeployment
 from AbstractIntegratedModule import PipelinePredictionManager
 import asyncio
@@ -606,7 +606,6 @@ finally:
     - This setup outputs the given predicted label of an input directly, making P2P more flexible and fast.
     - This setup used Hybrid feature in prediction handling, Asynchronous prediction request, and Synchronous prediction handling. Synchronous prediction does block code execution for a few seconds, it was used for a few reason here, such as:
        - allowing a more slower traffic between agents, preventing other agent to get the same peer prediction over time, making each interaction equals and each peer can receive different peer prediction output.
-       
        
 [=] You can download this setup here for a direct test: [P2PDirectTest.py](P2PDirectTest.py)
 
@@ -813,7 +812,7 @@ When gradients flow backward:
 [=] 1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
     2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
        
-[=] With 17 total architectures working together as a standalone library that is efficient and robust, Main components include:
+[=] With 20 total architectures working together as a standalone library that is efficient and robust, Main components include:
     
 1. GeometricWeightShaping
 Purpose: Analyzes the geometric structure of data (anisotropy, spectral properties, complexity) and generates optimal weight matrices based on that geometry. Essentially teaches the model how to "understand" the shape of data before processing it, Highly robust to noise, making it an excellent fit for messy environment.
@@ -863,6 +862,18 @@ Purpose: The main orchestration class that ties everything together - handles te
 16. PipelinePredictionManager
 Purpose: High-level prediction interface that loads labels from CSV, performs regular/advanced/hybrid predictions, displays results, and calculates entropy for uncertainty estimation.
 ---
+17. ThreadedMessageQueue
+purpose: Handles message queue in thread for asynchronous message handling. (Queue based)
+---
+18. AsyncMessageQueue
+purpose: Handles incoming message from Asychronous peer request (Queue based)
+---
+19. CohesiveAgentDeployment
+purpose: Handles both synchronous prediction, and P2P Asynchronous prediction request, acts as a server and a listener simultaneously.
+---
+20. ConsecutivePeerAgent
+purpose: handles ensemble weighting from received output from peer, managed server and acts as a listener simultaneously.
+
 
 ## Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
