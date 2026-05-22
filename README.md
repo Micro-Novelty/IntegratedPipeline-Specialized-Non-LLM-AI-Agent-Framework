@@ -298,7 +298,7 @@
      
 3. Create CSV file that contains training labels and titles:
    -  Example format:
-      ```
+      ```txt
       window_title,label
       "Thesis.docx",focused_work,high,writing-thesis
       "Microsoft Excel",work,medium,data-analysis
@@ -315,7 +315,7 @@
       Note = window_title is target_title and label is target_label, check step below to use it.
 
 4. Use IntegratedPipeline as in this example:
-   ```
+   ```python
    from AbstractIntegratedModule import IntegratedPipeline
    from AbstractIntegratedModule import PipelinePredictionManager
    import numpy as np
@@ -376,7 +376,7 @@
 5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example without transformer:
-   ```
+   ```python
    prediction_result = main_prediction.advanced_prediction_method( 
             [t[0] for t in test_titles],  # titles is enough for MLP Classification.
             label_map,
@@ -616,7 +616,7 @@ finally:
 [=] You can download this setup here for a direct test: [P2PDirectTest.py](P2PDirectTest.py)
 
    - [=] for probability coordination, locally, get peers data from database or via socket.
-```
+```python
 dataset, _ = main_model.data_preparation(test_titles, label_map)
 sequence_inputs = main_model.sequence_encoding(dataset)
 X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(example_rules, dataset)
@@ -629,7 +629,7 @@ X_features = np.concatenate([X_raw_features, transformer_features], axis=-1)
 peer_probability_calibration = main_model.predict_proba(sequence_inputs, X_features, type='Hybrid', embedded=True) # peer-to-peer calibration is inside this function
 ```
 [~] Note: the peer calibration coordination has a chance of triggering if both MLP and Transformer prediction doesn't agree on certain output. Consider using this setup below for using stand-alone peer-to-peer main function without being wrapped in other parent function, allowing flexible and auditable peer-to-peer sharing for probability coordination:
-```
+```python
 from AbstractIntegratedModule import WeightedEnsemblePredictor
 from AbstractIntegratedModule import Transformer
 
@@ -677,7 +677,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
         
 6. Cross-Session availability:
    - To use Cross-session avialability to transfer or import memory, consider using this setup:
-     - ```
+     - ```python
        main_model._cross_session_availability() # cross session capability function
        ```
 
