@@ -66,12 +66,17 @@
 
 
 ## [=] Requirements
-[~] To run and execute IntegratedPipeline, Requirement's include:
+[~] To run and execute IntegratedPipeline, Requirement's include (Or see [Requirements](requirements.txt):
 - Machine (Choose one minimal, specified for your needs):
    - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
    - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
-
+- Libraries:
+  - Pandas
+  - aiohttp
+  - scikit-learn
+  - numpy
+    
 - Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
    - AbstractIntegratedModule.pyd (For windows machine).
@@ -83,8 +88,8 @@
 
 ### [=] Requirements for Docker container
 - Dockerfile (For Container assembler) 
-- Python scripts (Such as main.py for Dockerfile use).
-- entrypoint.sh (for smart entry Dockerfile container usage).
+- Python scripts (Such as main.py for Dockerfile usage).
+- entrypoint.sh (for smart entry point for Dockerfile container usage).
   
 ## [=] System-Specific Notes
 1. Windows:
@@ -204,9 +209,9 @@
 
 ## [=] Step's for in-depth Usage
 1. Download:
-   - AbstractIntegratedModule.pyd (For Windows), 
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64) 
-   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi)
+   - AbstractIntegratedModule.pyd (For Windows) (Python 3.13), 
+   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)  (Python 3.12)
+   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi) (Python 3.10)
    -  ```
       # Download from release
       # AbstractIntegratedModule.pyd (windows) /
@@ -220,6 +225,7 @@
    - Numpy
    - Scikit-learn
    - pandas
+   - aiohttp
    
    1. Clone repository:
          - ```
