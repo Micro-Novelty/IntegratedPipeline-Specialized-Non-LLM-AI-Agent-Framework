@@ -26,6 +26,12 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 [=] Bug fixed:
 - conflicting str and float during confidence handling in advanced prediction method
 
+### [0.1.4] Undocumented
+- more robust P2P handling, fixed wrong P2P flow.
+
+### [0.1.5] 2026-05-22
+- 
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
