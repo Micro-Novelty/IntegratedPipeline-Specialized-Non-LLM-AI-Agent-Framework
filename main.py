@@ -3,7 +3,7 @@ import numpy as np
 
 # Initialize with a test memory name
 try:
-    model = IntegratedPipeline('test_agent_memory')
+    model = IntegratedPipeline('test_agent_memory', use_async=True)
     print("✓ IntegratedPipeline initialized successfully")
     
     # Test basic functionality
