@@ -76,6 +76,7 @@
   - aiohttp
   - scikit-learn
   - numpy
+  - psutil
     
 - Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
@@ -226,6 +227,7 @@
    - Scikit-learn
    - pandas
    - aiohttp
+   - psutil
    
    1. Clone repository:
          - ```
