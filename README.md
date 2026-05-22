@@ -68,11 +68,10 @@
 ## [=] Requirements
 [~] To run and execute IntegratedPipeline, Requirement's include:
 - Machine (Choose one minimal, specified for your needs):
-   - Windows Native OS 
-   - Linux x86_64
-   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
+   - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
+   - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
+   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
 
-- Supports Python 3.13 Only (Robust, Stable version)
 - Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
    - AbstractIntegratedModule.pyd (For windows machine).
