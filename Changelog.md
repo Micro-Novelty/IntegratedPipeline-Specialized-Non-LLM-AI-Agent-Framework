@@ -30,7 +30,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - more robust P2P handling, fixed wrong P2P flow.
 
 ### [0.1.5] 2026-05-22
-- 
+- More Robust advanced prediction than v 0.1.3
+- Asynchronous Prediction capabilities, PipelineAsyncManager (Queue message handling, based architecture)
+- New robust P2P Architecture
+- CohesiveAgentDeployment (For asynchronous Prediction feature between peers, Hybrid based architecture that supports hybrid capabilities, synchronous prediction and asynchronous from ensemble prediction from peers)
+- ConsecutivePeerAgent (Handles Asynchronous ensemble weighting from incoming peer, when CohesiveAgentDeployment is busy, or cant capture the prediction request message)
 
 ### [=] Features
 Continuous learning without catastrophic forgetting
@@ -39,6 +43,7 @@ Hybrid MLP + Transformer ensemble predictions
 Distributed agent system with SSL/TLS security
 Explainability module for predictions
 Cross-session model automation
+Asynchronous local prediction (Worker based Queue) and P2P Asynchronous feature (P2P using socket)
 
 ### [=] Supported Platforms
 Windows x86_64
