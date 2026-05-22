@@ -144,7 +144,7 @@ class ServerAgent:
             logger.info(f"Initializing IntegratedPipeline with memory: {self.memory_name}")
             
             # Create pipeline instance
-            self.pipeline = IntegratedPipeline(self.memory_name)
+            self.pipeline = IntegratedPipeline(self.memory_name, use_async=True) # for asynchronous prediction
             
             # Optional: Load training data if available
             # self.load_training_data()
