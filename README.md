@@ -239,8 +239,8 @@ A. [=] Computational performance results with Transformer included during Advanc
 14:50:58.279 458.92% 164MiB   / 3.71GiB
 14:51:00.318 454.85% 164.6MiB / 3.71GiB
 ```
-[=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_log_with_TF.txt)
-[=] Explanation: 
+- [=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_log_with_TF.txt)
+- [=] Explanation: 
   - Average CPU Usage = 420% - 430% , Sustained roughlt 4.20 - 4.30 CPU Cores
     - Meaning = - Compute-Intensive workload
                 - reduced guaranteed of experiencing deadlocks, thread starvation, and major stalls
@@ -276,15 +276,15 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
 10:02:16.873 98.84% 333.8MiB / 3.71GiB
 10:02:18.869 0.00%  132.7MiB / 3.71GiB # container stopped and round 2 finished
 ```
-[=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP)
-[=] Explanation:
-    - Average CPU Usage = 85-90% Used, sustained roughly 1 CPU Core saturated on average
-      - Meaning: - Very efficient computation
+- [=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP)
+- [=] Explanation:
+     - Average CPU Usage = 85-90% Used, sustained roughly 1 CPU Core saturated on average
+         - Meaning: - Very efficient computation
                  - Much lighter CPU Usage than Transformer.
                  - Stable and less parallelizing behavior (Efficient computation)    
                  - 4.7x lower CPU usage than transformer included
-    - Average RAM usage = 314 MiB / 3.71 GiB, Roughly 8.5% usage of available RAM.
-      - Meaning: - Slightly larger MiB used than Transformer.
+      - Average RAM usage = 314 MiB / 3.71 GiB, Roughly 8.5% usage of available RAM.
+         - Meaning: - Slightly larger MiB used than Transformer.
                  - Model allocation growth is stable,
                  - training buffers stable
                  - temporary ndarray growth.
