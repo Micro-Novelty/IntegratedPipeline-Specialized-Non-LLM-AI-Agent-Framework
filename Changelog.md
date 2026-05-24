@@ -26,15 +26,19 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 [=] Bug fixed:
 - conflicting str and float during confidence handling in advanced prediction method
 
-### [0.1.4] Undocumented
-- more robust P2P handling, fixed wrong P2P flow.
-
-### [0.1.5] 2026-05-22
+### [0.1.4] 2026-05-22
 - More Robust advanced prediction than v 0.1.3
 - Asynchronous Prediction capabilities, PipelineAsyncManager (Queue message handling, based architecture)
 - New robust P2P Architecture
 - CohesiveAgentDeployment (For asynchronous Prediction feature between peers, Hybrid based architecture that supports hybrid capabilities, synchronous prediction and asynchronous from ensemble prediction from peers)
 - ConsecutivePeerAgent (Handles Asynchronous ensemble weighting from incoming peer, when CohesiveAgentDeployment is busy, or cant capture the prediction request message)
+
+### [0.1.5] 2026-05-24 (Officially tested and validated in ARM64 Env.)
+- More Robust asynchronous advanced prediction than v 0.1.4
+- Updated P2P Architecture
+- Ensuring singleton on IntegratedPipeline
+- fixed fragility in feature parsing from json file
+- Officially tested in ARM64 Environment using docker
 
 ### [=] Features
 Continuous learning without catastrophic forgetting
