@@ -144,7 +144,7 @@ Contact
 
 · GitHub Issues: For bugs and feature requests
 · GitHub Discussions: For questions and ideas
-· Email: farrelp127@gmail.com (for security issues or other necessary things only)
+· Email: hernikpuspita5@gmail.com (for security issues or other necessary things only)
 
 ### Recognition
 
