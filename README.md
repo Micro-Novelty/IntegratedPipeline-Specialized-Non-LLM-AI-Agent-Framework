@@ -207,6 +207,50 @@
      docker-compose down
      ```
 
+## Performance in ARM64 Docker Environment/Container
+[=] Computational performance results with Transformer included during Advanced prediction method.
+```txt
+== TIME == | CPU % | RAM / RAM LIMIT ||
+
+14:50:08.762  0.00%  25.52MiB / 3.71GiB
+14:50:10.339  5.56%  25.52MiB / 3.71GiB
+14:50:12.428  0.17%  25.52MiB / 3.71GiB
+14:50:15.835 103.60% 38.8MiB / 3.71GiB
+14:50:17.844 438.11% 60.15MiB / 3.71GiB
+14:50:19.896 419.36% 68.32MiB / 3.71GiB
+14:50:22.022 434.15% 73.2MiB  / 3.71GiB
+14:50:23.969 436.47% 78.18MiB / 3.71GiB
+14:50:25.966 435.85% 80.22MiB / 3.71GiB
+14:50:28.018 430.47% 92.12MiB / 3.71GiB
+14:50:30.029 450.55% 99.5MiB / 3.71GiB
+14:50:32.065 438.06% 105.4MiB / 3.71GiB
+14:50:34.100 469.52% 115.2MiB / 3.71GiB
+14:50:36.109 449.89% 116.8MiB / 3.71GiB
+14:50:38.123 423.56% 119MiB   / 3.71GiB
+14:50:40.164 446.19% 125.7MiB / 3.71GiB
+14:50:42.170 444.53% 127.3MiB / 3.71GiB
+14:50:44.175 431.45% 135MiB   / 3.71GiB
+14:50:46.187 448.56% 136.8MiB / 3.71GiB
+14:50:48.218 448.07% 144.9MiB / 3.71GiB
+14:50:50.217 440.51% 148.6MiB / 3.71GiB
+14:50:52.275 493.79% 150.1MiB / 3.71GiB
+14:50:54.243 450.35% 154.9MiB / 3.71GiB
+14:50:56.270 421.88% 163.2MiB / 3.71GiB
+14:50:58.279 458.92% 164MiB   / 3.71GiB
+14:51:00.318 454.85% 164.6MiB / 3.71GiB
+```
+[=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_log_with_TF.txt)
+[=] Explanation: 
+  - Average CPU Usage = 420% - 430% , Sustained roughlt 4.20 - 4.30 CPU Cores
+    - Meaning = - Compute-Intensive workload
+                - reduced guaranteed of experiencing deadlocks, thread starvation, and major stalls
+                - numerical backend is parallelizing efficiently
+  - Average RAM Usage = 180 - 195 Mib, Roughly 4.5 - 5%  usage of available RAM
+    - Meaning = - Very efficient RAM Usage
+                - Repeated 269 MiB suggests allocator settled, ndarray pools stabilized, workload reached steady state
+                - gradual, safe and steady batch accumulation, reduced possibility of leak explosion.
+
+
 
 ## [=] Step's for in-depth Usage
 1. Download:
