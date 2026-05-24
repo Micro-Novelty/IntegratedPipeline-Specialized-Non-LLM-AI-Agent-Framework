@@ -16,3 +16,4 @@ pip install -e .
 
 # Option 3: Add to Python path
 export PYTHONPATH="${PYTHONPATH}:/path/to/binary"
+```
