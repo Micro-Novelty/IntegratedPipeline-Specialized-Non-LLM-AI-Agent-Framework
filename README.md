@@ -208,7 +208,7 @@
      ```
 
 ## Performance in ARM64 Docker Environment/Container
-[=] Computational performance results with Transformer included during Advanced prediction method.
+A. [=] Computational performance results with Transformer included during Advanced prediction method.
 ```txt
 == TIME == | CPU % | RAM / RAM LIMIT ||
 
@@ -250,8 +250,46 @@
                 - Repeated 269 MiB suggests allocator settled, ndarray pools stabilized, workload reached steady state
                 - gradual, safe and steady batch accumulation, reduced possibility of leak explosion.
 
+B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
+```txt
+== TIME == | CPU %  | RAM \ RAM LIMIT |
+10:01:37.456 100.44% 269.8MiB / 3.71GiB # initial round 1 training started
+10:01:38.686 101.93% 279.8MiB / 3.71GiB
+10:01:40.694 101.94% 293.2MiB / 3.71GiB
+10:01:42.703 99.90%  302.9MiB / 3.71GiB
+10:01:44.712 99.34%  319.8MiB / 3.71GiB
+10:01:46.721 100.15% 319.7MiB / 3.71GiB
+10:01:48.727 101.91% 319.7MiB / 3.71GiB
+10:01:50.734 100.86% 319.7MiB / 3.71GiB
+10:01:52.742 136.43% 322.9MiB / 3.71GiB
+10:01:54.751 101.91% 324.9MiB / 3.71GiB
+10:01:56.758 100.29% 324.9MiB / 3.71GiB
+10:01:58.769 102.42% 327.1MiB / 3.71GiB
+10:02:00.775 0.00%   329.6MiB / 3.71GiB # First Training and prediction round 1 finished
+10:02:02.788 19.55%  330.1MiB / 3.71GiB # round 2 training
+10:02:04.798 134.23% 332.2MiB / 3.71GiB
+10:02:06.803 108.80% 332.2MiB / 3.71GiB
+10:02:08.811 107.85% 332.2MiB / 3.71GiB
+10:02:10.857 104.43% 332.2MiB / 3.71GiB
+10:02:12.854 101.14% 332.2MiB / 3.71GiB
+10:02:14.858 0.00%  332.3MiB / 3.71GiB
+10:02:16.873 98.84% 333.8MiB / 3.71GiB
+10:02:18.869 0.00%  132.7MiB / 3.71GiB # container stopped and round 2 finished
+```
+[=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP)
+[=] Explanation:
+    - Average CPU Usage = 85-90% Used, sustained roughly 1 CPU Core saturated on average
+      - Meaning: - Very efficient computation
+                 - Much lighter CPU Usage than Transformer.
+                 - Stable and less parallelizing behavior (Efficient computation)    
+                 - 4.7x lower CPU usage than transformer included
+    - Average RAM usage = 314 MiB / 3.71 GiB, Roughly 8.5% usage of available RAM.
+      - Meaning: - Slightly larger MiB used than Transformer.
+                 - Model allocation growth is stable,
+                 - training buffers stable
+                 - temporary ndarray growth.
 
-
+    
 ## [=] Step's for in-depth Usage
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows) (Python 3.13), 
@@ -395,7 +433,7 @@
                     ]
    # activate explainability capability to explain uncertainty:
    main_model.show_explainability_details = True
-   # main_model.use_transformer = True if you want to use transformer 
+   # main_model.use_transformer = True if you want to use transformer, this will notify all modules that used advanced_prediction_method will initiate prediction with both transformer and MLP.
    
    
    # test samples with more sophisticated rules and more complex titles for prediction
