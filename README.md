@@ -496,6 +496,7 @@ async_manager = PipelineAsyncManager(main_model,
         config=security_config, 
         state_file=None, # state file is used to load known security logs ex: ip used, ip blacklisted, etc.
         security_level=SecurityLevel.PRODUCTION, # production level security initiated
+        api_key=secret_key  #set secret key you initialized
         max_workers=4, # workers to initiate prediction, more workers, more capabilities to process prediction requests.
         task_timeout=30, 
         max_retries=3 ) # retries after failure during prediction
