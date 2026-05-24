@@ -212,7 +212,7 @@ A. [=] Computational performance results with Transformer included during Advanc
 ```txt
 == TIME == | CPU % | RAM / RAM LIMIT ||
 
-14:50:08.762  0.00%  25.52MiB / 3.71GiB
+14:50:08.762  0.00%  25.52MiB / 3.71GiB 
 14:50:10.339  5.56%  25.52MiB / 3.71GiB
 14:50:12.428  0.17%  25.52MiB / 3.71GiB
 14:50:15.835 103.60% 38.8MiB / 3.71GiB
@@ -227,17 +227,6 @@ A. [=] Computational performance results with Transformer included during Advanc
 14:50:34.100 469.52% 115.2MiB / 3.71GiB
 14:50:36.109 449.89% 116.8MiB / 3.71GiB
 14:50:38.123 423.56% 119MiB   / 3.71GiB
-14:50:40.164 446.19% 125.7MiB / 3.71GiB
-14:50:42.170 444.53% 127.3MiB / 3.71GiB
-14:50:44.175 431.45% 135MiB   / 3.71GiB
-14:50:46.187 448.56% 136.8MiB / 3.71GiB
-14:50:48.218 448.07% 144.9MiB / 3.71GiB
-14:50:50.217 440.51% 148.6MiB / 3.71GiB
-14:50:52.275 493.79% 150.1MiB / 3.71GiB
-14:50:54.243 450.35% 154.9MiB / 3.71GiB
-14:50:56.270 421.88% 163.2MiB / 3.71GiB
-14:50:58.279 458.92% 164MiB   / 3.71GiB
-14:51:00.318 454.85% 164.6MiB / 3.71GiB
 ```
 - [=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_log_with_TF.txt)
 - [=] Explanation: 
@@ -276,7 +265,7 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
 10:02:16.873 98.84% 333.8MiB / 3.71GiB
 10:02:18.869 0.00%  132.7MiB / 3.71GiB # container stopped and round 2 finished
 ```
-- [=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP)
+- [=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP.txt)
 - [=] Explanation:
      - Average CPU Usage = 85-90% Used, sustained roughly 1 CPU Core saturated on average
          - Meaning: - Very efficient computation
@@ -288,6 +277,9 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
                  - Model allocation growth is stable,
                  - training buffers stable
                  - temporary ndarray growth.
+
+### Both performance Overview
+<img width="1536" height="1024" alt="WhatsApp Image 2026-05-24 at 10 27 00" src="https://github.com/user-attachments/assets/9404277f-281f-4893-8367-e494833230ea" />
 
     
 ## [=] Step's for in-depth Usage
