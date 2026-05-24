@@ -145,7 +145,8 @@ class ServerAgent:
             
             # Create pipeline instance
             self.pipeline = IntegratedPipeline(self.memory_name, use_async=True) # for asynchronous prediction
-            
+
+            self.pipeline.use_transformer = True # set transformer prediction to true, can be commented to.
             # Optional: Load training data if available
             # self.load_training_data()
             
