@@ -954,6 +954,9 @@ purpose: handles ensemble weighting from received output from peer, managed serv
 ## License
 [=] LICENSE: - MIT (2026) || See [LICENSE](LICENSE) for more information.
 
+## Development Drawbacks:
+[=] Source code is kept hidden until The Specialized MLP has its own scientific paper, We are still releasing as a simple binary as an Alpha test, PIP Release is planned next week.
+
 
 
 
