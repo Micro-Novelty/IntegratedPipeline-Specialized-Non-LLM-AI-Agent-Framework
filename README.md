@@ -370,7 +370,8 @@
    main_model = IntegratedPipeline(memory_name, use_async=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
    main_prediction = PipelinePredictionManager(main_model, label_csv='example_manual_training.txt', target_title='window_title', label='label')
    # example_manual_training is a .txt file that contain csv format like above example.
-   
+
+
    example_rules = [
                         # === WORK / PRODUCTIVITY ===
                         (r'code|programming|develop|debug|compile|script', 'focused_work'),
@@ -394,6 +395,8 @@
                     ]
    # activate explainability capability to explain uncertainty:
    main_model.show_explainability_details = True
+   # main_model.use_transformer = True if you want to use transformer 
+   
    
    # test samples with more sophisticated rules and more complex titles for prediction
    # (title, intent)
