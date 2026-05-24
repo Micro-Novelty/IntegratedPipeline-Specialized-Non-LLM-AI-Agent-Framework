@@ -425,6 +425,7 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
                     ]
    # activate explainability capability to explain uncertainty:
    main_model.show_explainability_details = True
+   main_model.distribution.predict_manager = main_prediction # set PipelinePredictionManager to AgentDistributedInference for asynchronous prediction later (Very important for asynchronous prediction)
    # main_model.use_transformer = True if you want to use transformer, this will notify all modules that used advanced_prediction_method will initiate prediction with both transformer and MLP.
    
    
@@ -468,6 +469,7 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
   - Asynchronous prediction request is important and is critical because it keeps prediction interfaces responsive, maximizes local hardware efficiency, and enables apps to handle background tasks seamlessly without waiting on remote server responses,
   - for asynchronous prediction handling, consider using this setup
 ```python
+# Step 2
 from AbstractIntegratedModule import PipelineAsyncManager
 from AbstractIntegratedModule import SecurityConfig
 from AbstractIntegratedModule import SecurityLevel
@@ -528,6 +530,7 @@ predicted_output = async_manager.advanced_batch_prediction(test_titles, label_ma
    - To Make the Agent cooperate with other peers, consider using this setup:
    - [=] for ensemble prediction from multiple peers, exchanging predicted label with each other, consider using this setup:
 ```python
+# step 3
 from AbstractIntegratedModule import CohesiveAgentDeployment
 from AbstractIntegratedModule import PipelinePredictionManager
 import asyncio
@@ -664,6 +667,7 @@ finally:
 
    - [=] for probability coordination, locally, get peers data from database or via socket.
 ```python
+# step 4
 dataset, _ = main_model.data_preparation(test_titles, label_map)
 sequence_inputs = main_model.sequence_encoding(dataset)
 X_raw_generation, y, n_classes, input_dim = main_model.mlp_training_features(example_rules, dataset)
