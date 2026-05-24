@@ -77,7 +77,7 @@
   - scikit-learn
   - numpy
   - psutil
-    
+
 - Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
    - AbstractIntegratedModule.pyd (For windows machine).
@@ -944,6 +944,7 @@ purpose: handles ensemble weighting from received output from peer, managed serv
 - [Go to Troubleshooting](#Troubleshooting)
 - [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
 - [Go to Main Components](#Components)
+- Source Code: [AbstractIntegratedModule-SourceCode](AbstractIntegratedPipeline-SourceCode.zip)
 - Consider checking:
   - [ROADMAP.md](ROADMAP.md)
   - [Contributing.md](Contributing.md)
