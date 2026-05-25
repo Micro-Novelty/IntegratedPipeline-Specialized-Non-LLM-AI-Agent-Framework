@@ -760,7 +760,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 ## [+] Troubleshooting
-1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'"
+1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'" When using binary,
 Solution:
 
    - [=] Verify the binary file is in the correct location:
