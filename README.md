@@ -775,7 +775,7 @@ Solution:
    python -c "import sys; print('\n'.join(sys.path))"
    ```
    - [~] Note: - Move binary to project root if not already there
-      - Ensure you're using Python 3.13+
+      - Ensure you're using Python 3.13 of the supported version.
       
 2. Issue 2: "ImportError: DLL load failed" when using binary version of the library (For Windows)
 Solution:
