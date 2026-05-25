@@ -67,8 +67,14 @@
 
 
 ## [=] Requirements
-[~] To run and execute IntegratedPipeline, Requirement's include (Or see [Requirements](requirements.txt):
-- Machine (Choose one minimal, specified for your needs):
+[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](requirements.txt):
+- pip install for quick usage:
+- ```bash
+  pip install AbstractIntegratedModule # or
+  python -m pip install AbstractIntegratedModule
+  ```
+  
+- Download binaries manually (Choose one minimal, specified for your needs):
    - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
    - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
@@ -157,6 +163,12 @@
    - pandas
      
 4. Run IntegratedPipeline in a Container:
+    - Install AbstractIntegratedModule via PIP or binaries (for binaries, can  be downloaded in release section):
+    - ```bash
+      pip install AbstractIntegratedModule # or
+      python -m pip install AbstractIntegratedModule
+      ```
+      
     - ```bash
       docker run -it --name ai-agent integrated-agent:latest python
       ```
