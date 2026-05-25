@@ -281,7 +281,16 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
 ### Both performance Overview
 <img width="1536" height="1024" alt="WhatsApp Image 2026-05-24 at 10 27 00" src="https://github.com/user-attachments/assets/9404277f-281f-4893-8367-e494833230ea" />
 
-    
+## Source code of AbstractIntegratedModule
+[=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedPipeline-SourceCode.zip](AbstractIntegratedPipeline-SourceCode.zip)
+[=] Separated Modules of AbstractIntegratedModule: [AbstractIntegratedModule-separated-modules](AbstractIntegratedModule-separated-modules)
+[~] Note:
+   - The source code is Free to:
+   - Use: Run the software for any personal, academic, or commercial purpose.
+   - Modify: Change the source code to fit their needs.
+   - Distribute: Share the original or modified code with others.Commercialize:
+   - Package, brand, and sell the software for profit.
+
 ## [=] Step's for in-depth Usage
 1. Download:
    - AbstractIntegratedModule.pyd (For Windows) (Python 3.13), 
