@@ -144,8 +144,7 @@ class ServerAgent:
             logger.info(f"Initializing IntegratedPipeline with memory: {self.memory_name}")
             
             # Create pipeline instance
-            self.pipeline = IntegratedPipeline(self.memory_name, use_async=True) # for asynchronous prediction
-
+            self.pipeline = IntegratedPipeline(self.memory_name, use_async=True, ssl_cert_file=None, ssl_key_file=None ) # for asynchronous prediction set use_async=True
             self.pipeline.use_transformer = True # set transformer prediction to true, can be commented to.
             # Optional: Load training data if available
             # self.load_training_data()
