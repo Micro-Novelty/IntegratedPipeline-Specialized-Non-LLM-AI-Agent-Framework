@@ -139,7 +139,7 @@ class ClientAgent:
             logger.info(f"Initializing local IntegratedPipeline")
             
             memory_name = f"{self.agent_name}_memory"
-            self.pipeline = IntegratedPipeline(memory_name, use_async=True)
+            self.pipeline = IntegratedPipeline(memory_name, use_async=True, ssl_cert_file=None, ssl_key_file=None)
             self.pipeline.use_transformer = True # set transformer to True, can be commented
             
             logger.info("✓ Local IntegratedPipeline ready for fallback")
