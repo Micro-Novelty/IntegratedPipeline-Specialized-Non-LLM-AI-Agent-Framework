@@ -75,15 +75,16 @@
   ```
   
 - Download binaries manually (Choose one minimal, specified for your needs):
+- Binaries can be downloaded from release or code section.
    - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
    - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
-- Libraries:
-  - Pandas
-  - aiohttp
-  - scikit-learn
-  - numpy
-  - psutil
+   - Libraries needed (For binary usage):
+     - Pandas
+     - aiohttp
+     - scikit-learn
+     - numpy
+     - psutil
 
 - Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
   - This file contains:
@@ -317,8 +318,8 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
       ```
    
    [=] Steps for installation:
-   Note: AbstractIntegratedModule has 3 library dependencies that must be installed on your computer:
-   - [=] Required Libraries:
+   Note: AbstractIntegratedModule has 5 library dependencies that must be installed on your computer if you use AbstractIntegratedModule binaries:
+   - [=] Required Libraries (For binaries usage):
    - Numpy
    - Scikit-learn
    - pandas
