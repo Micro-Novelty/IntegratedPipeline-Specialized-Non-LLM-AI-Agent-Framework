@@ -849,6 +849,24 @@ Solution:
 8. Issue 8: Cannot compare using '<' with str and float data:
    - This happens when one of the labels extracted from your CSV file has NaN value, consider replace NaN with actual labels.
 
+9. Issue 9: Failed authentication during asynchronous prediction:
+   - Solution: Ensure API_KEY is initialized inside PipelineAsyncManager like this:
+   - ```python
+      async_manager = PipelineAsyncManager(main_model,
+      main_prediction, # your previous initialized PipelinePredictionManager
+      config=security_config,
+      state_file=None, # state file is used to load known security logs ex: ip used, ip blacklisted, etc.
+      security_level=SecurityLevel.PRODUCTION, # production level security initiated
+      api_key=secret_key # set secret key you initialized <- THIS IS IMPORTANT
+      max_workers=4, # workers to initiate prediction, more workers, more capabilities to process prediction requests.
+      task_timeout=30,
+      max_retries=3 ) # retries after failure during prediction
+     ```
+     - And make sure you also initialized api_key in the predict function that requires api_key:
+        ```
+        async_manager.predict(...., ...., api_key=api_key, ...)
+        ```
+
 ## [=] Detailed process of Alpha-computing
 
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
