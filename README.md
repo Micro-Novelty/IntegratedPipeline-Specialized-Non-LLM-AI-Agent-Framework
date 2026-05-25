@@ -285,11 +285,11 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
 - [=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedPipeline-SourceCode.zip](AbstractIntegratedPipeline-SourceCode.zip)
 - [=] Separated Modules of AbstractIntegratedModule: [AbstractIntegratedModule-separated-modules](AbstractIntegratedModule-separated-modules)
 - [~] Note:
-   - The source code is Free to:
-   - Use: Run the software for any personal, academic, or commercial purpose.
-   - Modify: Change the source code to fit their needs.
-   - Distribute: Share the original or modified code with others.Commercialize:
-   - Package, brand, and sell the software for profit.
+   - The source code is open and Free to anyone who:
+   - Use it: Run the software for any personal, academic, or commercial purpose.
+   - Modify it: Change the source code to fit their needs.
+   - Distribute it: Share the original or modified code with others.
+   - Commercialize it: Package, brand, and sell the software for profit.
 
 ## [=] Step's for in-depth Usage
 1. Download:
