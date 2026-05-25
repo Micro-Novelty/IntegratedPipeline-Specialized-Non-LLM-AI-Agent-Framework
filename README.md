@@ -760,7 +760,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 ## [+] Troubleshooting
-1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'" When using binary,
+1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'" When using the binary version of the library,
 Solution:
 
    - [=] Verify the binary file is in the correct location:
@@ -777,7 +777,7 @@ Solution:
    - [~] Note: - Move binary to project root if not already there
       - Ensure you're using Python 3.13+
       
-2. Issue 2: "ImportError: DLL load failed" (Windows)
+2. Issue 2: "ImportError: DLL load failed" when using binary version of the library (For Windows)
 Solution:
 
    - 1. Ensure AbstractIntegratedModule.pyd is in your project root
@@ -786,7 +786,7 @@ Solution:
    - 3. Verify Python architecture (32-bit vs 64-bit) matches the .pyd file
 
 
-3. Issue 3: "Permission denied" (Linux/Raspberry Pi)
+3. Issue 3: "Permission denied" when using binary version of the library (for Linux/Raspberry Pi)
 [=] Solution:
    - ```
      # Make sure you have read permissions
@@ -795,7 +795,7 @@ Solution:
      source venv/bin/activate
     ```
 
-4. Issue 4: Missing Dependencies
+4. Issue 4: Missing Dependencies when using binary
 [=] Solution:
     - ```
       # Reinstall all dependencies
