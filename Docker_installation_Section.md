@@ -26,9 +26,20 @@ docker build -t integrated-pipeline:v1.0.0 .
 ```
 
 ### 3. Run integratedPipeline
-```bash
-docker run -it --name integrated-agent integrated-pipeline:latest python
-```
+- install AbstractIntegratedModule first:
+  - ```bash
+    pip install AbstractIntegratedModule # or
+    python -mp pip install AbstractIntegratedModule
+    ```
+- run the container 
+  ```bash
+  docker run -it --name integrated-agent integrated-pipeline:latest python
+   ```
+- run with an example test, for example you could download main.py in our code section and use it in container:
+  ```bash
+  root@53619...: python main.py # run the script inside the container
+  ```
+  
 [=] For python shell:
 ```
 from AbstractIntegratedModule import IntegratedPipeline, PipelinePredictionManager
@@ -53,10 +64,8 @@ python main.py
 docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/main.py
 ```
 
-### 6. Start a container
+### 6. List running
 ```bash
-docker run -it --name my-agent integrated-pipeline:latest
-
 # list running containers:
 docker ps -a
 
