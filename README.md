@@ -157,11 +157,13 @@
    - ```bash
      sudo docker build -t integrated-agent.
      ```
-2. Download library dependencies:
-   [=] Required libraries:
+2. Download library dependencies for binaries usage:
+   [=] Required libraries (when using binary):
    - Numpy
    - Scikit-learn
    - pandas
+   - aiohttp
+   - psutil
      
 4. Run IntegratedPipeline in a Container:
     - Install AbstractIntegratedModule via PIP or binaries (for binaries, can  be downloaded in release section):
