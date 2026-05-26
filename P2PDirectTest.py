@@ -11,6 +11,8 @@ print("=== SECURE PEER-TO-PEER CLUSTER ===")
 # if you already set an SSL cert and key, CohesiveAgentDeployment will use the SSL directly from AgentDistributedInference
 # allowing secure socket to be used directly by CohesiveAgentDeployment
 
+main_model.distribution.enable_ssl = False # set to false if you dont have SSL key and CERT, this code would instruct AgentDistributedInference that you don't have SSL, and provide you a regular unsecured socket (Not necessary for production)
+
 # Agent 1 - Primary (Port 5555)
 agent1 = CohesiveAgentDeployment(
      memory_name="agent_primary",
