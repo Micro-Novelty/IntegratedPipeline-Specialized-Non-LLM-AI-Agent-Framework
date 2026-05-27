@@ -93,7 +93,7 @@
       - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
 
 [=] for labels assignation:
-- CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, [Go to Step's for in-depth Usage](#Step's-for-in-depth-Usage)
+- CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, [Go to Step's for in-depth Usage](#Step's-for-in-depth Usage)
 
 ### [=] Requirements for Docker container
 - Dockerfile (For Container assembler) 
