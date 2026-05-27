@@ -86,11 +86,11 @@
      - numpy
      - psutil
 
-- Download AbstractIntegratedModule from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
-  - This file contains:
-   - AbstractIntegratedModule.pyd (For windows machine).
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
-   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
+   - Download AbstractIntegratedModule binaries from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
+     - This file contains:
+      - AbstractIntegratedModule.pyd (For windows machine).
+      - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
+      - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
 
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, [Go to Step's for in-depth Usage](#Step's-for-in-depth-Usage)
