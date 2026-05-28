@@ -224,7 +224,7 @@
      docker-compose down
      ```
 
-## Performance in ARM64 Docker Environment/Container
+## Performance in linux ARM64 Docker Environment/Container
 A. [=] Computational performance results with Transformer included during Advanced prediction method.
 ```txt
 == TIME == | CPU % | RAM / RAM LIMIT ||
