@@ -396,6 +396,7 @@ class WeightedEnsemblePredictor:
     def _meta_ensemble(self, trans_probs, mlp_probs, attn_weights, X_mlp):
         batch_size = trans_probs.shape[0]
         n_classes = trans_probs.shape[1]
+        threshold_feature = 0.1 + self.pipeline.confidence_threshold
 
         n_trans_classes = trans_probs.shape[1]        
         n_mlp_classes = mlp_probs.shape[1]
@@ -428,13 +429,16 @@ class WeightedEnsemblePredictor:
                     features.append(np.std(attn))
                     features.append(np.max(attn))
                 else:
-                    features.extend([0.5, 0.5])
+                    features.extend([threshold_feature, threshold_feature])
             else:
-                features.extend([0.5, 0.5])
+                features.extend([threshold_feature, threshold_feature])
             
             meta_features.append(features)
         
-        meta_features = np.array(meta_features)  
+        meta_features = np.array(meta_features) 
+        featured_AME = self.pipeline.AME_Encoder(meta_features) 
+        AME_sigmoid = 1.0 / (1.0 + np.exp(-featured_AME))
+
         ensemble = np.zeros_like(trans_probs)
         
         for i in range(batch_size):
@@ -444,7 +448,7 @@ class WeightedEnsemblePredictor:
             agreement = meta_features[i, 4]
             
             # Boost weight when models agree
-            base_weight = 0.5 + 0.3 * agreement
+            base_weight = threshold_feature + AME_sigmoid * agreement
             
             # Adjust based on relative confidence
             if trans_conf > mlp_conf:
@@ -464,7 +468,7 @@ class WeightedEnsemblePredictor:
     def calibrate_weights(self, input_ids, X_mlp, y_true, step=3):
         print("\n🔧 Calibrating ensemble weights...")
         
-        best_weight = 0.5
+        best_weight = 0.1 + self.pipeline.confidence_threshold
         best_accuracy = 0
         
         # Try different weights
