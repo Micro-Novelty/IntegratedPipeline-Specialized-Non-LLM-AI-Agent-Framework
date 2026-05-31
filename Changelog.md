@@ -40,6 +40,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - fixed fragility in feature parsing from json file
 - Officially tested in ARM64 Environment using docker
 
+### [0.1.6] 2026-05-31 
+- More robust meta ensemble method
+- fixed bugs in advanced_prediction_method that happens without Transformer
+
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
