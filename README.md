@@ -872,6 +872,9 @@ Solution:
         async_manager.predict(...., ...., api_key=api_key, ...)
         ```
 
+    - If the log said: 'Event loop not available',
+        - that means you need to restart the Agent execution again, make sure CPU, disk or memory is not below threshold so Event loop can be triggered.
+
 ## [=] Detailed process of Alpha-computing
 
 <img width="720" height="338" alt="WhatsApp Image 2026-05-04 at 17 43 35" src="https://github.com/user-attachments/assets/3d149dce-cf3b-44c9-80b0-fa68290a2019" />
