@@ -44,6 +44,9 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - More robust meta ensemble method
 - fixed bugs in advanced_prediction_method that happens without Transformer
 
+### [0.2.1] 2026-06-01
+- More Robust Transformer
+- Transformer has new features that helps and coordinate with alpha.
 
 ### [=] Features
 Continuous learning without catastrophic forgetting
