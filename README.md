@@ -565,9 +565,9 @@ from AbstractIntegratedModule import PipelinePredictionManager
 import asyncio
 import traceback
 
-
-secondary_pipeline = 
-prediction_manager = PipelinePredictionManager(main_model, label_csv=<your_training_labels.txt>, target_title=<target_title>, label=<target_label>)
+secondary_model = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8081, singleton_permitted=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
+# secondary model of integrated pipeline is critical for ARM64 environment to prevent socket port conflict during P2P with the first Integrated pipeline instance.
+# make sure agent_port is different from the first integrated pipeline agent_port
 
 print("=== SECURE PEER-TO-PEER CLUSTER ===")
 
@@ -601,7 +601,7 @@ agent1 = CohesiveAgentDeployment(
  
 # Agent 2 - Secondary (Port 5556)
 agent2 = CohesiveAgentDeployment(
-     pipeline=secondary_pipeline,
+     pipeline=secondary_model,
      memory_name="agent_secondary",
      filename=<filename>,
      target_title=<title_name>,
