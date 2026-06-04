@@ -44,9 +44,15 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - More robust meta ensemble method
 - fixed bugs in advanced_prediction_method that happens without Transformer
 
-### [0.2.1] 2026-06-01
+### [0.1.7] 2026-06-01
 - More Robust Transformer
 - Transformer has new features that helps and coordinate with alpha.
+
+### [0.1.8] 2026-06-02
+- batching features for transformer
+
+### [0.2.0] 2026-06-04
+- P2P Finnaly Proven works in ARM64 Docker environment with QEMU.
 
 ### [=] Features
 Continuous learning without catastrophic forgetting
