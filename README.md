@@ -423,7 +423,10 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
    import numpy as np
 
    memory_name = 'agent_memory'
-   main_model = IntegratedPipeline(memory_name, use_async=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
+   main_model = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8080, singleton_permitted=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
+   # also set singleton permitted for better global point of access from all modules.
+   # agent_port is used to initiate server for possible coordination with external peer.
+   
    main_prediction = PipelinePredictionManager(main_model, label_csv='example_manual_training.txt', target_title='window_title', label='label')
    # example_manual_training is a .txt file that contain csv format like above example.
 
@@ -562,18 +565,25 @@ from AbstractIntegratedModule import PipelinePredictionManager
 import asyncio
 import traceback
 
+
+secondary_pipeline = 
 prediction_manager = PipelinePredictionManager(main_model, label_csv=<your_training_labels.txt>, target_title=<target_title>, label=<target_label>)
 
 print("=== SECURE PEER-TO-PEER CLUSTER ===")
+
+secondary_model = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8080, singleton_permitted=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
+# secondary model of integrated pipeline is critical for ARM64 environment to prevent socket conflict during P2P with the first Integrated pipeline instance.
 
 # CohesiveAgentDeployment is deeply tied and coupled with AgentDistributedInference,
 # if you already set an SSL cert and key, CohesiveAgentDeployment will use the SSL directly from AgentDistributedInference
 # allowing secure socket to be used directly by CohesiveAgentDeployment
 
 main_model.distribution.enable_ssl = False # set to false if you dont have SSL key and CERT, this code would instruct AgentDistributedInference that you don't have SSL, and provide you a regular unsecured socket (Not necessary for production)
+secondary_model.distribution.enable_ssl = False
 
 # Agent 1 - Primary (Port 5555)
 agent1 = CohesiveAgentDeployment(
+     pipeline=main_model,
      memory_name="agent_primary",
      filename=<filename>,
      target_title=<title_name>,
@@ -591,6 +601,7 @@ agent1 = CohesiveAgentDeployment(
  
 # Agent 2 - Secondary (Port 5556)
 agent2 = CohesiveAgentDeployment(
+     pipeline=secondary_pipeline,
      memory_name="agent_secondary",
      filename=<filename>,
      target_title=<title_name>,
