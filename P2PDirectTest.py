@@ -5,6 +5,10 @@ import traceback
 
 prediction_manager = PipelinePredictionManager(main_model, label_csv=<your_training_labels.txt>, target_title=<target_title>, label=<target_label>)
 
+secondary_model = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8081, singleton_permitted=True, ssl_cert_file=cert_file, ssl_key_file=key_file) # provide cert_file path or key_file path (optional)
+# secondary model of integrated pipeline is critical for ARM64 environment to prevent socket port conflict during P2P with the first Integrated pipeline instance.
+# make sure agent_port is different from the first integrated pipeline agent_port
+
 print("=== SECURE PEER-TO-PEER CLUSTER ===")
 
 # CohesiveAgentDeployment is deeply tied and coupled with AgentDistributedInference,
@@ -12,9 +16,11 @@ print("=== SECURE PEER-TO-PEER CLUSTER ===")
 # allowing secure socket to be used directly by CohesiveAgentDeployment
 
 main_model.distribution.enable_ssl = False # set to false if you dont have SSL key and CERT, this code would instruct AgentDistributedInference that you don't have SSL, and provide you a regular unsecured socket (Not necessary for production)
+secondary_model.distribution.enable_ssl = False
 
 # Agent 1 - Primary (Port 5555)
 agent1 = CohesiveAgentDeployment(
+     pipeline=main_model,
      memory_name="agent_primary",
      filename=<filename>,
      target_title=<title_name>,
@@ -32,6 +38,7 @@ agent1 = CohesiveAgentDeployment(
  
 # Agent 2 - Secondary (Port 5556)
 agent2 = CohesiveAgentDeployment(
+     pipeline=secondary_model,
      memory_name="agent_secondary",
      filename=<filename>,
      target_title=<title_name>,
@@ -58,8 +65,6 @@ agent2 = CohesiveAgentDeployment(
      #   ]
     # }
 
-agent1.pipeline = main_model # overrides agent1 baseline pipeline with your original initialized pipelinej
-agent2.pipeline = main_model
  
 try:
      # Start both agents
