@@ -94,7 +94,7 @@ Thats why AbstractIntegratedModule provides you the best Use case for your Non-L
   ```
   
 - Download binaries manually (Choose one minimal, specified for your needs):
-- Binaries can be downloaded from release or code section.
+- Binaries can be downloaded in the release section.
    - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
    - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
    - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
@@ -105,8 +105,8 @@ Thats why AbstractIntegratedModule provides you the best Use case for your Non-L
      - numpy
      - psutil
 
-   - Download AbstractIntegratedModule binaries from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
-     - This file contains:
+   - Note about binaries:
+     - This .zip file in release section contains:
       - AbstractIntegratedModule.pyd (For windows machine).
       - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
       - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
