@@ -1,6 +1,6 @@
 # [=] IntegratedPipeline-Specialized-AI-Agent-library
 
-[~] IntegratedPipeline is a standalone Specialized AI Agent Library for Non-LLL memory Augmented Agentic Framework orchestrator, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE) and Specialized efficient Transformer for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment, or Messy environments.
+[~] IntegratedPipeline is a standalone Specialized AI Agent Library for Non-LLL memory Augmented Agentic Framework orchestrator, Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. Containing specialized MLP using Its Own specialized geometric Weight shaping (AWE), Specialized efficient Transformer and LSTM (Long-short term memory) architecture for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment, or Messy environments.
 
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
@@ -10,11 +10,27 @@
 
 ## [+] Abstract Weight Encoder (AWE) Intro
 [=] AWE is a specialized custom weight shaping or encoding method Specifically designed for MLP Architecture, using eigenvalue and spectral methods as base equations to calculate covariance inside a given input data, and shape the correct Weight from the given eigenvalue, AWE Works by processing input and then captures the necessary eigenvalue to shape a properly initialized Weight that aligns with input data complexity, With this approach, MLP training will be much more consistent and robust against noise.
-
 [~] For a much In-Depth Explanation You can visit This repository to learn more about AWE and its performance results:
 - Link: https://github.com/Micro-Novelty/Specialized-MLP-for-noise-robustness
 
+## [+] LSTM And Transformer Intro:
+A. LSTMs (Long Short-Term Memory) and Transformers are foundational deep learning architectures built to process sequential data (like text or time series). While both handle the flow of time and context, they do so using completely different mechanisms.
+- LSTM (Long Short-Term Memory):
+  - LSTMs are an advanced class of Recurrent Neural Networks (RNNs) introduced to solve the problem of traditional RNNs forgetting earlier data.
+  - How it works: LSTMs process data sequentially—one word or time-step at a time. They regulate information using "gates" (forget, input, and output) that determine what information from the sequence to keep or discard.
+  - Use Cases: Ideal for tasks with strictly continuous chronological data like time-series forecasting (e.g., stock market or weather prediction) or speech recognition.
+  - Limitations: Because they process data in a strict chain, it is difficult to parallelize training, making them slow and prone to forgetting long contexts.
+
+B. Transformer:
+Transformers are the modern standard for AI, introduced in 2017 with the famous "Attention Is All You Need" paper.
+- How it works: Instead of reading sequences linearly, Transformers read the entire sequence all at once. They utilize a self-attention mechanism, which calculates how much "attention" or weight every part of the sequence should give to every other part, understanding the global context instantly.
+- Use Cases: The backbone of Large Language Models (LLMs) like ChatGPT or BERT, making them perfect for machine translation, text generation, and summarization.
+- Limitations: Transformers require massive amounts of training data and computing power to work effectively.
+
 ## [+] Why IntegratedPipeline?
+[=] In Modern Engineering rules, one model of AI architecture is'nt the main orchestrator inside a given system that easily has one point of failure, instead, We rely on hybrid-based ensemble architectures to Complement each other limitations.
+Thats why AbstractIntegratedModule provides you the best Use case for your Non-LLM edge AI Framework without having to Engineer all of this architectures from scratch, And its officially been tested and working + Its P2P in ARM64 Environment!
+
 [~] IntegratedPipeline is a great choice for a sophisticated Non-LLM AI Program for The Main Orchestrator of a Distributed MANN-Type AI Agent Working in Edge-device/Consumer-Based machine Where LLM is'nt a great fit for Messy, Noisy environments. while still run efficiently on High-end Embedded systems in single-instance or as a distributed network during multi Agent cooperation.
 
 [=] IntegratedPipeline offers:
@@ -24,10 +40,11 @@
 2. Continously Learning behavior for an Agent:
    - different from LLM that is static and cannot improve beyond its given training condition, AI Agent using IntegratedPipeline has a dynamic, flexible continously learning behavior with conditional training algorithms included in the library that has both supervised and unsupervised learning present, The learned input and predicted Output will be stored in the database, allowing it to recall its memory during processing and find matching known prediction given if input matched with the stored input inside the database. this Continous learning behavior is efficient because its not relying on weights for memory, allowing flexible and predictable behavior inside a given environment.
    
-3. Robust Specialized MLP and Transformer Architecture with ensemble weighting:
+3. Robust Specialized MLP, Transformer and LSTM Architecture with ensemble weighting architecture:
   - IntegratedPipeline has 2 Different type's of AI Architecture stacked together, and one architecture to weight their confidence and probability fairly to get the final prediction, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm for contextual reasoning, The reason why those Models complement and used together :
       - Specialized MLP Provides synchronous robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN (Feed-forward-network) because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding, making AWE Generated weight causes inefficient inside Transformer dynamic FFN/QKV projection.
       - Specialized Transformer provides robust synchronous advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
+      - LSTM doesn't act as a Main orchestrator, instead it Provides coherent Short-term memory for the Ensemble architecture, acting as a support mechanism to provides proof-of-credibility of a given answer from past previous context input, this allows flexible and achievable Aggreement between Transformer and MLP.
       - Ensemble weighting provides the model a much more robust classification best from both worlds perspective, weighting both MLP and Transformer confidence and probability, combined with Attention quality from the transformer to get the final prediction of an input if transformer is allowed and permitted to be in use.
    
 4. flexible and secure Peer-to-Peer Coordination (Multi-Agent):
@@ -58,7 +75,8 @@
 [3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later use in Training, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
 [=] Architectural-Overview
-<img width="1600" height="860" alt="WhatsApp Image 2026-05-09 at 16 13 41" src="https://github.com/user-attachments/assets/580722aa-bbd8-4148-a425-4bff01c06c47" />
+<img width="1600" height="859" alt="New Arch" src="https://github.com/user-attachments/assets/a5db1ed2-9149-4635-8d95-d022ad6e8608" />
+---
 [=] Contextual meaning:
    1. - Sequence encoding is a machine learning technique that transforms a sequential input (like text, time-series data, or audio) into a compact, fixed-length numerical vector, often called a context vector
    2. - TF-IDF (Term Frequency-Inverse Document Frequency) is a numerical statistic used in machine learning and NLP to evaluate how important a word is to a document within a collection (corpus). It boosts rare words and penalizes common words (like "the", "and") by multiplying two metrics: how often a word appears in a document (TF) and the inverse frequency of the word across all documents (IDF). 
@@ -256,7 +274,7 @@ A. [=] Computational performance results with Transformer included during Advanc
                 - Repeated 269 MiB suggests allocator settled, ndarray pools stabilized, workload reached steady state
                 - gradual, safe and steady batch accumulation, reduced possibility of leak explosion.
 
-B. [=] Advanced Prediction without Transformer, Only Specialized MLP using AWE.
+B. [=] Advanced Prediction without Transformer, Only Specialized MLP + LSTM using AWE.
 ```txt
 == TIME == | CPU %  | RAM \ RAM LIMIT |
 10:01:37.456 100.44% 269.8MiB / 3.71GiB # initial round 1 training started
@@ -929,7 +947,7 @@ When gradients flow backward:
 [=] 1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
     2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
        
-[=] With 20 total architectures working together as a standalone library that is efficient and robust, Main components include:
+[=] With 23 total architectures working together as a standalone library that is efficient and robust, Main components include:
     
 1. GeometricWeightShaping
 Purpose: Analyzes the geometric structure of data (anisotropy, spectral properties, complexity) and generates optimal weight matrices based on that geometry. Essentially teaches the model how to "understand" the shape of data before processing it, Highly robust to noise, making it an excellent fit for messy environment.
@@ -990,7 +1008,17 @@ purpose: Handles both synchronous prediction, and P2P Asynchronous prediction re
 ---
 20. ConsecutivePeerAgent
 purpose: handles ensemble weighting from received output from peer, managed server and acts as a listener simultaneously.
+---
+21. LSTMCell
+purpose: handles LSTM Core equations In Numpy.
+---
+22. LSTMNetwork
+purpose: handling LSTM Feed-forward layer, Training and Samples handling.
+---
+23. LSTMEngine
+purpose: handles Proper LSTM Confidence and calibration layer.
 
+    
 
 ## Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
