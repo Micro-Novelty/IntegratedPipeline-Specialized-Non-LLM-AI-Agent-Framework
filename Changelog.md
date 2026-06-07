@@ -54,6 +54,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 ### [0.2.0] 2026-06-04
 - P2P Finnaly Proven works in ARM64 Docker environment with QEMU.
 
+### [0.2.1] 2026-06-07
+- new LSTM Architecture added
+- Ensemble weighting updated with LSTM
+- fixed undefined variables in CohesiveAgentDeployment.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
