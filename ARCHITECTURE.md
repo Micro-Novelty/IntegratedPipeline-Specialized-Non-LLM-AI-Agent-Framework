@@ -11,6 +11,7 @@ IntegratedPipeline consists of 11 main interconnected components working togethe
 ### Model storage (Database handling)
 ### ConsecutivePeerAgent (Ensemble P2P Handling)
 ### CohesiveAgentDeployment (initiating Asynchronous prediction for P2P)
+### LSTM Architectures (Confidence calibration and provide short term memory)
 
 ## Main Component Deep-Dive
 
