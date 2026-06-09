@@ -2,7 +2,7 @@
 
 ## System Overview
 
-IntegratedPipeline consists of 20 interconnected components working together.
+IntegratedPipeline consists of 11 main interconnected components working together.
 
 ## High-Level Integrated Architecture
 ### IntegratedPipeline
@@ -52,6 +52,18 @@ IntegratedPipeline consists of 20 interconnected components working together.
 ### 8. CohesiveAgentDeployment
 - **Components**: AgentDistributedInference + IntegratedPipeline + PipelinepredictionManager + socket
 - **Outputs**: Predicted label from peer, probabilities, status of P2P.
+
+### 9. LSTMCell
+- **Components**: Contains LSTM and FF layer for initiating prediction and forward method.
+- **Outputs**: Arrays of probabilities for LSTMNetwork
+
+### 10. LSTMNetwork
+- **Components**: Contains LSTMCell architecture model, and initiate training and Calibration method
+- **Outputs**: Array of prediction
+
+### 11. LSTMEngine
+- **Components**: Contains LSTMnetwork architecture model, calibrate its prediction and confidence
+- **Outputs**: Array of prediction, Confidence
 
 ## Data Flow intent
 
