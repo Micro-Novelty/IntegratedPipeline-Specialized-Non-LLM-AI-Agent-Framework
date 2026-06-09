@@ -59,6 +59,10 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Ensemble weighting updated with LSTM
 - fixed undefined variables in CohesiveAgentDeployment.
 
+### [0.2.2] 2026-06-09
+- fixed bug in Geometric weight shaping
+- fixed bug in LSTM Weight generation.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
