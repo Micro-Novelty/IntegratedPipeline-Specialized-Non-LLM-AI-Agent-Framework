@@ -63,6 +63,10 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - fixed bug in Geometric weight shaping
 - fixed bug in LSTM Weight generation.
 
+### [0.2.3] 2026-06-10
+- fixed bug in start server handling timeout
+- fixed bug in server shutdown that caused code block execution
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
