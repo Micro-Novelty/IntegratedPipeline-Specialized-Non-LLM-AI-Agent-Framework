@@ -1,0 +1,50 @@
+# .github/dependabot.yml
+version: 2
+updates:
+  # Python dependencies (pip)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated-pr"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    reviewers:
+      - "Micro-Novelty"
+    assignees:
+      - "Micro-Novelty"
+
+  # GitHub Actions (if you have CI/CD)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Docker (if you have Dockerfiles)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "docker"
+    ignore:
+      # Don't auto-update to new major Python versions
+      - dependency-name: "python"
+        update-types: ["version-update:semver-major"]
+      # Don't auto-update Alpine to new major versions
+      - dependency-name: "alpine"
+        update-types: ["version-update:semver-major"]
