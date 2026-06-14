@@ -8,10 +8,10 @@ import os
 # List all your .pyx files
 extensions = [
     Extension(
-        "AbstractIntegratedModule",  
-        sources=["AbstractIntegratedModule.pyx"],  # Cython source file
+        "AbstractIntegratedModule",  # Module name (import awe_mlp)
+        sources=["AbstractIntegratedModule.pyx"],  # Your Cython source file
         include_dirs=[np.get_include()],
-        extra_compile_args=['-O3', '-march=native'],  # Optimizations
+        extra_compile_args=['-O2', '-march=native'],  # Optimizations
         extra_link_args=[]
     ),
     # Add more extensions if you have multiple .pyx files
@@ -26,7 +26,10 @@ setup(
         extensions,
         compiler_directives={
             'language_level': 3,
-            'boundscheck': False,  # Disable for speed
+            'boundscheck': True,  # Disable for speed
+            'wraparound':True,
+            'initializedcheck':True,
+            'nonecheck':True,
         }
     ),
     include_dirs=[np.get_include()],
