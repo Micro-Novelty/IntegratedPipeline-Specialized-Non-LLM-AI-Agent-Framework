@@ -24,7 +24,7 @@ sphinx>=9.1.0
 sphinx-rtd-theme>=3.1.0
 
 # ===== Development Utils =====
-ipython>=8.0.0
+ipython>=9.14.1
 jupyter>=1.1.1
 pre-commit>=4.6.0
 
