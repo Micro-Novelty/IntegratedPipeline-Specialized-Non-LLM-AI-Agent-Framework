@@ -1,3 +1,4 @@
+# for compilation only in this repo.
 # setup.py
 from setuptools import setup, Extension
 from Cython.Build import cythonize
@@ -7,8 +8,8 @@ import os
 # List all your .pyx files
 extensions = [
     Extension(
-        "AbstractIntegratedModule",  # Module name (import awe_mlp)
-        sources=["AbstractIntegratedModule.pyx"],  # Your Cython source file
+        "AbstractIntegratedModule",  
+        sources=["AbstractIntegratedModule.pyx"],  # Cython source file
         include_dirs=[np.get_include()],
         extra_compile_args=['-O3', '-march=native'],  # Optimizations
         extra_link_args=[]
