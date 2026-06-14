@@ -2319,7 +2319,7 @@ class IntegratedPipeline:
         self.cache['label_bins'] = label_bins
 
 
-    def transformer_utilities(self, rules, datasets, X_raw, y_true=None, batch_size=2, min_signal=1e-3):
+     def transformer_utilities(self, rules, datasets, X_raw, y_true=None, batch_size=2, min_signal=1e-3):
         self.text_encoder(datasets)
         if y_true is None:
             _, y_true = self.input_encoding(datasets)
@@ -2427,7 +2427,7 @@ class IntegratedPipeline:
             self.storage.load_weights(self.memory_name)
 
             pass
-
+  
 
     def transformer_input_encoding(self, titles):
         if hasattr(self, 'vocab') and self.vocab:
