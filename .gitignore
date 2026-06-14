@@ -1,0 +1,401 @@
+# ============================================
+# Python
+# ============================================
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype
+.pytype/
+
+# ============================================
+# Binary files (your compiled extensions)
+# ============================================
+
+# But keep the distributed binaries!
+# These are generated during build but should NOT be in git
+*.pyd
+*.so
+*.dll
+*.dylib
+
+# Exception: If you store pre-compiled binaries in repo, use:
+# !lib/*.so
+# !lib/*.pyd
+
+# ============================================
+# IDEs and Editors
+# ============================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+
+.ipynb_checkpoints
+*.ipynb
+*.ipynb_checkpoints
+
+# ============================================
+# Virtual Environments
+# ============================================
+
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# ============================================
+# Database files (your activity_log.db)
+# ============================================
+
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# ============================================
+# Logs and databases
+# ============================================
+
+*.log
+*.pid
+*.seed
+*.pid.lock
+logs/
+security_audit.log
+
+# ============================================
+# OS generated files
+# ============================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+*.icloud
+
+# Linux
+.directory
+*~
+
+# ============================================
+# Project specific
+# ============================================
+
+# Your database and session files
+activity_log.db
+*.json
+!peer_config.json
+!fallback_peers.json
+session_*.json
+sync_*.json
+
+# Model files (if you have them)
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+models/
+
+# Test outputs
+test_output/
+benchmark_results/
+
+# Docker artifacts (exclude from git)
+*.tar
+*.tar.gz
+docker-compose.override.yml
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# Build and release
+# ============================================
+
+# Package builds
+*.whl
+*.tar.gz
+build/
+dist/
+*.egg-info/
+
+# ============================================
+# Documentation
+# ============================================
+
+docs/_build/
+site/
+api/
+
+# ============================================
+# Security
+# ============================================
+
+# Keys and secrets (IMPORTANT!)
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*.secret
+*.token
+*.key.pem
+*.cert.pem
+bootstrap.token
+
+# ============================================
+# Development
+# ============================================
+
+# Profiling data
+*.prof
+*.lprof
+
+# Benchmarks
+benchmarks/results/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# BUT DON'T ignore these:
+!peer_config.json       # Keep example config
+!fallback_peers.json    # Keep example config
+!.github/dependabot.yml # Keep CI/CD config
+!Dockerfile             # Keep Dockerfile
+!requirements.txt       # Keep dependencies
+!setup.py               # Keep setup script
+!README.md              # Keep documentation
+!LICENSE                # Keep license
+
+# ============================================
+# Development & Debug
+# ============================================
+
+# Debug logs
+debug.log
+*.log
+
+# Profiling
+*.prof
+*.lprof
+callgrind.out.*
+
+# Trace files
+*.trace
+
+# ============================================
+# VS Code specific (detailed)
+# ============================================
+
+.vscode/
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.history/
+
+# ============================================
+# PyPI build artifacts (already there)
+# ============================================
+# (Your existing section covers this)
+
+# ============================================
+# Windows specific (detailed)
+# ============================================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# ============================================
+# macOS specific (detailed)
+# ============================================
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ============================================
+# Linux specific (detailed)
+# ============================================
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still held open
+.nfs*
+
+# ============================================
+# Backup files
+# ============================================
+
+*.bak
+*.backup
+*.orig
+*.old
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ============================================
+# Archive files (if any)
+# ============================================
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
