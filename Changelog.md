@@ -40,6 +40,12 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - fixed fragility in feature parsing from json file
 - Officially tested in ARM64 Environment using docker
 
+### Note: rest of documented versions from [0.1.5] -> [0.2.4] got deleted because of unintended overwrite in this repository to delete all files.
+
+### [0.2.4] 2026-06-14
+- fixed undefined variables bug in calibrate probs
+- fixed nan fragility in trust scoring in P2P.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
