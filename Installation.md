@@ -37,11 +37,16 @@ A comprehensive guide to install and set up IntegratedPipeline on your system.
 
 Before starting installation, verify you have:
 
-- [ ] **Python 3.13+** installed
+- [ ] **Python 3.13/python3.10/python3.12** installed
 - [ ] **pip** package manager (comes with Python)
 - [ ] **git** installed (for cloning the repository)
 - [ ] Administrative/sudo access (if installing system-wide)
 - [ ] Appropriate binary file for your OS (see below)
+- [ ] Download:
+ ```bash
+ pip install AbstractIntegratedModule
+```
+or via binaries in Release section.
 
 ### Check Your Python Installation
 
