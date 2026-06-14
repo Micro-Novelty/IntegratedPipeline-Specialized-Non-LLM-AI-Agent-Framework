@@ -2330,16 +2330,30 @@ class IntegratedPipeline:
 
         if not unsuitable_training:
             print(f'🚀 Training Transformer with {len(sequence_inputs)} Samples: ')
-            conditional_anisotropy = self.anisotropy_measurement(sequence_inputs)
-            if conditional_anisotropy >= self.confidence_threshold: 
-                print('[+] Dynamic Backward')
+
+            x_conditional_anisotropy = self.anisotropy_measurement(sequence_inputs)
+            s_conditional_anisotropy = self.anisotropy_measurement(X_raw)
+
+            AME_x = self.AME_Encoder(X_raw)
+            AME_s = self.AME_Encoder(sequence_inputs)
+            AMR_x = 1.0 / (1.0 + np.exp(-AME_x))
+            AMR_s = 1.0 / (1.0 + np.exp(-AME_s))
+
+            AMR_ratio = AMR_x / (AMR_s + min_signal)
+            anisotropy_ratio = x_conditional_anisotropy / (s_conditional_anisotropy + min_signal)
+
+            dynamic_complex_environment = (anisotropy_ratio < 0.5 and 
+                                             AMR_ratio < 0.5)                           
+                                               
+            if dynamic_complex_environment: 
+                print('[+] Dynamic Backward for Transformer Initiated')
                 mode = 'dynamic_backward'
             else:
-                print('[-] Fixed Backward')
+                print('[=] Fixed Backward for Transformer initiated')
                 mode = 'fixed_backward'
 
             if self.use_transformer:
-                self.model2.train(sequence_inputs, y_true, epochs=100, mode=mode, lr=lr, embedded=True, batch_size=batch_size)
+                self.model2.train(sequence_inputs, y_true, epochs=self.transformer_training_epochs, mode=mode, lr=lr, embedded=True, batch_size=batch_size)
 
             X_raw_generation, y, n_classes, input_dim = self.mlp_training_features(rules, datasets)
             X_raw_features = self.tfidf.transform(X_raw_generation).toarray()
@@ -2405,7 +2419,7 @@ class IntegratedPipeline:
 
             if self.lstm_engine:
                 self.storage.save_weights(self.memory_name, model_type='Pipeline') 
-
+                
             print('🎉 All Model Trained!')
         else:
             print(f'[=] No suitable condition for training!')
@@ -2413,6 +2427,7 @@ class IntegratedPipeline:
             self.storage.load_weights(self.memory_name)
 
             pass
+
 
     def transformer_input_encoding(self, titles):
         if hasattr(self, 'vocab') and self.vocab:
