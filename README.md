@@ -1109,7 +1109,7 @@ purpose: handles Proper LSTM Confidence and calibration layer.
   - [ROADMAP.md](ROADMAP.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
-  - [requirements-dev.txt](requirements-dev.txt) for contributors requirements.
+  - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
 
 ## License
