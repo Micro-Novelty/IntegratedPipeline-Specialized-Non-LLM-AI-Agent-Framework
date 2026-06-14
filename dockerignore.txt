@@ -1,0 +1,30 @@
+# Source code (not needed)
+*.pyx
+*.c
+*.py (except main.py)
+setup.py
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Development files
+.git/
+.github/
+.vscode/
+*.md
+tests/
+docs/
+
+# Database (should be volume)
+*.db
+*.log
+
+*.pkl
+*.joblib
