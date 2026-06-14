@@ -20,7 +20,7 @@ pytest-benchmark>=4.0.0
 memory-profiler>=0.61.0
 
 # ===== Documentation =====
-sphinx>=7.0.0
+sphinx>=9.1.0
 sphinx-rtd-theme>=3.1.0
 
 # ===== Development Utils =====
