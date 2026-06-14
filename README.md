@@ -114,7 +114,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
 
 ## [=] Requirements
-[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_requirements.txt):
+[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_needs.txt):
 - pip install for quick usage:
 - ```bash
   pip install AbstractIntegratedModule # or
