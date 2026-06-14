@@ -1,0 +1,25 @@
+[=] Advanced Prediction without Transformer, Only MLP
+
+== TIME == | CPU %  | RAM \ RAM LIMIT |
+10:01:37.456 100.44% 269.8MiB / 3.71GiB # initial round 1 training started
+10:01:38.686 101.93% 279.8MiB / 3.71GiB
+10:01:40.694 101.94% 293.2MiB / 3.71GiB
+10:01:42.703 99.90%  302.9MiB / 3.71GiB
+10:01:44.712 99.34%  319.8MiB / 3.71GiB
+10:01:46.721 100.15% 319.7MiB / 3.71GiB
+10:01:48.727 101.91% 319.7MiB / 3.71GiB
+10:01:50.734 100.86% 319.7MiB / 3.71GiB
+10:01:52.742 136.43% 322.9MiB / 3.71GiB
+10:01:54.751 101.91% 324.9MiB / 3.71GiB
+10:01:56.758 100.29% 324.9MiB / 3.71GiB
+10:01:58.769 102.42% 327.1MiB / 3.71GiB
+10:02:00.775 0.00%   329.6MiB / 3.71GiB # First Training and prediction round 1 finished
+10:02:02.788 19.55%  330.1MiB / 3.71GiB # round 2 training
+10:02:04.798 134.23% 332.2MiB / 3.71GiB
+10:02:06.803 108.80% 332.2MiB / 3.71GiB
+10:02:08.811 107.85% 332.2MiB / 3.71GiB
+10:02:10.857 104.43% 332.2MiB / 3.71GiB
+10:02:12.854 101.14% 332.2MiB / 3.71GiB
+10:02:14.858 0.00%  332.3MiB / 3.71GiB
+10:02:16.873 98.84% 333.8MiB / 3.71GiB
+10:02:18.869 0.00%  132.7MiB / 3.71GiB # container stopped and round 2 finished
