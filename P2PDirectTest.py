@@ -1,125 +1,189 @@
-from AbstractIntegratedModule import CohesiveAgentDeployment
-from AbstractIntegratedModule import PipelinePredictionManager
 import asyncio
-import traceback
+import time
+import AbstractIntegratedModule
+from AbstractIntegratedModule import (
+    IntegratedPipeline,
+    PipelinePredictionManager,
+    CohesiveAgentDeployment
+)
 
-prediction_manager = PipelinePredictionManager(main_model, label_csv=<your_training_labels.txt>, target_title=<target_title>, label=<target_label>)
+SECRET_KEY = "test-secret-key"
 
-print("=== SECURE PEER-TO-PEER CLUSTER ===")
+LABEL_FILE = "ManualsTraining.txt"
+PEER_FILE = "peer_config.json"
 
-# CohesiveAgentDeployment is deeply tied and coupled with AgentDistributedInference,
-# if you already set an SSL cert and key, CohesiveAgentDeployment will use the SSL directly from AgentDistributedInference
-# allowing secure socket to be used directly by CohesiveAgentDeployment
+memory_name = "arm64_test"
 
-# Agent 1 - Primary (Port 5555)
-agent1 = CohesiveAgentDeployment(
-     memory_name="agent_primary",
-     filename=<filename>,
-     target_title=<title_name>,
-     label_name=<label_name>,
-     security_level="PRODUCTION",
-     enable_peers=True,
-     trusted_networks=['127.0.0.1/32', '192.168.1.0/24'], # for trusted networks, you need to provide the list of IPs of your peers.
-     peer_discovery_port=5555, # peer port to start P2P
-     secret_key=secret_key,
-     shared_auth_token=secret_key, # your previous initialized secret_key
-     predict_manager=prediction_manager,
-     peer_config = <'your_peer_ip_lists.json'> # you need to create .json file that contains your peer IP and Port lists
-     consecutive_peer_config = <'your_second_fallback_peer_ip_lists.json'> # same for this one too, but for fallback.
- )
- 
-# Agent 2 - Secondary (Port 5556)
-agent2 = CohesiveAgentDeployment(
-     memory_name="agent_secondary",
-     filename=<filename>,
-     target_title=<title_name>,
-     label_name=<label_name>,
-     security_level="PRODUCTION",
-     enable_peers=True, # agent is allowed to find peers
-     trusted_networks=['127.0.0.1/32', '192.168.1.0/24'],
-     peer_discovery_port=5556,
-     secret_key=secret_key,
-     shared_auth_token=secret_key,
-     predict_manager=prediction_manager,
-     peer_config = <'your_peer_ip_lists.json'> # you need to create .json file that contains your peer IP and Port lists
-     consecutive_peer_config = <'your_second_fallback_peer_ip_lists.json'> # same for this one too, but for fallback.
- )
+pipeline = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8080)
 
-# Note: CohesiveAgentDeployment contains ConsecutivePeerAgent that can start a server once ensemble prediction from peer is started
-# be advised to stop the server too before shutdown-ing CohesiveAgentDeployment cluster
+predict_manager = PipelinePredictionManager(
+    pipeline,
+    label_csv=LABEL_FILE,
+    target_title="window_title",
+    label="label"
+)
 
-# example peer_Ip_lists_config.json (de-comment to use)
-# {
-      #  "known_peers": [ # you must put "known_peers" in the config so python can identify the list of IPs and Ports 
-        #    ["127.0.0.1", 5555], can be modified using real IP or local IP.
-        #    ["127.0.0.1", 5556]
-     #   ]
-    # }
+titles, y, label_map = predict_manager.load_labels_from_csv(
+    LABEL_FILE,
+    "window_title",
+    "label"
+)
 
-agent1.pipeline = main_model # overrides agent1 baseline pipeline with your original initialized pipelinej
-agent2.pipeline = main_model
- 
-try:
-     # Start both agents
-     print("\n🚀 Starting Agent 1...")
-     await agent1.start()
-     print("✅ Agent 1 started on port 5555")
-     
-     print("\n🚀 Starting Agent 2...")
-     await agent2.start()
-     print("✅ Agent 2 started on port 5556")
-     
-     # Give servers time to fully bind
-     await asyncio.sleep(2)
-     
-     # Get API keys
-     api_key = agent1.get_api_key()
-     print(f"\n🔑 Using API Key: {api_key[:20]}...")
-     
+pipeline.train(titles, y)
 
-     texts = {"test_titles": test_titles, "label_map": label_map, "rules": rules, "use_transformer": True, "agent_id": agent_id}
+test_titles = [
+    ("Programming in VSCode", "focused_work"),
+    ("Watching YouTube", "entertainment")
+]
 
-     # texts contains test_titles, label_map, and rules that you can assign,
-     # agent ID can be strings, int, or floats, recommendeded to make it long for better security.
+print('FILE:', AbstractIntegratedModule.__file__)
 
-     # Make prediction with peer ensemble
-     result = await agent1.multi_modal_peer_ensemble_prediction(
-             texts=texts,
-             api_key=api_key,
-             method='advanced',
-             disable_sync=True
-         )  # await using asyncio, multi_modal_peer_ensemble is already async by design (Inside ConsecutivePeerAgent), no need to put asyncio.run() 
+async def main(main_pipeline):
+    sec_pipeline = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8010)
 
-         result2 = await agent2.multi_modal_peer_ensemble_prediction(
-             texts=texts,
-             api_key=api_key,
-             method='advanced',
-             disable_sync=True
-         )      
-         
-     print(f"\n📊 Ensemble Result for Agent 1:")
-     print(f"   Prediction: {result.get('prediction', 'N/A')}")
-     print(f"   Confidence: {result.get('confidence', 0):.2%}")
+    rules = [
+        # === WORK / PRODUCTIVITY ===
+        (r'code|programming|develop|debug|compile|script', 'focused_work'),
+        (r'vscode|visual_studio|ide|terminal|shell', 'focused_work'),
+        (r'notion|evernote|onenote|notes|todo|task', 'productive'),
+        (r'slack|teams|discord|zoom|meeting|call', 'communication'),
+        (r'email|gmail|outlook|inbox|mail', 'communication'),
+        
+        # === ENTERTAINMENT ===
+        (r'youtube|netflix|twitch|stream|video', 'entertainment'),
+        (r'music|spotify|soundcloud|audio|player', 'entertainment'),
+        (r'game|gaming|steam|epic|play', 'gaming'),
+        (r'facebook|instagram|tiktok|social|post', 'social_media'),
+        
+        # === BROWSING ===
+        (r'chrome|firefox|edge|safari|browser', 'browsing'),
+        (r'google|search|wiki|wiki|article', 'information'),
+        (r'stackoverflow|github|docs|documentation', 'research'),
+        
+        # === FILE MANAGEMENT ===
+        (r'download|folder|file|document|pdf', 'file_work'),
+        (r'dropbox|onedrive|google_drive|cloud', 'cloud_storage'),
+        (r'zip|rar|extract|compress|archive', 'file_management'),
+        
+        # === SYSTEM / DEV ===
+        (r'terminal|cmd|powershell|bash|shell', 'system_work'),
+        (r'docker|kubernetes|container|deploy', 'devops'),
+        (r'git|commit|push|pull|branch|merge', 'version_control'),
+        (r'test|unit|debug|error|exception', 'testing'),
+        
+        # === DATA / ANALYSIS ===
+        (r'excel|spreadsheet|sheet|csv|table', 'data_work'),
+        (r'python|r|sql|query|database', 'data_analysis'),
+        (r'chart|graph|visualization|dashboard|plot', 'visualization'),
+        
+        # === COMMUNICATION ===
+        (r'whatsapp|telegram|signal|messenger', 'messaging'),
+        (r'zoom|meet|webex|video_call', 'video_call'),
+        (r'calendar|schedule|event|meeting|appointment', 'scheduling'),
+        
+        # === CREATIVE ===
+        (r'photoshop|illustrator|figma|design|canvas', 'creative'),
+        (r'premiere|final_cut|video_edit|render', 'video_editing'),
+        (r'blender|3d|model|render|animation', '3d_work'),
+        
+        # === LEARNING ===
+        (r'coursera|udemy|edx|course|learn', 'learning'),
+        (r'book|ebook|reader|pdf|document', 'reading'),
+        (r'podcast|audiobook|listen|lecture', 'audio_learning'),
+        
+        # === UTILITY ===
+        (r'calculator|converter|tool|utility', 'utility'),
+        (r'weather|clock|timer|alarm|reminder', 'utility'),
+        (r'translate|language|dictionary|translate', 'utility'),
+        
+        # === RARITY PATTERNS ===
+        (r'common|not_common|twitch|debian|watch', 'very abundant'),
+        (r'bit-common|pycharm|unix|code|programming|python|java', 'bit-abundant'),
+        (r'medium|discord|teams|zoom|linux_mint|message', 'abundant'),
+        (r'rare|pdf|word|macOS|ubuntu|document', 'not abundant'),
+        (r'ultra|firefox|edge|browser|unix|web', 'medium rare'),
+        (r'ultra_rare|music|linux|Home_linux_router', 'bit-rare'),
+        (r'medium-rare|steam|red_hat_enterprise_linux|play|windows', 'very rare'),
+        (r'rarer|oracle|system|config|server_linux_router', 'absolute rare'),
+    ]
 
-     print(f"\n📊 Ensemble Result for Agent 2:")
-     print(f"   Prediction: {result2.get('prediction', 'N/A')}")
-     print(f"   Confidence: {result2.get('confidence', 0):.2%}")
+    agent1 = CohesiveAgentDeployment(
+        pipeline=main_pipeline,
+        memory_name="agent1",
+        filename=LABEL_FILE,
+        target_title="window_title",
+        label_name="label",
+        enable_peers=True,
+        peer_discovery_port=5555,
+        secret_key=SECRET_KEY,
+        shared_auth_token=SECRET_KEY,
+        predict_manager=predict_manager,
+        peer_config=PEER_FILE,
+    )
 
-     # Keep running briefly
-     print("\n⏳ Cluster stable. Waiting 5 seconds before shutdown...") # 5 seconds before shutdown.
+    agent2 = CohesiveAgentDeployment(
+        pipeline=sec_pipeline,
+        memory_name="agent2",
+        filename=LABEL_FILE,
+        target_title="window_title",
+        label_name="label",
+        enable_peers=True,
+        peer_discovery_port=5556,
+        secret_key=SECRET_KEY,
+        shared_auth_token=SECRET_KEY,
+        predict_manager=predict_manager,
+        peer_config=PEER_FILE,
+    )
 
-     # stop ConsecutivePeerAgent servers inside CohesiveAgentDeployment.
-     agent1._peer_agent.stop_server() # ._peer_agent is ConsecutivePeerAgent
-     agent2._peer_agent.stop_server()
+    await agent1.start()
+    print("Agent 1 started on port 5555, Time:", time.time())
+    await agent2.start()
+    print("Agent 2 started on port 5556, Time:", time.time())
 
-     await asyncio.sleep(5)
+    await asyncio.sleep(3)
 
-except Exception as e:
-     print(f"\n❌ Error in cluster: {e}")
-     traceback.print_exc()
-     
-finally:
-     print("\n🛑 Shutting down cluster...")
-     await agent1.shutdown()
-     await agent2.shutdown()
-     print("✅ Cluster shutdown complete")
+    api_key = agent1.get_api_key()
+
+    texts = {
+        "test_titles": test_titles,
+        "label_map": label_map,
+        "rules": rules,
+        "X": None,
+        "y": None, # X and y are optional samples.
+        "use_transformer": False,
+        "agent_id": "arm64-demo"
+    }
+
+    agent1.pipeline.use_transformer = False
+    agent2.pipeline.use_transformer = False
+
+    result = await agent1.multi_modal_peer_ensemble_prediction(
+        texts=texts,
+        api_key=api_key,
+        method="advanced",
+        disable_sync=True
+    )
+
+    result2 = await agent2.multi_modal_peer_ensemble_prediction(
+        texts=texts,
+        api_key=api_key,
+        method="advanced",
+        disable_sync=True
+    )    
+
+    print("\n=== RESULT ===")
+    print(f"\n📊 Ensemble Result for Agent 1:")
+    print(f"   Prediction: {result.get('prediction', 'N/A')}")
+    print(f"   Confidence: {result.get('confidence', 0):.2%}")
+
+    print('[=] For agent 2: ')
+    print(f"   Second Prediction: {result2.get('prediction', 'N/A')}")
+    print(f"   Second Confidence: {result2.get('confidence', 0):.2%}")
+
+    agent1._peer_agent.stop_server()
+    agent2._peer_agent.stop_server()
+
+    await agent1.shutdown()
+    await agent2.shutdown()
+
+asyncio.run(main(pipeline))

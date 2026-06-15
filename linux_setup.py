@@ -8,10 +8,10 @@ import os
 # List all your .pyx files
 extensions = [
     Extension(
-        "AbstractIntegratedModule",  
-        sources=["AbstractIntegratedModule.pyx"],  # Cython source file
+        "AbstractIntegratedModule",  # Module name (import awe_mlp)
+        sources=["AbstractIntegratedModule.pyx"],  # Your Cython source file
         include_dirs=[np.get_include()],
-        extra_compile_args=['-O3', '-march=native'],  # Optimizations
+        extra_compile_args=['-O2', '-march=native'],  # Optimizations
         extra_link_args=[]
     ),
     # Add more extensions if you have multiple .pyx files
@@ -26,34 +26,22 @@ setup(
         extensions,
         compiler_directives={
             'language_level': 3,
-            'boundscheck': False,  # Disable for speed
+            'boundscheck': True,  # Disable for speed
+            'wraparound':True,
+            'initializedcheck':True,
+            'nonecheck':True,
         }
     ),
     include_dirs=[np.get_include()],
     install_requires=[
-        'numpy',
-        'scikit-learn',
-        'hashlib',
-        'os',
-        'random',
-        'sqlite3',
-        'joblib',
-        'ast',
-        're',
-        'json',
-        'time',
-        'datetime',
-        'threading',
-        'deque',
-        'socket',
-        'sys',
-        'sklearn',
-        'scipy',
-        'collections',
-        'pandas',
-        'timedelta',
-        'pickle',
-        'ssl',
+        "numpy>=1.21.0",
+        "scikit-learn>=1.0.0",
+        "scipy>=1.7.0",
+        "pandas>=1.3.0",
+        "joblib>=1.1.0",
+        "cryptography>=41.0.0",
+        "aiohttp>=3.8.0",
+        "psutil>=5.9.0",
 
     ],
 )

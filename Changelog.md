@@ -46,6 +46,10 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - fixed undefined variables bug in calibrate probs
 - fixed nan fragility in trust scoring in P2P.
 
+### [0.2.5] 2026-06-14
+- Added new dynamic gate for Transformer Fixed and dynamic switching condition.
+- Added Capabilities for the Model to save the Transformer weights as binaries in local SQlite database.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database

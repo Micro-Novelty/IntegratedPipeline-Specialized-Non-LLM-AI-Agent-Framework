@@ -1,8 +1,8 @@
 # Stage 1: Multi-architecture binary selection
-FROM alpine:3.19 AS amd64
+FROM alpine:3.24 AS amd64
 COPY AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so /libs/AbstractIntegratedModule.so
 
-FROM alpine:3.19 AS arm64
+FROM alpine:3.24 AS arm64
 COPY AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so /libs/AbstractIntegratedModule.so
 
 # Stage 2: Final runtime

@@ -114,7 +114,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
 
 ## [=] Requirements
-[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_requirements.txt):
+[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_needs.txt):
 - pip install for quick usage:
 - ```bash
   pip install AbstractIntegratedModule # or
@@ -1109,7 +1109,7 @@ purpose: handles Proper LSTM Confidence and calibration layer.
   - [ROADMAP.md](ROADMAP.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
-  - [requirements-dev.txt](requirements-dev.txt) for contributors requirements.
+  - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
 
 ## License

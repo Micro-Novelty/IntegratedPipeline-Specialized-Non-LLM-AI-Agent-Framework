@@ -11,6 +11,7 @@ IntegratedPipeline consists of 20 interconnected components working together.
 ### Model storage (Database handling)
 ### ConsecutivePeerAgent (Ensemble P2P Handling)
 ### CohesiveAgentDeployment (initiating Asynchronous prediction for P2P)
+### LSTM Engine/LSTM Network and LSTM Cell
 
 ## Main Component Deep-Dive
 
@@ -53,16 +54,21 @@ IntegratedPipeline consists of 20 interconnected components working together.
 - **Components**: AgentDistributedInference + IntegratedPipeline + PipelinepredictionManager + socket
 - **Outputs**: Predicted label from peer, probabilities, status of P2P.
 
+### 9. LSTM Engine:
+- **Components*: AWE method, AME encoder, LSTM Cell + LSTM network
+- **Outputs**:Arrays of probs, Confidence, samples, intervals.
+
 ## Data Flow intent
 
 1. Raw Input → Text preprocessing
 2. Encoding → TF-IDF + Sequence embeddings
 3. Model Forward → MLP scores + Transformer context
-4. Ensemble → Weighted combination
-5. Calibration → Confidence adjustment
-6. Memory Storage → SQLite persistence
-7. SQlite persistence → Peer local coordination
-8. P2P Components → Predicted label
+4. LSTM Architectures -> Ensemble
+5. Ensemble → Weighted combination
+6. Calibration → Confidence adjustment
+7. Memory Storage → SQLite persistence
+8. SQlite persistence → Peer local coordination
+9. P2P Components → Predicted label
    
  
 

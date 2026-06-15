@@ -818,6 +818,7 @@ class ModelStorage:
         return result       
 
 
+    
     def save_peer_needs_dict(self, memory_name, model_dict, target_pred, agent_id, model_type='Pipeline'):
         try:
             db_path = self.get_database_path()
@@ -1040,13 +1041,130 @@ class ModelStorage:
 
             conn.commit()
             conn.close()
-
+            
+            self.save_transformer_weights(memory_name)
             print('[||] Weights dictionary saved!')
 
         except Exception as e:
             print(f'[-] Cant save Weights due to: {e}')
             pass          
-       
+
+    def save_transformer_weights(self, memory_name: str):
+        """Save transformer weights as compressed binary blob."""
+        tf = self.pipeline.model2
+
+        try:
+            db_path = self.get_database_path()
+            conn = sqlite3.connect(db_path)
+        except:
+            conn = sqlite3.connect(self.db_path)
+
+        c = conn.cursor()
+
+        buf = io.BytesIO()
+        np.savez_compressed(buf,
+            token_embedding = tf.token_embedding,
+            pos_embedding   = tf.pos_embedding,
+            W_q             = tf.W_q,
+            W_k             = tf.W_k,
+            W_v             = tf.W_v,
+            W_q_fixed       = tf.W_q_fixed,
+            W_k_fixed       = tf.W_k_fixed,
+            W_v_fixed       = tf.W_v_fixed,
+            W_o             = tf.W_o,
+            ffn1            = tf.ffn1,
+            ffn2            = tf.ffn2,
+            ln1_scale       = tf.ln1_scale,
+            ln1_shift       = tf.ln1_shift,
+            ln2_scale       = tf.ln2_scale,
+            ln2_shift       = tf.ln2_shift,
+            output          = tf.output,
+            output_bias     = tf.output_bias
+        )
+        binary_data = buf.getvalue()
+
+        try:
+            c.execute("""
+                INSERT INTO weight_storage
+                (memory_name, model_type, weights, is_active)
+                VALUES (?, ?, ?, ?)
+            """, (memory_name, 'transformer', 
+                sqlite3.Binary(binary_data), 1))
+
+            c.execute("""
+                UPDATE weight_storage SET is_active = 0
+                WHERE memory_name = ?
+                AND model_type = 'transformer'
+                AND id != last_insert_rowid()
+            """, (memory_name,))
+
+            c.execute("""
+                DELETE FROM weight_storage
+                WHERE memory_name = ?
+                AND model_type = 'transformer'
+                AND is_active = 0
+            """, (memory_name,))
+
+            conn.commit()
+            print('[||] Transformer weights saved!')
+
+        except Exception as e:
+            print(f'[!] Transformer weight save failed: {e}')
+            conn.rollback()
+        finally:
+            conn.close()
+
+    def load_transformer_weights(self, memory_name: str) -> bool:
+        try:
+            db_path = self.get_database_path()
+            conn = sqlite3.connect(db_path)
+        except:
+            conn = sqlite3.connect(self.db_path)
+
+        c = conn.cursor()   
+
+        try:
+            c.execute("""
+                SELECT weights FROM weight_storage
+                WHERE memory_name = ? AND model_type = 'transformer' AND is_active = 1
+                ORDER BY id DESC LIMIT 1
+            """, (memory_name,))
+            row = c.fetchone()
+            if not row:
+                print(f'[=] No saved transformer weights for {memory_name}')
+                return False
+
+            buf = io.BytesIO(bytes(row[0]))
+            data = np.load(buf, allow_pickle=False)
+
+            t = self.pipeline.model2
+            t.token_embedding = data['token_embedding']
+            t.pos_embedding   = data['pos_embedding']
+            t.W_q             = data['W_q']
+            t.W_k             = data['W_k']
+            t.W_v             = data['W_v']
+            t.W_q_fixed       = data['W_q_fixed']
+            t.W_k_fixed       = data['W_k_fixed']
+            t.W_v_fixed       = data['W_v_fixed']
+            t.W_o             = data['W_o']
+            t.ffn1            = data['ffn1']
+            t.ffn2            = data['ffn2']
+            t.ln1_scale       = data['ln1_scale']
+            t.ln1_shift       = data['ln1_shift']
+            t.ln2_scale       = data['ln2_scale']
+            t.ln2_shift       = data['ln2_shift']
+            t.output          = data['output']
+            t.output_bias     = data['output_bias']
+
+            print(f'[||] Transformer weights loaded!')
+            return True
+
+        except Exception as e:
+            print(f'[!] Transformer weight load failed: {e}')
+            return False
+        finally:
+            conn.close()
+    
     def load_weights(self, memory_name):
         """Load weights from database. Returns True if found."""
         result = self.weight_retrieval(memory_name)
@@ -1066,9 +1184,14 @@ class ModelStorage:
             self.pipeline.lstm_engine.n_samples     = weights.get('n_samples', self.pipeline.lstm_engine.n_samples)
             self.pipeline.lstm_engine.quantiles     = {float(k): tuple(v) 
                                 for k, v in weights.get('quantiles', {}).items()}
-        
-            print(f'[=] All Weights loaded for {memory_name} '
-                f'(saved at {weights.get("saved_at", "unknown")})')
+            
+            tf_loaded = self.load_transformer_weights(memory_name)
+
+            print(f'[=] Transformer weights loaded: {tf_loaded}')
+            if tf_loaded:
+                print(f'[=] All Weights loaded for {memory_name}  '
+                    f'(saved at {weights.get("saved_at", "unknown")})')
+          
         except Exception as e:
             print(f'[!] Cant load any Weights due to: {e}')
             traceback.print_exc()
