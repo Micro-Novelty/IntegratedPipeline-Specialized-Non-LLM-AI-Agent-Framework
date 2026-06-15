@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-arm64
     steps:
       - uses: actions/checkout@v6
       
@@ -33,14 +33,14 @@ jobs:
       
       - name: Verify compilation and locate .so files
         run: |
-          python -c "import AbstractIntegratedModule; print('✓ Cython compilation successful')"
+          python -c "import AbstractIntegratedModule; print('✓ Cython compilation successful (ARM64)')"
           echo "=== Searching for compiled .so files ==="
           find . -name "*.so" -type f -exec ls -lh {} \;
       
       - name: Upload compiled extensions
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-extensions
+          name: compiled-extensions-arm64
           path: |
             **/*.so
           retention-days: 30
