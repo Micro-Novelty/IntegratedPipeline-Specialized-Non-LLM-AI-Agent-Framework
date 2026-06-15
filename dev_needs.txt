@@ -1,6 +1,6 @@
 # ===== Build Tools =====
 cython>=3.0.0
-setuptools>=68.0.0
+setuptools>=82.0.1
 wheel>=0.47.0
 
 # ===== Testing =====
