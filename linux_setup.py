@@ -36,7 +36,6 @@ setup(
         compiler_directives={
             'language_level': 3,
             'boundscheck': False,  # Disable for speed
-            'wraparound': False,  # Disable for speed
             'initializedcheck': False,  # Disable for speed
             'nonecheck': False,  # Disable for speed
         }
