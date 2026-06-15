@@ -31,15 +31,16 @@ jobs:
         run: |
           python linux_setup.py build_ext --inplace
       
-      - name: Verify compilation
+      - name: Verify compilation and locate .so files
         run: |
           python -c "import AbstractIntegratedModule; print('✓ Cython compilation successful')"
+          echo "=== Searching for compiled .so files ==="
+          find . -name "*.so" -type f -exec ls -lh {} \;
       
       - name: Upload compiled extensions
         uses: actions/upload-artifact@v4
         with:
           name: compiled-extensions
           path: |
-            AbstractIntegratedModule.so
-            AbstractOptimizedModules.so
+            **/*.so
           retention-days: 30
