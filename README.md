@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage: Beta, 0.5.0.
+- Development Stage: Beta, 0.5.2.
 - Maintainer: Micro-Novelty.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -133,11 +133,11 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      - numpy
      - psutil
 
-   - Download AbstractIntegratedModule binaries from release section or in here, [AbstractIntegratedModule Package](AbstractIntegratedModule-Package.zip)
+   - Download AbstractIntegratedModule binaries from release section:
      - This file contains:
-      - AbstractIntegratedModule.pyd (For windows machine).
-      - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
-      - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
+      - AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd (For windows machine).
+      - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
+      - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so, AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
 
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, Go to Step's for in-depth Usage below.
@@ -375,14 +375,14 @@ _______________________________________
      ```
 
 1. Download for binaries:
-   - AbstractIntegratedModule.pyd (For Windows) (Python 3.13), 
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so (For linux x86_64)  (Python 3.12)
-   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi) (Python 3.10)
+   - AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd (For windows machine) (Python 3.13)
+   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (For linux x86_64) (Python 3.12)
+   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so,  AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi) (Python 3.10)
    -  ```
       # Download from release
-      # AbstractIntegratedModule.pyd (windows) /
-      # Abstractcpython-39-x86_64-linux-gnu.so (x86_64) /
-      # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so   
+      # AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd  (windows) /
+      # Abstractcpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (x86_64) /
+      # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so  ,  AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so 
       ```
    
    [=] Steps for installation:
