@@ -4,32 +4,41 @@ from setuptools import setup, Extension
 from Cython.Build import cythonize
 import numpy as np
 import os
+import platform
+
+# Detect architecture for ARM64-specific optimization
+is_arm64 = platform.machine() in ('aarch64', 'arm64')
 
 # List all your .pyx files
 extensions = [
     Extension(
-        "AbstractIntegratedModule",  # Module name (import awe_mlp)
+        "AbstractIntegratedModule",  # Module name (import AbstractIntegratedModule)
         sources=["AbstractIntegratedModule.pyx"],  # Your Cython source file
         include_dirs=[np.get_include()],
         extra_compile_args=['-O2', '-march=native'],  # Optimizations
         extra_link_args=[]
     ),
-    # Add more extensions if you have multiple .pyx files
-    # Extension("transformer", sources=["transformer.pyx"]),
+    Extension(
+        "AbstractOptimizedModules",  # Module name (import AbstractOptimizedModules)
+        sources=["AbstractOptimizedModules.pyx"],  # Your ARM64 optimized Cython source file
+        include_dirs=[np.get_include()],
+        extra_compile_args=['-O3', '-march=native'] if is_arm64 else ['-O2', '-march=native'],  # ARM64 gets higher optimization
+        extra_link_args=[]
+    ),
 ]
 
 setup(
     name="AbstractIntegratedModule",
     version="1.0",
-    description="AbstractIntegratedModule - A Cython implementation of the AbstractIntegratedModule",
+    description="AbstractIntegratedModule - A Cython implementation of the AbstractIntegratedModule and AbstractOptimizedModules",
     ext_modules=cythonize(
         extensions,
         compiler_directives={
             'language_level': 3,
-            'boundscheck': True,  # Disable for speed
-            'wraparound':True,
-            'initializedcheck':True,
-            'nonecheck':True,
+            'boundscheck': False,  # Disable for speed
+            'wraparound': False,  # Disable for speed
+            'initializedcheck': False,  # Disable for speed
+            'nonecheck': False,  # Disable for speed
         }
     ),
     include_dirs=[np.get_include()],
@@ -42,6 +51,5 @@ setup(
         "cryptography>=41.0.0",
         "aiohttp>=3.8.0",
         "psutil>=5.9.0",
-
     ],
 )
