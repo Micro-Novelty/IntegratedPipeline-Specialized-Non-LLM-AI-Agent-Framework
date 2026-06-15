@@ -122,10 +122,17 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   ```
   
 - Download binaries manually (Choose one minimal, specified for your needs):
+   - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
+   - AbstractIntegratedModule (Main library binary)
+     
 - Binaries can be downloaded from release or code section.
-   - Windows Native OS - AbstractIntegratedModule.cp313-win_amd64 Supports Python 3.13 for Windows Only (Robust, Stable version)
-   - Linux x86_64 - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so supports Python 3.12 only.
-   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5) - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so supports Python 3.10 only.
+   - Windows Native OS -
+      - AbstractIntegratedModule.cp313-win_amd64 and its AbstractOptimizedModules.pyd Supports Python 3.13 for Windows Only (Robust, Stable version)
+   - Linux x86_64
+     - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.12 only.
+   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
+     - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.10 only.
+  
    - Libraries needed (For binary usage):
      - Pandas
      - aiohttp
