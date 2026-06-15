@@ -34,3 +34,12 @@ jobs:
       - name: Verify compilation
         run: |
           python -c "import AbstractIntegratedModule; print('✓ Cython compilation successful')"
+      
+      - name: Upload compiled extensions
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-extensions
+          path: |
+            AbstractIntegratedModule.so
+            AbstractOptimizedModules.so
+          retention-days: 30
