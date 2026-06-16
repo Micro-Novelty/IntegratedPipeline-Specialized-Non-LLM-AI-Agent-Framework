@@ -50,6 +50,16 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Added new dynamic gate for Transformer Fixed and dynamic switching condition.
 - Added Capabilities for the Model to save the Transformer weights as binaries in local SQlite database.
 
+### [0.2.6] 2026-06-15
+- Transformer is now Optimized using Cython!
+- Refined memory checks to reduce further corruption in IntegratedPipeline memory.
+- Added safety guards for cosine similarity to prevent float cascading through the flow.
+
+### [0.2.7] 2026-06-16
+- New cache management system for Transformers Cache
+- Optimized Transformer Training time with less Computational overhead.
+- Optimized Transformer attention quality computing with more newer Conditional gate for quality computing.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
