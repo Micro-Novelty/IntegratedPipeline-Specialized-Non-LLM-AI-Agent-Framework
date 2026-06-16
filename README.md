@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage: Beta, 0.5.2.
+- Development Stage: Beta, 0.5.3.
 - Maintainer: Micro-Novelty.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -28,6 +28,7 @@
    - AWE setup Proven Efficient on Hard-uncontrolled dataset such as Activity Recognition from the given Database.
    - LSTM is Optimized efficiently for scarce data with AWE method.
    - Robust Advanced prediction capabilities proven effective on ARM64 Using MLP + LSTM Architectures.
+   - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
 
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
