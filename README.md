@@ -361,6 +361,7 @@ _______________________________________
 - Note: The source code is provided in the repository.
 - [=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedPipeline-SourceCode.zip](AbstractIntegratedPipeline-SourceCode.zip)
 - [=] Separated Modules of AbstractIntegratedModule: [separated-modules](separated-modules)
+- .pyx files for independent compilation or direct compiling on real ARM64 device.
 - [~] Note:
    - The source code is open and Free to anyone who:
    - Use it: Run the software for any personal, academic, or commercial purpose.
