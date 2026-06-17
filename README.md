@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage: Beta, 0.5.3.
+- Development Stage: 0.6.1 Official Release.
 - Maintainer: Micro-Novelty.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -22,7 +22,8 @@
   - win_amd64 windows 64-bit architecture: only supports python version 3.13.
   if you don't have the necessary python, don't worry since you could use our regular pip download.
 
-- Proven Capabilities: 
+- Proven Capabilities:
+   - The library has been thoroughly tested in Multiple Environments from Windows to ARM64 Environment. The library is now Robust for Wider use and Deployment.
    - Proven Works on ARM64 Environment, Training and Prediction works efficient on Docker ARM64 environment with QEMU, good parallelizing behavior is guaranteed.
    - P2P Works efficiently in ARM64 Docker + QEMU, No conflicting socket and all prediction works efficiently.
    - AWE setup Proven Efficient on Hard-uncontrolled dataset such as Activity Recognition from the given Database.
