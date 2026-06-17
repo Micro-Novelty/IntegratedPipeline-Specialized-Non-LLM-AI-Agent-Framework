@@ -140,6 +140,12 @@ class ClientAgent:
             
             memory_name = f"{self.agent_name}_memory"
             self.pipeline = IntegratedPipeline(memory_name, use_async=True)
+            self.main_prediction = PipelinePredictionManager(
+                self.prediction, # your initialized pipeline
+                label_csv='C:/users/yourdevice/example_manual_training.txt', 
+                # or /home/yourdevice/example_manual_training.txt.
+                #your path dir that contains the .txt file that contains CSV format.
+                target_title='window_title', label='label')
             
             logger.info("✓ Local IntegratedPipeline ready for fallback")
             return True
@@ -317,9 +323,19 @@ class ClientAgent:
         try:
             if self.pipeline:
                 # Use actual pipeline for prediction
+                # you can create your own dataset, label_map and rules like in my given example
+                results, predicted, confidence = self.main_prediction.advanced_prediction_method(
+                    <your_dataset>, <your_label_map>, <rules>,
+                       X=None, y=None # you could create your own X and y samples and put it here (Optional)
+                        show_proba=False, top_k=3, 
+                        use_transformer=True,
+                        return_attention=False,
+                        save_results=True,
+                        batch_size=2)             
+                                
                 result = {
-                    'prediction': 'demo_label',
-                    'confidence': 0.85,
+                    'prediction': predicted,
+                    'confidence': confidence,
                     'agent_name': self.agent_name,
                     'timestamp': datetime.now().isoformat(),
                 }
