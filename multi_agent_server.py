@@ -145,6 +145,12 @@ class ServerAgent:
             
             # Create pipeline instance
             self.pipeline = IntegratedPipeline(self.memory_name, use_async=True) # for asynchronous prediction
+            self.main_prediction = PipelinePredictionManager(
+                self.pipeline, # your initialized pipeline
+                label_csv='C:/users/yourdevice/example_manual_training.txt', 
+                # or /home/yourdevice/example_manual_training.txt.
+                #your path dir that contains the .txt file that contains CSV format.
+                target_title='window_title', label='label')  
             
             # Optional: Load training data if available
             # self.load_training_data()
@@ -380,7 +386,10 @@ class ServerAgent:
         
         try:
             if self.pipeline:
-                results, prediction, confidence = self.pipeline.advanced_prediction_method(title, self.label_map, self.example_rules, show_proba=True)
+                results, prediction, confidence = self.main_prediction.advanced_prediction_method(
+                        title, self.label_map, self.example_rules, 
+                            X=None, y=None,
+                            show_proba=True)
                 result = {
                     'prediction': prediction,
                     'confidence': confidence,
