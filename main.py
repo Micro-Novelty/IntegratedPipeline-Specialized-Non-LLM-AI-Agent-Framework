@@ -4,7 +4,10 @@ import numpy as np
 
 memory_name = 'agent_memory'
 main_model = IntegratedPipeline(memory_name=memory_name, use_async=True, agent_port=8080,ssl_cert_file=None, ssl_key_file=None) # provide cert_file path or key_file path (optional)
-main_prediction = PipelinePredictionManager(main_model, label_csv='ManualsTraining.txt', target_title='window_title', label='label')
+main_prediction = PipelinePredictionManager(main_model, 
+                      label_csv='C:/your/path/to/ManualsTraining.txt', # you could change this with your actual directory.', 
+                      target_title='window_title', 
+                      label='label')
 # example_manual_training is a .txt file that contain csv format like above example.
 
 example_rules = [
@@ -43,7 +46,10 @@ test_titles = [
 # more titles 
  ]  
             
-titles, y, label_map = main_prediction.load_labels_from_csv('ManualsTraining.txt', 'window_title', 'label')
+titles, y, label_map = main_prediction.load_labels_from_csv(
+    'C:/your/path/to/ManualsTraining.txt', # you could change this with your actual directory.
+    'window_title', 'label')
+
 # small training with simple titles
 main_model.train(titles, y)
    
