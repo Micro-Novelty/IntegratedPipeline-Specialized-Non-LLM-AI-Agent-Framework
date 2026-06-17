@@ -141,7 +141,7 @@ class ClientAgent:
             memory_name = f"{self.agent_name}_memory"
             self.pipeline = IntegratedPipeline(memory_name, use_async=True)
             self.main_prediction = PipelinePredictionManager(
-                self.prediction, # your initialized pipeline
+                self.pipeline, # your initialized pipeline
                 label_csv='C:/users/yourdevice/example_manual_training.txt', 
                 # or /home/yourdevice/example_manual_training.txt.
                 #your path dir that contains the .txt file that contains CSV format.
