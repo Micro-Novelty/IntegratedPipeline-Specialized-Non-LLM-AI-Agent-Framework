@@ -60,6 +60,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Optimized Transformer Training time with less Computational overhead.
 - Optimized Transformer attention quality computing with more newer Conditional gate for quality computing.
 
+### [0.2.8] 2026-06-17
+- Added safety guards for Cosine similarity to prevent string arrays to cause further errors.
+- Refined csv load labels function to accept path dir, so users can finnaly find their Training labels without much restrictions and errors.
+- Fixed bug in advanced prediction block that caused lstm weights to be set None.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
