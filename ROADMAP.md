@@ -1,12 +1,14 @@
 # IntegratedPipeline Development Roadmap
 
-## Current Status: v0.1.0 ✅
-- Core MANN + AWE implementation
-- Hybrid MLP + Transformer ensemble
-- Basic P2P coordination
+## New Official Status: v0.6.0
+- Added multiple new cython components to accelerate anisotropy, softmax and cosine similarity measurements
+- Refined csv load labels function to accept path dir, so users can finnaly find their Training labels without much restrictions and errors.
+- Fixed bug in advanced prediction block that caused lstm weights to be set None.
 
-## Short-term (v0.1.1 - Q3 2026)
+## Short-term (v0.1.1 - 1.0.0 2026)
 - [ ] PyPI package distribution
+- [ ] Multiple architectural refinements
+- [ ] More optimized Cython components
 - [ ] Docker support
 - [ ] Performance benchmarks
 - [ ] Enhanced documentation with video tutorials
@@ -18,9 +20,11 @@
 - [ ] Advanced visualization tools
 - [ ] Integration with popular frameworks
 
-## Long-term (v1.0.0 - 2027)
+## Long-term (2026 - 2027)
 - [ ] Federated learning support
-- [ ] Multi-agent orchestration framework
+- [ ] Open source supports
+- [ ] Paper published on geometric weight shaping
+- [ ] Wider deployment and new Maintainer.
 - [ ] Cloud deployment templates
 - [ ] Commercial enterprise features
 
