@@ -2040,7 +2040,10 @@ class LSTMEngine:
 
 
     # ── MC dropout forward ────────────────────
+    # ── MC dropout forward ────────────────────
     def _mc_forward(self, x_seq: np.ndarray) -> np.ndarray:
+
+        eps = 1e-5
         T            = x_seq.shape[0]
         H            = self.model.cell.hidden_size
         expected_input = self.model.cell.input_size
@@ -2062,7 +2065,7 @@ class LSTMEngine:
         preds = np.empty(T)                   # preallocate output
 
         # precompute dropout scale factor
-        inv_keep = 1.0 / (1.0 - p)
+        inv_keep = 1.0 / (1.0 - p) + eps
 
         for t in range(T):
             x = x_seq[t]
@@ -2250,12 +2253,16 @@ class LSTMEngine:
     # LSTM training loop with confidence layers integrated into the loss and validation monitoring.
     def fit_stm(self, X, Y, epochs=50, hidden=32, lr=5e-3, seq_len=20, print_every=5):
         print("[= =] Training LSTM with confidence layers (MC dropout + gate uncertainty + prediction intervals)")
-   
+
+        eps = 1e-3
         model   = self.model
         AME = self.pipeline.AME_Encoder(X)
         AMR = 1.0 / (1.0 + np.exp(-AME))
 
         n_train = int((1.0 - AMR) * len(X))
+        if np.isnan(n_train) or np.isinf(n_train) or n_train <= eps:
+            n_train = self.pipeline.confidence_threshold + eps
+            
         X_tr, Y_tr = X[:n_train], Y[:n_train]
         X_te, Y_te = X[n_train:], Y[n_train:]
 
@@ -2267,7 +2274,7 @@ class LSTMEngine:
             for j in idx:
                 loss, _ = model.train_step(X_tr[j], Y_tr[j], lr=lr, AMR=AMR)
                 epoch_loss += loss
-            epoch_loss /= n_train
+            epoch_loss /= n_train + eps
 
             if epoch % print_every == 0 or epoch == 1:
                 # validation
@@ -2285,7 +2292,10 @@ class LSTMEngine:
                     Y_te = Y_te[:preds.shape[0], :preds.shape[1]]
                     preds = preds[:Y_te.shape[0], :Y_te.shape[1]]   
 
-                    val_loss += AMR * np.mean((preds - Y_te[j]) ** 2)
+                    val_loss += AMR * np.mean((preds - Y_te[j]) ** 2) 
+                    # calculates how much value loss when multiplied by model error rate 
+                    # to gain how much the model can greatly applied its losses efficiently vs the possible error rate during prediction.
+                    # Higher val_loss correlates to the model possible bad predicted capabilities in the future Training 
                 val_loss /= len(X_te)
                 print(f"[=] Epoch {epoch:>4}/{epochs}  "
                     f"[=] train_loss={epoch_loss:.6f}  val_loss={val_loss:.6f}")
@@ -2401,6 +2411,9 @@ class LSTMEngine:
         AMR = 1.0 / (1.0 + np.exp(-AME))  # abstract modelling rate
         point = preds_clean[:, 0]   # (T,)
 
+        if np.isnan(AMR) or np.isinf(AMR) or AMR <= 1e-10:
+            AMR = self.pipeline.confidence_threshold + 1e-5
+
         # ── MC dropout sampling ───────────────
         samples = np.stack([
             self._mc_forward(x_seq) for _ in range(self.n_samples)
@@ -2468,14 +2481,13 @@ class LSTMEngine:
         print("\n┌─────────────────────────────────────────┐")
         print("  │          LSTM Architecture Summary      │")
         print("  ├─────────────────────────────────────────┤")
-        print(f" │  Input  size   : {I:<24}│")
-        print(f" │  Hidden size   : {H:<24}│")
-        print(f" │  Output size   : {O:<24}│")
-        print(f" │  LSTM   params : {W_params:<24,}│")
-        print(f" │  Linear params : {Wy_params:<24,}│")
-        print(f" │  Total  params : {total:<24,}│")
+        print(f" │  Input  size   : {I:<24}                │")             
+        print(f" │  Hidden size   : {H:<24}                │")
+        print(f" │  Output size   : {O:<24}                │")
+        print(f" │  LSTM   params : {W_params:<24,}        │")
+        print(f" │  Linear params : {Wy_params:<24,}       │")
+        print(f" │  Total  params : {total:<24,}           │")
         print("  └─────────────────────────────────────────┘")
-
 
 
 
