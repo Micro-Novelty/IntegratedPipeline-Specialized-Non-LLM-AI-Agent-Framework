@@ -65,6 +65,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Refined csv load labels function to accept path dir, so users can finnaly find their Training labels without much restrictions and errors.
 - Fixed bug in advanced prediction block that caused lstm weights to be set None.
 
+### [0.2.9] 2026-06-18
+- Ensure proper shape handling before shape alignment in Transformer Training.
+- Fixed Silent bugs that can cause single scalar to bypass shape conditions gate in training step for Transformer.
+- Ensure Robustness in LSTM Training step and prevent division by zero.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
