@@ -70,6 +70,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Fixed Silent bugs that can cause single scalar to bypass shape conditions gate in training step for Transformer.
 - Ensure Robustness in LSTM Training step and prevent division by zero.
 
+### [0.3.0] 2026-06-19
+- New architecture: AccuracyAnswerCache
+   - Purpose: Storing correct answered problem for better reliability in Non-dynamic environment, triggered after the model answered correctly and initiate a new prediction, the model will choose the previous correct answer when samples match.
+- Fixed edge case where shape mismatch bug happens during MLP Training.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
