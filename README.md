@@ -7,7 +7,7 @@
 
 ### Library Short Description:
 - Development Stage: 0.6.5 Official Release.
-- Maintainer: Micro-Novelty and EpsitronNet-bot.
+- Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
 - Library installation: 
