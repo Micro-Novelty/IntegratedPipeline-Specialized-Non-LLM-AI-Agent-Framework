@@ -28,7 +28,7 @@ jobs:
           python linux_setup.py build_ext --inplace
 
       - name: Upload ARM64 .so artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: AbstractIntegratedModule-arm64-build
           path: |
