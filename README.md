@@ -114,6 +114,13 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 
 ### Introduction and demo
 [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
+- Quick demo start: [main.py](main.py)
+  - purpose: let you demonstrate the advanced prediction method and asynchronous prediction directly.
+- Quick test of P2P:
+    - [multi_agent_client.py](multi_agent_client.py)
+    - [multi_agent_server.py](multi_agent_server.py)
+    - [P2PDirectTest.py](P2PDirectTest.py)
+    - Purpose: let you demonstrate simple P2P using AbstractIntegratedModule quickly, there may be bugs in this P2P setup so feel free to share it in issues.
 
 ## [=] Requirements
 [~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_needs.txt):
