@@ -75,6 +75,11 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
    - Purpose: Storing correct answered problem for better reliability in Non-dynamic environment, triggered after the model answered correctly and initiate a new prediction, the model will choose the previous correct answer when samples match.
 - Fixed edge case where shape mismatch bug happens during MLP Training.
 
+### [0.3.1] 2026-06-20
+- Fixed bug where mlp always return index 0 during prediction.
+- Optimized processing batch in chunk function.
+- fixed bug where num_classes doesnt match given labels.
+
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
