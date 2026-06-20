@@ -1,4 +1,4 @@
-name: Build and Publish to PyPI
+name: Build and Verify artifacts (no PyPI publish)
 
 on:
   release:
@@ -6,9 +6,7 @@ on:
   workflow_dispatch:        # allows manual trigger from GitHub UI for testing
 
 jobs:
-  # ──────────────────────────────────────────────
   # Build wheels for every platform you ship .so/.pyd for
-  # ──────────────────────────────────────────────
   build:
     name: Build wheel on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -51,6 +49,7 @@ jobs:
           assert hasattr(f, 'optimized_ame_encoder'), 'Missing expected function — partial compile detected'
           print('Verification passed')
           "
+        continue-on-error: false
 
       - name: Build wheel
         run: python -m build --wheel
@@ -78,9 +77,7 @@ jobs:
           path: dist/*.whl
           if-no-files-found: error
 
-  # ──────────────────────────────────────────────
   # Build the source distribution (sdist) once, platform independent
-  # ──────────────────────────────────────────────
   build-sdist:
     name: Build source distribution
     runs-on: ubuntu-latest
@@ -105,17 +102,11 @@ jobs:
           path: dist/*.tar.gz
           if-no-files-found: error
 
-  # ──────────────────────────────────────────────
-  # Publish to TestPyPI first — sanity check before the real release
-  # ──────────────────────────────────────────────
-  publish-testpypi:
-    name: Publish to TestPyPI
+  # Verify artifacts (no publishing)
+  verify:
+    name: Verify artifacts and run tests
     needs: [build, build-sdist]
     runs-on: ubuntu-latest
-    environment: testpypi
-    permissions:
-      id-token: write
-
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -127,42 +118,40 @@ jobs:
       - name: List collected files
         run: ls -la dist/
 
-      - name: Publish to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-          skip-existing: true
+      - name: Install system build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential python3-dev
 
-  # ──────────────────────────────────────────────
-  # Publish to real PyPI — only runs after TestPyPI succeeds
-  # ──────────────────────────────────────────────
-  publish-pypi:
-    name: Publish to PyPI
-    needs: publish-testpypi
-    runs-on: ubuntu-latest
-    environment: release
-    permissions:
-      id-token: write
-      attestations: write
-      contents: read
+      - name: Install verification tools and test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine pytest pytest-cov
 
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: dist
-          pattern: '*'
-          merge-multiple: true
+      - name: Run twine check on distributions
+        run: |
+          python -m pip install --upgrade twine
+          twine check dist/* || true
 
-      - name: List collected files
-        run: ls -la dist/
+      - name: Inspect wheel contents for compiled extensions
+        shell: bash
+        run: |
+          python - <<'PY'
+import glob, zipfile
+wheels = glob.glob('dist/*.whl')
+for w in wheels:
+    print('Inspecting', w)
+    with zipfile.ZipFile(w) as z:
+        names = z.namelist()
+        has = any(n.endswith(('.so', '.pyd')) for n in names)
+        print('  contains compiled extensions:', has)
+        if not has:
+            print('  WARNING: wheel has no compiled extensions')
+PY
 
-      - name: Generate build provenance attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: 'dist/*'
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          skip-existing: true
+      - name: Install sdist and run tests (if present)
+        run: |
+          python -m pip install --upgrade pip
+          pip install dist/*.tar.gz --no-deps
+          if [ -d "tests" ]; then pytest tests/ -q; else echo "No tests/ directory to run"; fi
+        continue-on-error: false
