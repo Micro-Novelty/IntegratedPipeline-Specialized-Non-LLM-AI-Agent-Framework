@@ -1,0 +1,13 @@
+[package]
+name = "abstract_weights_core"
+version = "0.1.0"
+edition = "2024"
+
+
+[lib]
+name = "abstract_weights_core"
+create-type= ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.29", features = ["extension-module"] }
+rusqlite = { version = "0.31", features = ["bundled"] }
