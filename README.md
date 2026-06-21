@@ -123,7 +123,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
     - Purpose: let you demonstrate simple P2P using AbstractIntegratedModule quickly, there may be bugs in this P2P setup so feel free to share it in issues.
 
 ## [=] Requirements
-[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](usage_needs.txt):
+[~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](installation_guides/usage_needs.txt):
 - pip install for quick usage:
 - ```bash
   pip install AbstractIntegratedModule # or
@@ -178,20 +178,20 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    - Consider using faster storage (USB SSD) for better performance
 
 ## [=] Docker Container Application
-0. See [Docker_installation_Section](Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start](Quick_Docker_start.sh) for a quick start.
+0. See [Docker_installation_Section](docker-setups/Docker_installation_Section.md) for an in-depth explanation, or [Quick_Docker_start](docker-setups/Quick_Docker_start.sh) for a quick start.
    - Note Consider checking:
-     - [Dockerfile](Dockerfile) contains all the instructions need to assemble a Docker container.
-     - [start.sh](start.sh) for Quick single agent start in Docker container.
-     - [entrypoint.sh](entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile and put in the same folder with Dockerfile after its downloaded)
-     - [start-multi-agent-cluster.sh](start-multi-agent-cluster.sh) for Multi-agent cluster start in Docker container, What it does:
+     - [Dockerfile](docker-setups/Dockerfile) contains all the instructions need to assemble a Docker container.
+     - [start.sh](docker-setups/start.sh) for Quick single agent start in Docker container.
+     - [entrypoint.sh](docker-setups/entrypoint.sh) for a Smart entrypoint used in Dockerfile (Must be downloaded too along with Dockerfile and put in the same folder with Dockerfile after its downloaded)
+     - [start-multi-agent-cluster.sh](P2P_Setups/start-multi-agent-cluster.sh) for Multi-agent cluster start in Docker container, What it does:
        - Starts a multi-agent Docker cluster — runs docker-compose up -d in detached mode (background), scaling the agent-client service to 5 simultaneous instances, alongside whatever server is defined in the docker-compose.yml.
        - Tails the logs — runs docker-compose logs -f which streams live logs from all containers (server + all 5 clients) to your terminal until you hit Ctrl+C.
      - [main.py](main.py) for executing a python script in the Docker container that used main.py, like in this code:
         - ```bash
           docker run -it -v $(pwd):/app/data integrated-pipeline:latest python /app/data/main.py
           ```
-     - To use a [.dockerignore](.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
-     - [.env](.env) is used for environment setup in [entrypoint.sh](entrypoint.sh), this file must be in the same folder with Dockerfile and entrypoint.sh after its downloaded.
+     - To use a [.dockerignore](docker-setups/.dockerignore) file, place it in your build context directory (the same location as your Dockerfile) to specify which files and folders should be excluded when building your image.
+     - [.env](.env) is used for environment setup in [entrypoint.sh](docker-setups/entrypoint.sh), this file must be in the same folder with Dockerfile and entrypoint.sh after its downloaded.
 
 1. Build Image:
    - Clone repository:
@@ -200,9 +200,9 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework
      ```
    - Download:
-   - [Dockerfile](Dockerfile),
-   - [entrypoint.sh](entrypoint.sh)
-   - [.env](.env)
+   - [Dockerfile](docker-setups/Dockerfile),
+   - [entrypoint.sh](docker-setups/entrypoint.sh)
+   - [.env](docker-setups/.env)
    - In the code or release section.
      
      - If the downloaded Dockerfile or .dockerignore or .env has .txt extension, remove the extension:
@@ -269,7 +269,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    ```
    
    [=] Multi agent P2P (Consider docker-compose) :
-   - Note: Use the provided [docker-compose.yml](docker-compose.yml) for Quick multi-agent.
+   - Note: Use the provided [docker-compose.yml](docker-setups/docker-compose.yml) for Quick multi-agent.
    - Navigate to the folder: Use the cd command to enter the directory containing the docker-compose.yml file.
    - ```
      cd /path/to/your/folder
@@ -307,7 +307,7 @@ A. [=] Computational performance results with Transformer included during Advanc
 14:50:36.109 449.89% 116.8MiB / 3.71GiB
 14:50:38.123 423.56% 119MiB   / 3.71GiB
 ```
-- [=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_log_with_TF.txt)
+- [=] Note: To read the full logs (For included Transformer performance): [performance_log_with_TF](performance_logs/performance_log_with_TF.txt)
 - [=] Explanation: 
   - Average CPU Usage = 420% - 430% , Sustained roughlt 4.20 - 4.30 CPU Cores
     - Meaning = - Compute-Intensive workload
@@ -344,7 +344,7 @@ B. [=] Advanced Prediction without Transformer, Only Specialized MLP + LSTM usin
 10:02:16.873 98.84% 333.8MiB / 3.71GiB
 10:02:18.869 0.00%  132.7MiB / 3.71GiB # container stopped and round 2 finished
 ```
-- [=] Note: See full performance log in here: [performance_log_only_MLP](performance_log_only_MLP.txt)
+- [=] Note: See full performance log in here: [performance_log_only_MLP](performance_logs/performance_log_only_MLP.txt)
 - [=] Explanation:
      - Average CPU Usage = 85-90% Used, sustained roughly 1 CPU Core saturated on average
          - Meaning: - Very efficient computation
@@ -812,7 +812,7 @@ finally:
     - This setup used Hybrid feature in prediction handling, Asynchronous prediction request, and Synchronous prediction handling. Synchronous prediction does block code execution for a few seconds, it was used for a few reason here, such as:
        - allowing a more slower traffic between agents, preventing other agent to get the same peer prediction over time, making each interaction equals and each peer can receive different peer prediction output.
        
-[=] You can download this setup here for a direct test: [P2PDirectTest.py](P2PDirectTest.py)
+[=] You can download this setup here for a direct test: [P2PDirectTest.py](P2P_Setups/P2PDirectTest.py)
 
    - [=] for probability coordination, locally, get peers data from database or via socket.
 ```python
@@ -871,8 +871,8 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 ```
 [~] Note: this calibrated_probability is later used to calculate confidence and chosen output based on given label_map.
    - Consider checking:
-     - [multi_agent_client.py](multi_agent_client.py) for a In-depth start for client testing.
-     - [multi_agent_server.py](multi_agent_server.py) for a In-depth start for server testing.
+     - [multi_agent_client.py](P2P_Setups/multi_agent_client.py) for a In-depth start for client testing.
+     - [multi_agent_server.py](P2P_Setups/multi_agent_server.py) for a In-depth start for server testing.
    - If you get undefined NoneType Behavior when using .accept(), consider see [Troubleshooting](#Troubleshooting) Issue 7 for a Quick fix.
         
 6. Cross-Session availability:
