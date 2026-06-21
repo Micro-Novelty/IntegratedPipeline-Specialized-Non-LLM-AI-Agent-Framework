@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+    paths:
+       - '**.pyx'
 
 jobs:
   build-arm64:
