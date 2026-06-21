@@ -32,7 +32,7 @@ updates:
 
   # Docker (if you have Dockerfiles)
   - package-ecosystem: "docker"
-    directory: "/P2P_Setups"
+    directory: "/docker-setups"
     schedule:
       interval: "weekly"
       day: "monday"
