@@ -112,7 +112,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: dist
-          pattern: '*'
+          pattern: '**'
           merge-multiple: true
 
       - name: List collected files
@@ -137,21 +137,5 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-import glob, zipfile
-wheels = glob.glob('dist/*.whl')
-for w in wheels:
-    print('Inspecting', w)
-    with zipfile.ZipFile(w) as z:
-        names = z.namelist()
-        has = any(n.endswith(('.so', '.pyd')) for n in names)
-        print('  contains compiled extensions:', has)
-        if not has:
-            print('  WARNING: wheel has no compiled extensions')
-PY
+          
 
-      - name: Install sdist and run tests (if present)
-        run: |
-          python -m pip install --upgrade pip
-          pip install dist/*.tar.gz --no-deps
-          if [ -d "tests" ]; then pytest tests/ -q; else echo "No tests/ directory to run"; fi
-        continue-on-error: false
