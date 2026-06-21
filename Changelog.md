@@ -80,6 +80,16 @@ Multi-platform support (Windows, Linux, Raspberry Pi)
 - Optimized processing batch in chunk function.
 - fixed bug where num_classes doesnt match given labels.
 
+### [0.3.2] 2026-06-21
+- Added Rust specific compiled binary for handling complex weight matrices.
+          - added specific optimized weight saving handling with rust optimization.
+          - Adding Optimization and refinements, especially bug fixes in:
+             - IntegratedPipeline lstm samples creating
+             - IntegratedPipeline shape adaptation
+             - IntegratedPipeline probability calibration
+             - IntegratedPipeline auto generate labels text
+             - IntegratedPipeline MLP samples generation.
+  
 ### [=] Features
 Continuous learning without catastrophic forgetting
 Local AI orchestrator with SQLite database
