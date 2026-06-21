@@ -368,7 +368,8 @@ _______________________________________
 - Note: The source code is provided in the repository.
 - [=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedPipeline-SourceCode.zip](AbstractIntegratedPipeline-SourceCode.zip)
 - [=] Separated Modules of AbstractIntegratedModule: [separated-modules](separated-modules)
-- .pyx files for independent compilation or direct compiling on real ARM64 device.
+- [AbstractIntegratedModule.pyx](AbstractIntegratedModule.pyx) and [AbstractOptimizedModules.pyx](AbstractOptimizedModules.pyx) files for independent compilation or direct compiling on real ARM64 device.
+- [lib.rs](rust_setups/lib.rs) that contains Rust optimization for Models weight handling.
 - [~] Note:
    - The source code is open and Free to anyone who:
    - Use it: Run the software for any personal, academic, or commercial purpose.
