@@ -1,4 +1,4 @@
-# Installation Guide - IntegratedPipeline
+# Installation Guide For using binary of IntegratedPipeline
 
 A comprehensive guide to install and set up IntegratedPipeline on your system.
 
@@ -19,9 +19,23 @@ A comprehensive guide to install and set up IntegratedPipeline on your system.
 - **Linux**: x86_64 (Ubuntu 18.04+, Debian 10+, CentOS 7+)
 - **Linux ARM64**: Raspberry Pi 3, 4, or 5
 
-### Python Requirements
-- **Python 3.13+** (Must be installed first)
-  - Check your Python version: `python --version` or `python3 --version`
+### Binary and Python Requirements
+- Binaries can be downloaded from release or code section.
+
+- Windows Native OS -
+   - AbstractIntegratedModule.cp313-win_amd64 and its AbstractOptimizedModules.pyd Supports Python 3.13 for Windows Only (Robust, Stable version)
+- Linux x86_64
+   - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.12 only.
+- Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
+   -AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.10 only.
+  
+- Libraries needed (For binary usage):
+
+- Pandas
+- aiohttp
+- scikit-learn
+- numpy
+- psutil
 
 ### Disk Space
 - Minimum: **500 MB** (for core library + dependencies)
