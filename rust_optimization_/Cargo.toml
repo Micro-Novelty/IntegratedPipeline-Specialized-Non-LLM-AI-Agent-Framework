@@ -6,7 +6,7 @@ edition = "2026"
 
 [lib]
 name = "abstract_weights_core"
-create-type= ["cdylib"]
+crate-type= ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.29", features = ["extension-module"] }
