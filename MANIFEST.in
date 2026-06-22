@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include Changelog.md
+recursive-include src *.pyx *.pxd
+recursive-include rust_optimization_ *.rs *.toml
+exclude *.py
+global-exclude *.py
+global-exclude __pycache__
+global-exclude *.pyc
