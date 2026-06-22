@@ -6,5 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "AbstractIntegratedModule"
 version = "0.1.0"
 description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["numpy>=2.1.0"]
