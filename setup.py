@@ -5,6 +5,7 @@ import os
 
 # path to your .pyx file — adjust if your module lives under a package directory
 pyx_path = os.path.join("src", "AbstractIntegratedModule.pyx")
+pyx_path = os.path.join("src", "AbstractOptimizedModules.pyx")
 
 extensions = [
     Extension(
