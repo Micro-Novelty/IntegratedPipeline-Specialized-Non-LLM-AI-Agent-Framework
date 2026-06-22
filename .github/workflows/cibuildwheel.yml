@@ -1,0 +1,72 @@
+name: Build wheels (cibuildwheel) for Linux and macOS (x86_64 + aarch64)
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '**/*.pyx'
+  pull_request:
+    paths:
+      - '**/*.pyx'
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    name: manylinux wheels (x86_64 + aarch64)
+    runs-on: ubuntu-latest
+    env:
+      CIBW_PLATFORM: linux
+      CIBW_ARCHS: "aarch64 x86_64"
+      CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build wheels (cibuildwheel)
+        uses: cibuildwheel/action@v3
+        with:
+          output-directory: wheelhouse
+        env:
+          CIBW_PLATFORM: ${{ env.CIBW_PLATFORM }}
+          CIBW_ARCHS: ${{ env.CIBW_ARCHS }}
+          CIBW_BUILD: ${{ env.CIBW_BUILD }}
+          CIBW_TEST_COMMAND: ${{ env.CIBW_TEST_COMMAND }}
+
+      - name: Upload wheelhouse artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-linux
+          path: wheelhouse/*.whl
+
+  build-macos:
+    name: macOS wheels (arm64 + x86_64)
+    runs-on: macos-latest
+    env:
+      CIBW_PLATFORM: macos
+      CIBW_OSX_ARCHS: "arm64 x86_64"
+      CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wheels (cibuildwheel) on macOS
+        uses: cibuildwheel/action@v3
+        with:
+          output-directory: wheelhouse
+        env:
+          CIBW_PLATFORM: ${{ env.CIBW_PLATFORM }}
+          CIBW_OSX_ARCHS: ${{ env.CIBW_OSX_ARCHS }}
+          CIBW_BUILD: ${{ env.CIBW_BUILD }}
+          CIBW_TEST_COMMAND: ${{ env.CIBW_TEST_COMMAND }}
+
+      - name: Upload wheelhouse artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-macos
+          path: wheelhouse/*.whl
