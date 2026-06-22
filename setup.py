@@ -14,6 +14,12 @@ extensions = [
         include_dirs=[],
         libraries=[],
     )
+    Extension(
+        "AbstractOptimizedModules",  # module name as imported in Python
+        [optimized_pyx_path],
+        include_dirs=[],
+        libraries=[],
+    )    
 ]
 
 setup(
