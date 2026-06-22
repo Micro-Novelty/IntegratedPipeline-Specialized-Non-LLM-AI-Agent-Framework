@@ -19,7 +19,7 @@ jobs:
       CIBW_ARCHS: "aarch64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BEFORE_BUILD: "pip install numpy"
-      CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
+      CIBW_TEST_COMMAND: "pip install numpy && python -c \"import AbstractIntegratedModule as m; print('OK', getattr(m, '__name__', None))\""
     steps:
       - uses: actions/checkout@v4
 
@@ -33,12 +33,6 @@ jobs:
         uses: pypa/cibuildwheel@v4.0.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_PLATFORM: ${{ env.CIBW_PLATFORM }}
-          CIBW_ARCHS: ${{ env.CIBW_ARCHS }}
-          CIBW_BUILD: ${{ env.CIBW_BUILD }}
-          CIBW_BEFORE_BUILD: ${{ env.CIBW_BEFORE_BUILD }}        
-          CIBW_TEST_COMMAND: ${{ env.CIBW_TEST_COMMAND }}
 
       - name: Upload wheelhouse artifact
         uses: actions/upload-artifact@v4
@@ -54,7 +48,7 @@ jobs:
       CIBW_OSX_ARCHS: "arm64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BEFORE_BUILD: "pip install numpy"
-      CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
+      CIBW_TEST_COMMAND: "pip install numpy && python -c \"import AbstractIntegratedModule as m; print('OK', getattr(m, '__name__', None))\""
     steps:
       - uses: actions/checkout@v4
 
@@ -62,12 +56,6 @@ jobs:
         uses: pypa/cibuildwheel@v4.0.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_PLATFORM: ${{ env.CIBW_PLATFORM }}
-          CIBW_OSX_ARCHS: ${{ env.CIBW_OSX_ARCHS }}
-          CIBW_BUILD: ${{ env.CIBW_BUILD }}
-          CIBW_BEFORE_BUILD: ${{ env.CIBW_BEFORE_BUILD }}
-          CIBW_TEST_COMMAND: ${{ env.CIBW_TEST_COMMAND }}
 
       - name: Upload wheelhouse artifact
         uses: actions/upload-artifact@v4
