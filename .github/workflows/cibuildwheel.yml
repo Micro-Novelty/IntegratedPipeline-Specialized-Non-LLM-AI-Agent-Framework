@@ -118,7 +118,7 @@ jobs:
   build-linux-x86_64:
     name: Build Linux wheels (x86_64)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 500
     needs: [cythonize, build-rust-wheels]
     env:
       CIBW_PLATFORM: linux
@@ -127,6 +127,7 @@ jobs:
       CIBW_BUILD_FRONTEND: "build[uv]"
       # BEFORE_ALL runs once per platform, not per wheel
       CIBW_BEFORE_ALL_LINUX: >
+        yum install -y openblas-devel &&
         pip install numpy scikit-learn psutil aiohttp pandas &&
         pip install /host/rust-wheels/*.whl || true
       # BEFORE_BUILD installs rust wheel per-interpreter
@@ -180,7 +181,7 @@ jobs:
   build-linux-aarch64:
     name: Build Linux wheels (aarch64)
     runs-on: ubuntu-24.04-arm  # ✅ native ARM64, not emulated
-    timeout-minutes: 30
+    timeout-minutes: 500
     # Skip aarch64 on PRs — only run on push/tag/manual
     if: github.event_name != 'pull_request'
     needs: [cythonize, build-rust-wheels]
@@ -190,6 +191,7 @@ jobs:
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
       CIBW_BEFORE_ALL_LINUX: >
+        yum install -y openblas-devel &&
         pip install numpy scikit-learn psutil aiohttp pandas
       CIBW_BEFORE_BUILD: >
         pip install /tmp/rust-wheels/*.whl || true
