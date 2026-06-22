@@ -19,7 +19,7 @@ jobs:
       CIBW_ARCHS: "aarch64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BEFORE_BUILD: "pip install numpy scikit-learn psutil aiohttp pandas"
-      CIBW_TEST_COMMAND: "pip install numpy scikit-learn psutil aiohttp pandas && python -c \"import AbstractIntegratedModule as m; print('OK', getattr(m, '__name__', None))\""
+      CIBW_TEST_COMMAND: "pip install numpy scikit-learn psutil aiohttp pandas && python -c \"import AbstractIntegratedModule as m; import AbstractOptimizedModules as o; print('OK', getattr(m, '__name__', None))\""
     steps:
       - uses: actions/checkout@v4
 
@@ -48,7 +48,7 @@ jobs:
       CIBW_OSX_ARCHS: "arm64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BEFORE_BUILD: "pip install numpy scikit-learn psutil aiohttp pandas"
-      CIBW_TEST_COMMAND: "pip install numpy scikit-learn psutil aiohttp pandas && python -c \"import AbstractIntegratedModule as m; print('OK', getattr(m, '__name__', None))\""
+      CIBW_TEST_COMMAND: "pip install numpy scikit-learn psutil aiohttp pandas && python -c \"import AbstractIntegratedModule as m; import AbstractOptimizedModules as o; print('OK', getattr(m, '__name__', None))\""
     steps:
       - uses: actions/checkout@v4
 
