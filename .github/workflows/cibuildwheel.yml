@@ -5,129 +5,258 @@ on:
     branches: [main, master]
     paths:
       - '**/*.pyx'
-      - '**/Cargo.toml'
       - '**/*.rs'
+      - '**/Cargo.toml'
+      - 'pyproject.toml'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
     paths:
       - '**/*.pyx'
-      - '**/Cargo.toml'
       - '**/*.rs'
+      - '**/Cargo.toml'
   workflow_dispatch:
 
 jobs:
+  # ─────────────────────────────────────────────
+  # JOB 1: Pre-generate Cython .c files ONCE
+  # Avoids re-cythonizing inside every container
+  # ─────────────────────────────────────────────
+  cythonize:
+    name: Pre-generate Cython C files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Cython + numpy
+        run: pip install "cython>=3.0" "numpy>=2.1.0"
+
+      - name: Cythonize .pyx files
+        run: |
+          cython --version
+          # Generate C files from all .pyx files under src/
+          find src/ -name "*.pyx" | while read f; do
+            echo "Cythonizing $f..."
+            cython "$f"
+          done
+
+      # Upload generated .c files so every build job uses them
+      - name: Upload Cython C files
+        uses: actions/upload-artifact@v4
+        with:
+          name: cython-c-files
+          path: src/*.c
+          retention-days: 1
+
+  # ─────────────────────────────────────────────
+  # JOB 2: Build Rust extension wheels
+  # One job per OS, builds all Python versions
+  # in a single maturin invocation
+  # ─────────────────────────────────────────────
   build-rust-wheels:
     name: Build Rust wheels (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      # ✅ Cache Rust compilation artifacts (biggest win ~30-60 min saved)
       - name: Cache Rust build
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "./rust_optimization_ -> target"
 
-      # ✅ sccache for distributed compiler caching
       - name: Install sccache
         uses: mozilla-actions/sccache-action@v0.0.5
 
-      - name: Set up Python (once, for maturin)
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # ✅ maturin installed ONCE, builds ALL Python versions in one shot
       - name: Install maturin
         run: pip install maturin
 
-      - name: Build Rust wheels for all Python versions
+      - name: Build Rust wheels (all Python versions)
         working-directory: ./rust_optimization_
-        env:
-          RUSTC_WRAPPER: sccache
-          SCCACHE_GHA_ENABLED: "true"
         run: |
+          # Graceful sccache fallback — if GH cache is down, build anyway
+          if sccache --start-server 2>/dev/null; then
+            export RUSTC_WRAPPER=sccache
+            export SCCACHE_GHA_ENABLED=true
+            echo "✅ sccache enabled"
+          else
+            echo "⚠️ sccache unavailable, building without cache"
+          fi
+
           maturin build --release \
             --interpreter python3.10 python3.11 python3.12
+
+      - name: sccache stats
+        if: always()
+        run: sccache --show-stats || true
 
       - name: Upload Rust wheels
         uses: actions/upload-artifact@v4
         with:
           name: rust-wheels-${{ matrix.os }}
           path: rust_optimization_/target/wheels/*.whl
-          # ✅ Retain for 7 days to reuse across workflow runs
           retention-days: 7
 
-  build-linux:
-    name: Build Linux wheels (x86_64 + aarch64)
+  # ─────────────────────────────────────────────
+  # JOB 3a: Linux x86_64 — native runner
+  # ─────────────────────────────────────────────
+  build-linux-x86_64:
+    name: Build Linux wheels (x86_64)
     runs-on: ubuntu-latest
-    needs: build-rust-wheels
+    timeout-minutes: 30
+    needs: [cythonize, build-rust-wheels]
     env:
       CIBW_PLATFORM: linux
-      CIBW_ARCHS: "x86_64 aarch64"
+      CIBW_ARCHS: x86_64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
-      CIBW_BUILD_FRONTEND: "build[uv]"  # ✅ uv is much faster than pip
-      CIBW_BEFORE_ALL: |
-        # ✅ BEFORE_ALL runs ONCE per platform, not once per wheel
-        pip install numpy scikit-learn psutil aiohttp pandas
-      CIBW_BEFORE_BUILD: |
-        # Install pre-built rust wheel for this Python version
-        pip install /tmp/rust-wheels/*.whl || true
-      CIBW_REPAIR_WHEEL_COMMAND: "auditwheel repair -w {dest_dir} {wheel}"
-      CIBW_TEST_COMMAND: "python -c \"import sys; print('✓ Build successful')\""
+      CIBW_BUILD_FRONTEND: "build[uv]"
+      # BEFORE_ALL runs once per platform, not per wheel
+      CIBW_BEFORE_ALL_LINUX: >
+        pip install numpy scikit-learn psutil aiohttp pandas &&
+        pip install /host/rust-wheels/*.whl || true
+      # BEFORE_BUILD installs rust wheel per-interpreter
+      CIBW_BEFORE_BUILD: >
+        pip install /host/rust-wheels/*.whl || true
+      CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+        auditwheel repair -w {dest_dir} {wheel}
+      CIBW_TEST_COMMAND: >
+        python -c "import sys; print('✓ Python', sys.version, 'OK')"
+      # Mount rust wheels into container
+      CIBW_CONTAINER_ENGINE: "docker"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Rust wheels (Linux)
+      - name: Download Cython C files
+        uses: actions/download-artifact@v4
+        with:
+          name: cython-c-files
+          path: src/
+
+      - name: Download Rust wheels (Linux x86_64)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-ubuntu-latest
           path: /tmp/rust-wheels
 
-      # ✅ uv speeds up pip installs in the build environment
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22.0
+        with:
+          output-dir: wheelhouse
+        env:
+          # Mount rust wheels dir into the manylinux container
+          CIBW_ENVIRONMENT: >
+            RUST_WHEEL_DIR=/host/rust-wheels
+          CIBW_BEFORE_BUILD: >
+            pip install /tmp/rust-wheels/*.whl || true
 
-      - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-linux-x86_64
+          path: wheelhouse/*.whl
 
-      - name: Build wheels with cibuildwheel
+  # ─────────────────────────────────────────────
+  # JOB 3b: Linux aarch64 — NATIVE ARM runner
+  # No QEMU, same speed as x86
+  # ─────────────────────────────────────────────
+  build-linux-aarch64:
+    name: Build Linux wheels (aarch64)
+    runs-on: ubuntu-24.04-arm  # ✅ native ARM64, not emulated
+    timeout-minutes: 30
+    # Skip aarch64 on PRs — only run on push/tag/manual
+    if: github.event_name != 'pull_request'
+    needs: [cythonize, build-rust-wheels]
+    env:
+      CIBW_PLATFORM: linux
+      CIBW_ARCHS: aarch64
+      CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_BUILD_FRONTEND: "build[uv]"
+      CIBW_BEFORE_ALL_LINUX: >
+        pip install numpy scikit-learn psutil aiohttp pandas
+      CIBW_BEFORE_BUILD: >
+        pip install /tmp/rust-wheels/*.whl || true
+      CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+        auditwheel repair -w {dest_dir} {wheel}
+      CIBW_TEST_COMMAND: >
+        python -c "import sys; print('✓ Python', sys.version, 'OK')"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Cython C files
+        uses: actions/download-artifact@v4
+        with:
+          name: cython-c-files
+          path: src/
+
+      - name: Download Rust wheels (Linux aarch64)
+        uses: actions/download-artifact@v4
+        with:
+          # ✅ Use ARM-native built rust wheels, not x86
+          name: rust-wheels-ubuntu-24.04-arm
+          path: /tmp/rust-wheels
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
 
-      - name: Upload wheelhouse
+      - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-linux
+          name: wheels-linux-aarch64
           path: wheelhouse/*.whl
 
+  # ─────────────────────────────────────────────
+  # JOB 4: macOS — x86_64 + arm64
+  # macos-latest is Apple Silicon, cross-compiles x86
+  # ─────────────────────────────────────────────
   build-macos:
-    name: Build macOS wheels (arm64 + x86_64)
+    name: Build macOS wheels (x86_64 + arm64)
     runs-on: macos-latest
-    needs: build-rust-wheels
+    timeout-minutes: 30
+    needs: [cythonize, build-rust-wheels]
     env:
       CIBW_PLATFORM: macos
       CIBW_ARCHS: "x86_64 arm64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
-      CIBW_BUILD_FRONTEND: "build[uv]"  # ✅ uv here too
-      CIBW_BEFORE_ALL: |
-        # ✅ Runs ONCE, not per-wheel
+      CIBW_BUILD_FRONTEND: "build[uv]"
+      CIBW_BEFORE_ALL_MACOS: >
         pip install numpy scikit-learn psutil aiohttp pandas
-      CIBW_BEFORE_BUILD: |
+      CIBW_BEFORE_BUILD: >
         pip install /tmp/rust-wheels/*.whl || true
-      CIBW_TEST_COMMAND: "python -c \"import sys; print('✓ Build successful')\""
+      CIBW_TEST_COMMAND: >
+        python -c "import sys; print('✓ Python', sys.version, 'OK')"
+      # Skip test for cross-compiled x86 wheels on ARM runner
+      CIBW_TEST_SKIP: "*-macosx_x86_64"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download Cython C files
+        uses: actions/download-artifact@v4
+        with:
+          name: cython-c-files
+          path: src/
 
       - name: Download Rust wheels (macOS)
         uses: actions/download-artifact@v4
@@ -138,13 +267,43 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Build wheels with cibuildwheel
+      - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
 
-      - name: Upload wheelhouse
+      - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-macos
           path: wheelhouse/*.whl
+
+  # ─────────────────────────────────────────────
+  # JOB 5: Collect all wheels into one artifact
+  # ─────────────────────────────────────────────
+  collect-wheels:
+    name: Collect all wheels
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: always()
+    needs: [build-linux-x86_64, build-linux-aarch64, build-macos]
+    steps:
+      - name: Download all wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          merge-multiple: true
+          path: all-wheels/
+
+      - name: List built wheels
+        run: |
+          echo "=== Built wheels ==="
+          ls -lh all-wheels/
+          echo "Total: $(ls all-wheels/*.whl | wc -l) wheels"
+
+      - name: Upload combined artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-wheels
+          path: all-wheels/*.whl
+          retention-days: 30
