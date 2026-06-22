@@ -18,6 +18,7 @@ jobs:
       CIBW_PLATFORM: linux
       CIBW_ARCHS: "aarch64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_BUILD: "pip install numpy"
       CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
     steps:
       - uses: actions/checkout@v4
@@ -51,6 +52,7 @@ jobs:
       CIBW_PLATFORM: macos
       CIBW_OSX_ARCHS: "arm64 x86_64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_BUILD: "pip install numpy"
       CIBW_TEST_COMMAND: python -c "import AbstractIntegratedModule as m; print('OK', getattr(m,'__name__',None))"
     steps:
       - uses: actions/checkout@v4
