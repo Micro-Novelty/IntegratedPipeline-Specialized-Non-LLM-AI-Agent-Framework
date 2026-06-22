@@ -12,13 +12,13 @@ extensions = [
         "AbstractIntegratedModule",            # module name as imported in Python
         [pyx_path],
         # add include_dirs or libraries here, e.g. numpy.get_include()
-        include_dirs=[],
+        include_dirs=[numpy.get_include()],
         libraries=[],
     ),
     Extension(
         "AbstractOptimizedModules",  # module name as imported in Python
         [optimized_pyx_path],
-        include_dirs=[],
+        include_dirs=[numpy.get_include()],
         libraries=[],
     ),
 ]
