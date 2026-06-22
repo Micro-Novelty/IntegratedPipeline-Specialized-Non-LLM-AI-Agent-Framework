@@ -6,7 +6,7 @@ edition = "2021"
 
 [lib]
 name = "abstract_weights_core"
-path = "rust_optimization_/lib.rs"
+path = "lib.rs"
 crate-type= ["cdylib"]
 
 [dependencies]
