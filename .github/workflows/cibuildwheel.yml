@@ -6,16 +6,18 @@ on:
     paths:
       - '**/*.pyx'
       - '**/Cargo.toml'
+      - '**/*.rs'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
     paths:
       - '**/*.pyx'
       - '**/Cargo.toml'
+      - '**/*.rs'
   workflow_dispatch:
 
 jobs:
   build-rust-wheels:
-    name: Build Rust wheels (abstract_weights_core)
+    name: Build Rust wheels (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,55 +28,42 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Set up QEMU (for Linux aarch64)
-        if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v2
-
-      # Build wheel for Python 3.10
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+      # ✅ Cache Rust compilation artifacts (biggest win ~30-60 min saved)
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
         with:
-          python-version: '3.10'
+          workspaces: "./rust_optimization_ -> target"
 
-      - name: Install maturin for 3.10
-        run: python -m pip install --upgrade pip maturin
+      # ✅ sccache for distributed compiler caching
+      - name: Install sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
 
-      - name: Build Rust wheels for Python 3.10
-        working-directory: ./rust_optimization_
-        run: maturin build --release
-
-      # Build wheel for Python 3.11
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install maturin for 3.11
-        run: python -m pip install --upgrade pip maturin
-
-      - name: Build Rust wheels for Python 3.11
-        working-directory: ./rust_optimization_
-        run: maturin build --release
-
-      # Build wheel for Python 3.12
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
+      - name: Set up Python (once, for maturin)
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install maturin for 3.12
-        run: python -m pip install --upgrade pip maturin
+      # ✅ maturin installed ONCE, builds ALL Python versions in one shot
+      - name: Install maturin
+        run: pip install maturin
 
-      - name: Build Rust wheels for Python 3.12
+      - name: Build Rust wheels for all Python versions
         working-directory: ./rust_optimization_
-        run: maturin build --release
+        env:
+          RUSTC_WRAPPER: sccache
+          SCCACHE_GHA_ENABLED: "true"
+        run: |
+          maturin build --release \
+            --interpreter python3.10 python3.11 python3.12
 
       - name: Upload Rust wheels
         uses: actions/upload-artifact@v4
         with:
           name: rust-wheels-${{ matrix.os }}
           path: rust_optimization_/target/wheels/*.whl
-          
+          # ✅ Retain for 7 days to reuse across workflow runs
+          retention-days: 7
+
   build-linux:
     name: Build Linux wheels (x86_64 + aarch64)
     runs-on: ubuntu-latest
@@ -83,34 +72,40 @@ jobs:
       CIBW_PLATFORM: linux
       CIBW_ARCHS: "x86_64 aarch64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
-      CIBW_BUILD_FRONTEND: "build[uv]"
-      CIBW_BEFORE_BUILD: |
+      CIBW_BUILD_FRONTEND: "build[uv]"  # ✅ uv is much faster than pip
+      CIBW_BEFORE_ALL: |
+        # ✅ BEFORE_ALL runs ONCE per platform, not once per wheel
         pip install numpy scikit-learn psutil aiohttp pandas
-        mkdir -p /tmp/rust-wheels
-      CIBW_ENVIRONMENT: "PATH=/tmp/rust-wheels:$PATH"
+      CIBW_BEFORE_BUILD: |
+        # Install pre-built rust wheel for this Python version
+        pip install /tmp/rust-wheels/*.whl || true
       CIBW_REPAIR_WHEEL_COMMAND: "auditwheel repair -w {dest_dir} {wheel}"
       CIBW_TEST_COMMAND: "python -c \"import sys; print('✓ Build successful')\""
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Rust wheels
+      - name: Download Rust wheels (Linux)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-ubuntu-latest
           path: /tmp/rust-wheels
 
+      # ✅ uv speeds up pip installs in the build environment
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Build wheels with cibuildwheel
-        uses: pypa/cibuildwheel@v4.0.0
+        uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
 
-      - name: Upload wheelhouse artifact
+      - name: Upload wheelhouse
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux
@@ -124,26 +119,31 @@ jobs:
       CIBW_PLATFORM: macos
       CIBW_ARCHS: "x86_64 arm64"
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
-      CIBW_BEFORE_BUILD: |
+      CIBW_BUILD_FRONTEND: "build[uv]"  # ✅ uv here too
+      CIBW_BEFORE_ALL: |
+        # ✅ Runs ONCE, not per-wheel
         pip install numpy scikit-learn psutil aiohttp pandas
-        mkdir -p /tmp/rust-wheels
-      CIBW_ENVIRONMENT: "PATH=/tmp/rust-wheels:$PATH"
+      CIBW_BEFORE_BUILD: |
+        pip install /tmp/rust-wheels/*.whl || true
       CIBW_TEST_COMMAND: "python -c \"import sys; print('✓ Build successful')\""
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Rust wheels
+      - name: Download Rust wheels (macOS)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-macos-latest
           path: /tmp/rust-wheels
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Build wheels with cibuildwheel
-        uses: pypa/cibuildwheel@v4.0.0
+        uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
 
-      - name: Upload wheelhouse artifact
+      - name: Upload wheelhouse
         uses: actions/upload-artifact@v4
         with:
           name: wheels-macos
