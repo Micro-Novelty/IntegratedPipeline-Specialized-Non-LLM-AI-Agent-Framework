@@ -125,15 +125,37 @@ jobs:
       CIBW_ARCHS: x86_64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
-      # BEFORE_ALL runs once per platform, not per wheel
-      CIBW_BEFORE_ALL_LINUX: >
-        yum install -y epel-release &&
-        yum install -y openblas-devel blas-devel lapack-devel &&
-        pip install numpy scikit-learn psutil aiohttp pandas &&
-        pip install /host/rust-wheels/*.whl || true
-      # BEFORE_BUILD installs rust wheel per-interpreter
+      # Set a single canonical path that will be mounted into the container
+      CIBW_ENVIRONMENT: >
+        RUST_WHEEL_DIR=/host/rust-wheels
+      # BEFORE_ALL runs once per platform — detect package manager inside container
+      CIBW_BEFORE_ALL_LINUX: |
+        set -euo pipefail
+        echo "Detecting package manager..."
+        if command -v yum >/dev/null 2>&1; then
+          echo "yum detected — installing manylinux deps"
+          yum install -y epel-release || true
+          yum install -y openblas-devel blas-devel lapack-devel || true
+        elif command -v apk >/dev/null 2>&1; then
+          echo "apk detected — installing musllinux deps"
+          apk add --no-cache openblas-dev lapack-dev build-base gfortran || true
+        elif command -v apt-get >/dev/null 2>&1; then
+          echo "apt-get detected — installing ubuntu/debian deps"
+          apt-get update && apt-get install -y libopenblas-dev liblapack-dev build-essential gfortran || true
+        else
+          echo "No known package manager found; skipping system package installation"
+        fi
+        echo "Installing Python-level deps..."
+        pip install numpy scikit-learn psutil aiohttp pandas || true
+        # Try to install prebuilt rust wheels if present at the mounted path
+        if [ -d "${RUST_WHEEL_DIR:-/host/rust-wheels}" ] && ls "${RUST_WHEEL_DIR}"/*.whl >/dev/null 2>&1; then
+          pip install "${RUST_WHEEL_DIR}"/*.whl || true
+        else
+          echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
+        fi
+      # Install rust wheel per-interpreter from the canonical mounted path
       CIBW_BEFORE_BUILD: >
-        pip install /host/rust-wheels/*.whl || true
+        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
         auditwheel repair -w {dest_dir} {wheel}
       CIBW_TEST_COMMAND: >
@@ -154,6 +176,12 @@ jobs:
         with:
           name: rust-wheels-ubuntu-latest
           path: /tmp/rust-wheels
+
+      - name: Debug rust-wheels on runner
+        run: |
+          echo "Contents of /tmp/rust-wheels on runner:"
+          ls -la /tmp/rust-wheels || true
+          echo "Will expect container mount at /host/rust-wheels"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -191,12 +219,34 @@ jobs:
       CIBW_ARCHS: aarch64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
-      CIBW_BEFORE_ALL_LINUX: >
-        yum install -y epel-release &&
-        yum install -y openblas-devel blas-devel lapack-devel &&
-        pip install numpy scikit-learn psutil aiohttp pandas
+      # Ensure same canonical path is set for the container
+      CIBW_ENVIRONMENT: >
+        RUST_WHEEL_DIR=/host/rust-wheels
+      CIBW_BEFORE_ALL_LINUX: |
+        set -euo pipefail
+        echo "Detecting package manager..."
+        if command -v yum >/dev/null 2>&1; then
+          echo "yum detected — installing manylinux deps"
+          yum install -y epel-release || true
+          yum install -y openblas-devel blas-devel lapack-devel || true
+        elif command -v apk >/dev/null 2>&1; then
+          echo "apk detected — installing musllinux deps"
+          apk add --no-cache openblas-dev lapack-dev build-base gfortran || true
+        elif command -v apt-get >/dev/null 2>&1; then
+          echo "apt-get detected — installing ubuntu/debian deps"
+          apt-get update && apt-get install -y libopenblas-dev liblapack-dev build-essential gfortran || true
+        else
+          echo "No known package manager found; skipping system package installation"
+        fi
+        echo "Installing Python-level deps..."
+        pip install numpy scikit-learn psutil aiohttp pandas || true
+        if [ -d "${RUST_WHEEL_DIR:-/host/rust-wheels}" ] && ls "${RUST_WHEEL_DIR}"/*.whl >/dev/null 2>&1; then
+          pip install "${RUST_WHEEL_DIR}"/*.whl || true
+        else
+          echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
+        fi
       CIBW_BEFORE_BUILD: >
-        pip install /tmp/rust-wheels/*.whl || true
+        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
         auditwheel repair -w {dest_dir} {wheel}
       CIBW_TEST_COMMAND: >
@@ -216,6 +266,12 @@ jobs:
           # ✅ Use ARM-native built rust wheels, not x86
           name: rust-wheels-ubuntu-24.04-arm
           path: /tmp/rust-wheels
+
+      - name: Debug rust-wheels on runner
+        run: |
+          echo "Contents of /tmp/rust-wheels on runner:"
+          ls -la /tmp/rust-wheels || true
+          echo "Will expect container mount at /host/rust-wheels"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -292,22 +348,5 @@ jobs:
     if: always()
     needs: [build-linux-x86_64, build-linux-aarch64, build-macos]
     steps:
-      - name: Download all wheel artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: wheels-*
-          merge-multiple: true
-          path: all-wheels/
-
-      - name: List built wheels
-        run: |
-          echo "=== Built wheels ==="
-          ls -lh all-wheels/
-          echo "Total: $(ls all-wheels/*.whl | wc -l) wheels"
-
-      - name: Upload combined artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: all-wheels
-          path: all-wheels/*.whl
-          retention-days: 30
+      - name:
+
