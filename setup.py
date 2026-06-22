@@ -1,6 +1,7 @@
 from setuptools import setup, Extension
 from setuptools_rust import RustExtension
 from Cython.Build import cythonize
+import numpy
 import os
 
 # path to your .pyx file — adjust if your module lives under a package directory
