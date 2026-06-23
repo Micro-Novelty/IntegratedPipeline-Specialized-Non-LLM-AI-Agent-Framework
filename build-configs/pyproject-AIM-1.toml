@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61", "wheel", "numpy>=2.1.0", "cython", "setuptools-rust"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AbstractIntegratedModule"
+version = "0.7.3"
+authors = [
+    {name = "Micro-Novelty", email = "hernikpuspita5@gmail.com"},
+]
+description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework"
+readme = "readme-docs/README-AIM-1.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=2.1.0"]
