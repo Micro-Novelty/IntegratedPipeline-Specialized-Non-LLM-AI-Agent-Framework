@@ -9,5 +9,5 @@ authors = [
     {name = "Micro-Novelty", email = "hernikpuspita5@gmail.com"},
 ]
 description = "Optimization Module used by AbstractIntegratedModule library"
-readme = "readme-docs/opt-README.md"
+readme = "opt-README.md"
 requires-python = "> 3.10"
