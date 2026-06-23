@@ -131,7 +131,7 @@ jobs:
   build-linux-x86_64:
     name: Build Linux wheels (x86_64)
     runs-on: ubuntu-latest
-    timeout-minutes: 500
+    timeout-minutes: 525
     needs: [cythonize, build-rust-wheels]
     strategy:
       fail-fast: false
@@ -345,7 +345,7 @@ jobs:
   build-linux-aarch64-regular:
     name: Build Linux wheels (aarch64, regular)
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 500
+    timeout-minutes: 525
     if: github.event_name != 'pull_request'
     needs: [cythonize, build-rust-wheels]
     env:
