@@ -10,7 +10,7 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
 #### Note: The README here you are reading is a direct copy from my README Repository, to download the necessary files, you can visit my Repository with the provided link above.
 
 ### Library Short Description:
-- Development Stage: 0.7.4 Official Release.
+- Development Stage: 0.7.5 Official Release.
 - Maintainer: Micro-Novelty.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -36,7 +36,7 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
    - Robust Advanced prediction capabilities proven effective on ARM64 Using MLP + LSTM Architectures.
    - Transformer Modules Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 - Changelog:
-     - v0.7.4:
+     - v0.7.5:
           - [=] New features: 
           - Adding Optimization and refinements, especially bug fixes in:
              - IntegratedPipeline lstm samples creating
