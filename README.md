@@ -30,7 +30,19 @@
    - Robust Advanced prediction capabilities proven effective on ARM64 Using MLP + LSTM Architectures.
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
-
+  - Changelog:
+       - v0.7.4:
+            - [=] New features: 
+            - Adding Optimization and refinements, especially bug fixes in:
+               - IntegratedPipeline lstm samples creating
+               - IntegratedPipeline shape adaptation
+               - IntegratedPipeline probability calibration
+               - IntegratedPipeline auto generate labels text
+               - IntegratedPipeline MLP samples generation.
+            - Added New specific module in Rust for Parsing JSON values with reduced memory lookup overhead.
+            - Fixed bug where number of classes can be None in edge cases.
+        
+         
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
 
