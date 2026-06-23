@@ -339,6 +339,93 @@ jobs:
             wheelhouse/docs/*.md
  
   # ─────────────────────────────────────────────
+  # JOB 3c: Linux aarch64 — regular build
+  # Uses build-configs/pyproject.toml (GitHub README)
+  # manylinux + musllinux, cp310–cp312
+  # ─────────────────────────────────────────────
+  build-linux-aarch64-regular:
+    name: Build Linux wheels (aarch64, regular)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 500
+    if: github.event_name != 'pull_request'
+    needs: [cythonize, build-rust-wheels]
+    env:
+      CIBW_PLATFORM: linux
+      CIBW_ARCHS: aarch64
+      CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_BUILD_FRONTEND: "build[uv]"
+      CIBW_ENVIRONMENT: >
+        RUST_WHEEL_DIR=/host/rust-wheels
+      CIBW_BEFORE_ALL_LINUX: |
+        set -euo pipefail
+        echo "Detecting package manager..."
+        if command -v yum >/dev/null 2>&1; then
+          echo "yum detected — installing manylinux deps"
+          yum install -y epel-release || true
+          yum install -y openblas-devel blas-devel lapack-devel || true
+        elif command -v apk >/dev/null 2>&1; then
+          echo "apk detected — installing musllinux deps"
+          apk add --no-cache openblas-dev lapack-dev build-base gfortran || true
+        elif command -v apt-get >/dev/null 2>&1; then
+          echo "apt-get detected — installing ubuntu/debian deps"
+          apt-get update && apt-get install -y libopenblas-dev liblapack-dev build-essential gfortran || true
+        else
+          echo "No known package manager found; skipping system package installation"
+        fi
+        echo "Installing Python-level deps..."
+        pip install numpy scikit-learn psutil aiohttp pandas || true
+        if [ -d "${RUST_WHEEL_DIR:-/host/rust-wheels}" ] && ls "${RUST_WHEEL_DIR}"/*.whl >/dev/null 2>&1; then
+          pip install "${RUST_WHEEL_DIR}"/*.whl || true
+        else
+          echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
+        fi
+      CIBW_BEFORE_BUILD: >
+        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+      CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+        auditwheel repair -w {dest_dir} {wheel}
+      CIBW_TEST_COMMAND: >
+        python -c "import sys; print('✓ Python', sys.version, 'OK')"
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Download Cython C files
+        uses: actions/download-artifact@v4
+        with:
+          name: cython-c-files
+          path: src/
+ 
+      - name: Download Rust wheels (Linux aarch64)
+        uses: actions/download-artifact@v4
+        with:
+          name: rust-wheels-ubuntu-24.04-arm
+          path: /tmp/rust-wheels
+ 
+      - name: Copy regular pyproject.toml to root
+        run: |
+          echo "Using build-configs/pyproject.toml as pyproject.toml"
+          cp build-configs/pyproject.toml pyproject.toml
+ 
+      - name: Debug rust-wheels on runner
+        run: |
+          echo "Contents of /tmp/rust-wheels on runner:"
+          ls -la /tmp/rust-wheels || true
+          echo "Will expect container mount at /host/rust-wheels"
+ 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+ 
+      - name: Build wheels (regular aarch64)
+        uses: pypa/cibuildwheel@v2.22.0
+        with:
+          output-dir: wheelhouse
+ 
+      - name: Upload wheels (regular aarch64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-linux-aarch64-regular
+          path: wheelhouse/*.whl
+ 
+  # ─────────────────────────────────────────────
   # JOB 4: macOS — x86_64 + arm64
   # Uses pyproject-AIM-4.toml
   # ─────────────────────────────────────────────
@@ -409,7 +496,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: always()
-    needs: [build-linux-x86_64, build-linux-aarch64, build-macos]
+    needs: [build-linux-x86_64, build-linux-aarch64, build-linux-aarch64-regular, build-macos]
     steps:
       - name: Download all wheel artifacts
         uses: actions/download-artifact@v4
