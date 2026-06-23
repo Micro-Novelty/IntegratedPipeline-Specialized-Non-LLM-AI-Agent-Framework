@@ -106,11 +106,22 @@ jobs:
         if: always()
         run: sccache --show-stats || true
  
+      - name: Copy opt-README into Rust wheels output
+        run: |
+          if [ -f "readme-docs/opt-README.md" ]; then
+            cp readme-docs/opt-README.md rust_optimization_/target/wheels/opt-README.md
+            echo "✅ opt-README.md bundled with Rust wheels"
+          else
+            echo "⚠️ readme-docs/opt-README.md not found, skipping"
+          fi
+ 
       - name: Upload Rust wheels
         uses: actions/upload-artifact@v4
         with:
           name: rust-wheels-${{ matrix.os }}
-          path: rust_optimization_/target/wheels/*.whl
+          path: |
+            rust_optimization_/target/wheels/*.whl
+            rust_optimization_/target/wheels/opt-README.md
           retention-days: 7
  
   # ─────────────────────────────────────────────
@@ -434,3 +445,4 @@ jobs:
             all-wheels/*.whl
             all-wheels/docs/*.md
           retention-days: 30
+ 
