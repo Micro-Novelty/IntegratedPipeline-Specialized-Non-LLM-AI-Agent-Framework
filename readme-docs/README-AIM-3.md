@@ -16,8 +16,8 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
 - Library installation: 
   ```bash
-  pip install AbstractIntegratedModule
-  python -m install AbstractIntegratedModule
+  pip install AbstractIntegratedModule-x86_64
+  python -m install AbstractIntegratedModule-x86_64
   ```
 
 - The library also includes wheels for:
@@ -135,8 +135,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 [~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](requirements.txt):
 - pip install for quick usage:
 - ```bash
-  pip install AbstractIntegratedModule # or
-  python -m pip install AbstractIntegratedModule
+  pip install AbstractIntegratedModule-x86_64 # or
+  python -m pip install AbstractIntegratedModule-x86_64
   ```
   
 - Download binaries manually in the repository (Choose one minimal, specified for your needs):
@@ -233,8 +233,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 4. Run IntegratedPipeline in a Container:
     - Install AbstractIntegratedModule via PIP or binaries (for binaries, can  be downloaded in release section):
     - ```bash
-      pip install AbstractIntegratedModule # or
-      python -m pip install AbstractIntegratedModule
+      pip install AbstractIntegratedModule-x86_64 # or
+      python -m pip install AbstractIntegratedModule-x86_64
       ```
       
     - ```bash
