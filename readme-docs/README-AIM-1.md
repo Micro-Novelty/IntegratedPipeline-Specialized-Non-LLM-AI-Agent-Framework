@@ -23,7 +23,6 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
 - The library also includes wheels for:
    - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
    - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
-   - optimization core implemented in Rust (same support versions as above)
    - not recommended to run this library on other hardware version or below the specified version above.
 
 - Proven Capabilities: 
