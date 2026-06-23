@@ -197,11 +197,20 @@ jobs:
           CIBW_BEFORE_BUILD: >
             pip install /tmp/rust-wheels/*.whl || true
 
+      - name: Copy README(s) for x86_64 into wheelhouse
+        run: |
+          mkdir -p wheelhouse/docs
+          # README-AIM-2 and README-AIM-3 document x86_64 manylinux/musllinux targets
+          if [ -f "readme-docs/README-AIM-2.md" ]; then cp readme-docs/README-AIM-2.md wheelhouse/docs/README-AIM-2.md; fi
+          if [ -f "readme-docs/README-AIM-3.md" ]; then cp readme-docs/README-AIM-3.md wheelhouse/docs/README-AIM-3.md; fi
+
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-x86_64
-          path: wheelhouse/*.whl
+          path: |
+            wheelhouse/*.whl
+            wheelhouse/docs/*.md
 
   # ─────────────────────────────────────────────
   # JOB 3b: Linux aarch64 — NATIVE ARM runner
@@ -281,11 +290,21 @@ jobs:
         with:
           output-dir: wheelhouse
 
+      - name: Copy README(s) for aarch64 into wheelhouse
+        run: |
+          mkdir -p wheelhouse/docs
+          # README-AIM-1 documents aarch64 manylinux/musllinux for cp310/311
+          if [ -f "readme-docs/README-AIM-1.md" ]; then cp readme-docs/README-AIM-1.md wheelhouse/docs/README-AIM-1.md; fi
+          # README-AIM-2 also has aarch64 cp312 notes — include it as well
+          if [ -f "readme-docs/README-AIM-2.md" ]; then cp readme-docs/README-AIM-2.md wheelhouse/docs/README-AIM-2.md; fi
+
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-aarch64
-          path: wheelhouse/*.whl
+          path: |
+            wheelhouse/*.whl
+            wheelhouse/docs/*.md
 
   # ─────────────────────────────────────────────
   # JOB 4: macOS — x86_64 + arm64
@@ -332,11 +351,18 @@ jobs:
         with:
           output-dir: wheelhouse
 
+      - name: Copy README for macOS into wheelhouse
+        run: |
+          mkdir -p wheelhouse/docs
+          if [ -f "readme-docs/README-AIM-4.md" ]; then cp readme-docs/README-AIM-4.md wheelhouse/docs/README-AIM-4.md; fi
+
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-macos
-          path: wheelhouse/*.whl
+          path: |
+            wheelhouse/*.whl
+            wheelhouse/docs/*.md
 
   # ─────────────────────────────────────────────
   # JOB 5: Collect all wheels into one artifact
@@ -344,7 +370,7 @@ jobs:
   collect-wheels:
     name: Collect all wheels
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     if: always()
     needs: [build-linux-x86_64, build-linux-aarch64, build-macos]
     steps:
@@ -355,15 +381,32 @@ jobs:
           merge-multiple: true
           path: all-wheels/
 
-      - name: List built wheels
+      - name: List built wheels and docs
         run: |
-          echo "=== Built wheels ==="
-          ls -lh all-wheels/
-          echo "Total: $(ls all-wheels/*.whl | wc -l) wheels"
+          echo "=== Built artifacts (top-level) ==="
+          ls -Rall all-wheels/ || true
+          echo "=== Found wheels count ==="
+          find all-wheels -name '*.whl' -print | wc -l || true
+          echo "=== Found README docs ==="
+          find all-wheels -type f -name 'README-AIM-*.md' -print || true
+
+      - name: Gather wheels and README docs into all-wheels root
+        run: |
+          set -euo pipefail
+          mkdir -p all-wheels/docs
+          # Copy found wheels to the root of all-wheels (so upload pattern is simple)
+          find all-wheels -name '*.whl' -exec cp {} all-wheels/ \; || true
+          # Copy README files found into all-wheels/docs
+          find all-wheels -type f -name 'README-AIM-*.md' -exec cp {} all-wheels/docs/ \; || true
+          echo "After gather:"
+          ls -lah all-wheels/ || true
+          ls -lah all-wheels/docs/ || true
 
       - name: Upload combined artifact
         uses: actions/upload-artifact@v4
         with:
           name: all-wheels
-          path: all-wheels/*.whl
+          path: |
+            all-wheels/*.whl
+            all-wheels/docs/*.md
           retention-days: 30
