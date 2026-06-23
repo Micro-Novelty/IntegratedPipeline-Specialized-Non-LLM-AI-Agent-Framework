@@ -3,7 +3,7 @@ requires = ["setuptools>=61", "wheel", "numpy>=2.1.0", "cython", "setuptools-rus
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "AbstractIntegratedModule-aarch64"
+name = "AbstractIntegratedModule"
 version = "0.7.5"
 authors = [
     {name = "Micro-Novelty", email = "hernikpuspita5@gmail.com"},
