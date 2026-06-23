@@ -40,6 +40,11 @@
                - IntegratedPipeline auto generate labels text
                - IntegratedPipeline MLP samples generation.
             - Added New specific module in Rust for Parsing JSON values with reduced memory lookup overhead.
+              - You can use this Optimization by using:
+                - ```bash
+                  pip install abstract-weights-core
+                  ```
+                  Note: This Optimization would allow AbstractIntegratedModule faster JSON parsing and much more flexible database handling handled in Rust.
             - Fixed bug where number of classes can be None in edge cases.
         
          
