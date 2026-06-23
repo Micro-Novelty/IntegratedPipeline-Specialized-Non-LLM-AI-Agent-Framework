@@ -7,7 +7,6 @@ on:
       - '**/*.pyx'
       - '**/*.rs'
       - '**/Cargo.toml'
-      - 'build-configs/pyproject-AIM-*.toml'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
     paths:
