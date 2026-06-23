@@ -11,4 +11,5 @@ authors = [
 description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework for ARM64 architecture"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
 dependencies = ["numpy>=2.1.0"]
