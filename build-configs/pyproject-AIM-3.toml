@@ -10,5 +10,6 @@ authors = [
 ]
 description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework for x86_64 architecture."
 readme = "readme-docs/README-AIM-3.md"
+license = "MIT"
 requires-python = ">=3.10"
 dependencies = ["numpy>=2.1.0"]
