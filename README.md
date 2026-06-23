@@ -16,6 +16,10 @@
   python -m install AbstractIntegratedModule
   ```
 
+### Github Link (for Visiting and cloning)
+- https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework
+
+
 - The library also includes precompiled binaries for:
  - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
  - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
