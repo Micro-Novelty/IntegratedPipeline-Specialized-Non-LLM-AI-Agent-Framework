@@ -43,6 +43,7 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
              - IntegratedPipeline auto generate labels text
              - IntegratedPipeline MLP samples generation.
           - Added New specific module in Rust for Parsing JSON values with reduced memory lookup overhead.
+            - This new rust optimization can be downloaded from PyPi: pip install abstract-weights-cores.
           - Fixed bug where number of classes can be None in edge cases.
 
 -----
