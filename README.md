@@ -17,10 +17,9 @@
   ```
 
 - The library also includes precompiled binaries for:
-  - x86_64 linux architecture: only supports python version 3.12.
-  - aarch64 linux architecture: only supports python version 3.10.
-  - win_amd64 windows 64-bit architecture: only supports python version 3.13.
-  if you don't have the necessary python, don't worry since you could use our regular pip download.
+ - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
+ - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
+ - Windows 64 bit architecture (only python 3.13 only)
 
 - Proven Capabilities:
    - The library has been thoroughly tested in Multiple Environments from Windows to ARM64 Environment. The library is now Robust for Wider use and Deployment.
