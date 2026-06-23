@@ -26,7 +26,7 @@ extensions = [
 
 setup(
     author="Micro-Novelty",
-    version="0.7.3",
+    version="0.7.4",
     author_email="hernikpuspita5@gmail.com",
     license="MIT",
     ext_modules=cythonize(extensions, language_level=3),
