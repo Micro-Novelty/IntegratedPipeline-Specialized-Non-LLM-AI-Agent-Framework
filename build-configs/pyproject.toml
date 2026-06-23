@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AbstractIntegratedModule"
-version = "0.7.4"
+version = "0.7.5"
 authors = [
     {name = "Micro-Novelty", email = "hernikpuspita5@gmail.com"},
 ]
-description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework for ARM64 architecture"
+description = "Integrated Pipeline with Specialized Non-LLM AI Agent Framework for ARM64 and Windows architecture"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
