@@ -10,14 +10,14 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
 #### Note: The README here you are reading is a direct copy from my README Repository, to download the necessary files, you can visit my Repository with the provided link above.
 
 ### Library Short Description:
-- Development Stage: 0.7.3 Official Release.
+- Development Stage: 0.7.4 Official Release.
 - Maintainer: Micro-Novelty.
 - library Source-Code is Open-sourced on github.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
 - Library installation: 
   ```bash
-  pip install AbstractIntegratedModule
-  python -m install AbstractIntegratedModule
+  pip install AbstractIntegratedModule-aarch64
+  python -m install AbstractIntegratedModule-aarch64
   ```
 
 - The library also includes wheels for:
@@ -34,7 +34,7 @@ https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent
    - Robust Advanced prediction capabilities proven effective on ARM64 Using MLP + LSTM Architectures.
    - Transformer Modules Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 - Changelog:
-     - v0.7.3:
+     - v0.7.4:
           - [=] New features: 
           - Adding Optimization and refinements, especially bug fixes in:
              - IntegratedPipeline lstm samples creating
@@ -135,8 +135,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 [~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](requirements.txt):
 - pip install for quick usage:
 - ```bash
-  pip install AbstractIntegratedModule # or
-  python -m pip install AbstractIntegratedModule
+  pip install AbstractIntegratedModule-aarch64 # or
+  python -m pip install AbstractIntegratedModule-aarch64
   ```
   
 - Download binaries manually in the repository (Choose one minimal, specified for your needs):
@@ -233,8 +233,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 4. Run IntegratedPipeline in a Container:
     - Install AbstractIntegratedModule via PIP or binaries (for binaries, can  be downloaded in release section):
     - ```bash
-      pip install AbstractIntegratedModule # or
-      python -m pip install AbstractIntegratedModule
+      pip install AbstractIntegratedModule-aarch64 # or
+      python -m pip install AbstractIntegratedModule-aarch64
       ```
       
     - ```bash
