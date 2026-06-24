@@ -31,7 +31,7 @@
        # ensures proper installation by bypassing pip strict external download setup. 
        ```
        - Note: This repository contains wheels for:
-       - x86_64 and aarch64 with manylinux (v. 2.17+) and musllinux (v. 1.2+) architecture
+       - x86_64 and aarch64 with manylinux (v. 2.17+) and musllinux (v. 1.2+) architecture only (No regular singular x86_64 arch wheel, tarball will be used for regular x86_64 and windows).
        - macOS with aarch64 and x86_64 architecture. (v. 10.9+)
        - All of this Wheels provided in the Repository Only Provides Wheels for python with version 3.10 3.11 and 3.12.
        - This setup will automatically download the correct wheel Based on your python/pip version and OS / hardware architecture setup.
