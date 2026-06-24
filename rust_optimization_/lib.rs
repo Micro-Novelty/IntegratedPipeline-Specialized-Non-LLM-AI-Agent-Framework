@@ -106,7 +106,7 @@ pub fn parse_array_string<'py>(py: Python<'py>, s: &str) -> PyResult<Bound<'py, 
             Ok(list.into_any())
         }
         ParseResult::Original(original) => {
-            Ok(original.into_pyobject(py)?.into_any())
+            Ok(original.to_object(py).into_ref(py))
         }
     }
 }
