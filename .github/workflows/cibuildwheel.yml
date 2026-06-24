@@ -176,7 +176,7 @@ jobs:
       # without the legacy manylinux2014 compat dual tag
       CIBW_MANYLINUX_X86_64_IMAGE: "quay.io/pypa/manylinux_2_28_x86_64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
-        auditwheel repair -w {dest_dir} {wheel} --plat manylinux_2_28_x86_64
+        auditwheel repair -w {dest_dir} {wheel} --only-plat
       CIBW_TEST_COMMAND: >
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
       CIBW_CONTAINER_ENGINE: "docker"
