@@ -33,7 +33,7 @@
        - Note: This repository contains wheels for:
        - x86_64 and aarch64 with manylinux (v. 2.17+) and musllinux (v. 1.2+) architecture
        - macOS with aarch64 and x86_64 architecture. (v. 10.9+)
-       - All of this Wheels Only Supports python 3.10 3.11 and 3.12.
+       - All of this Wheels provided in the Repository Only Provides Wheels for python with version 3.10 3.11 and 3.12.
        - This setup will automatically download the correct wheel Based on your python/pip version and OS / hardware architecture setup.
 
 - For specific module in Rust for handling and loading Weights and Parsing JSON values with reduced memory lookup overhead.
