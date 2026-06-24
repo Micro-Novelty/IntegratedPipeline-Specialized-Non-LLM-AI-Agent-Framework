@@ -61,7 +61,7 @@ jobs:
   build-rust-wheels:
     name: Build Rust wheels (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 25
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
