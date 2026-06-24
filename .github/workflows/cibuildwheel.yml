@@ -1,5 +1,5 @@
 name: Build wheels (cibuildwheel) for Linux and macOS (x86_64 + aarch64)
- 
+
 on:
   push:
     branches: [main, master]
@@ -7,6 +7,7 @@ on:
       - '**/*.pyx'
       - '**/*.rs'
       - '**/Cargo.toml'
+      - 'build-configs/pyproject-AIM-*.toml'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
     paths:
@@ -15,7 +16,7 @@ on:
       - '**/Cargo.toml'
       - 'build-configs/pyproject-AIM-*.toml'
   workflow_dispatch:
- 
+
 jobs:
   # ─────────────────────────────────────────────
   # JOB 1: Pre-generate Cython .c files ONCE
@@ -27,14 +28,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
- 
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
- 
+
       - name: Install Cython + numpy
         run: pip install "cython>=3.0" "numpy>=2.1.0"
- 
+
       - name: Cythonize .pyx files
         run: |
           cython --version
@@ -43,7 +44,7 @@ jobs:
             echo "Cythonizing $f..."
             cython "$f"
           done
- 
+
       # Upload generated .c files so every build job uses them
       - name: Upload Cython C files
         uses: actions/upload-artifact@v4
@@ -51,7 +52,7 @@ jobs:
           name: cython-c-files
           path: src/*.c
           retention-days: 1
- 
+
   # ─────────────────────────────────────────────
   # JOB 2: Build Rust extension wheels
   # One job per OS, builds all Python versions
@@ -67,25 +68,25 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
- 
+
       - name: Cache Rust build
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "./rust_optimization_ -> target"
- 
+
       - name: Install sccache
         uses: mozilla-actions/sccache-action@v0.0.5
- 
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
- 
+
       - name: Install maturin
         run: pip install maturin
- 
+
       - name: Build Rust wheels (all Python versions)
         working-directory: ./rust_optimization_
         run: |
@@ -97,14 +98,14 @@ jobs:
           else
             echo "⚠️ sccache unavailable, building without cache"
           fi
- 
+
           maturin build --release \
             --interpreter python3.10 python3.11 python3.12
- 
+
       - name: sccache stats
         if: always()
         run: sccache --show-stats || true
- 
+
       - name: Copy opt-README into Rust wheels output
         run: |
           if [ -f "readme-docs/opt-README.md" ]; then
@@ -113,7 +114,7 @@ jobs:
           else
             echo "⚠️ readme-docs/opt-README.md not found, skipping"
           fi
- 
+
       - name: Upload Rust wheels
         uses: actions/upload-artifact@v4
         with:
@@ -122,7 +123,7 @@ jobs:
             rust_optimization_/target/wheels/*.whl
             rust_optimization_/target/wheels/opt-README.md
           retention-days: 7
- 
+
   # ─────────────────────────────────────────────
   # JOB 3a: Linux x86_64 — native runner
   # Uses pyproject-AIM-2.toml (x86_64 manylinux)
@@ -131,7 +132,7 @@ jobs:
   build-linux-x86_64:
     name: Build Linux wheels (x86_64)
     runs-on: ubuntu-latest
-    timeout-minutes: 525
+    timeout-minutes: 500
     needs: [cythonize, build-rust-wheels]
     strategy:
       fail-fast: false
@@ -173,40 +174,44 @@ jobs:
         fi
       CIBW_BEFORE_BUILD: >
         pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+      # Use manylinux_2_28 image — produces clean manylinux_2_28_x86_64 tag
+      # without the legacy manylinux2014 compat dual tag
+      CIBW_MANYLINUX_X86_64_IMAGE: "quay.io/pypa/manylinux_2_28_x86_64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
-        auditwheel repair -w {dest_dir} {wheel}
+        auditwheel repair -w {dest_dir} {wheel} --plat manylinux_2_28_x86_64
+        auditwheel repair -w {dest_dir} {wheel} --plat manylinux_2_17_x86_64
       CIBW_TEST_COMMAND: >
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
       CIBW_CONTAINER_ENGINE: "docker"
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Download Cython C files
         uses: actions/download-artifact@v4
         with:
           name: cython-c-files
           path: src/
- 
+
       - name: Download Rust wheels (Linux x86_64)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-ubuntu-latest
           path: /tmp/rust-wheels
- 
+
       - name: Copy ${{ matrix.aim }} pyproject.toml to root
         run: |
           echo "Using ${{ matrix.toml }} as pyproject.toml"
           cp ${{ matrix.toml }} pyproject.toml
- 
+
       - name: Debug rust-wheels on runner
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
           echo "Will expect container mount at /host/rust-wheels"
- 
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
- 
+
       - name: Build wheels (${{ matrix.aim }})
         uses: pypa/cibuildwheel@v2.22.0
         with:
@@ -216,14 +221,14 @@ jobs:
             RUST_WHEEL_DIR=/host/rust-wheels
           CIBW_BEFORE_BUILD: >
             pip install /tmp/rust-wheels/*.whl || true
- 
+
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
           mkdir -p wheelhouse/docs
           if [ -f "readme-docs/README-${{ matrix.aim }}.md" ]; then
             cp readme-docs/README-${{ matrix.aim }}.md wheelhouse/docs/README-${{ matrix.aim }}.md
           fi
- 
+
       - name: Upload wheels (${{ matrix.aim }})
         uses: actions/upload-artifact@v4
         with:
@@ -231,7 +236,7 @@ jobs:
           path: |
             wheelhouse/*.whl
             wheelhouse/docs/*.md
- 
+
   # ─────────────────────────────────────────────
   # JOB 3b: Linux aarch64 — NATIVE ARM runner
   # Uses pyproject-AIM-1.toml (cp310/cp311)
@@ -290,45 +295,45 @@ jobs:
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Download Cython C files
         uses: actions/download-artifact@v4
         with:
           name: cython-c-files
           path: src/
- 
+
       - name: Download Rust wheels (Linux aarch64)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-ubuntu-24.04-arm
           path: /tmp/rust-wheels
- 
+
       - name: Copy ${{ matrix.aim }} pyproject.toml to root
         run: |
           echo "Using ${{ matrix.toml }} as pyproject.toml"
           cp ${{ matrix.toml }} pyproject.toml
- 
+
       - name: Debug rust-wheels on runner
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
           echo "Will expect container mount at /host/rust-wheels"
- 
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
- 
+
       - name: Build wheels (${{ matrix.aim }})
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
- 
+
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
           mkdir -p wheelhouse/docs
           if [ -f "readme-docs/README-${{ matrix.aim }}.md" ]; then
             cp readme-docs/README-${{ matrix.aim }}.md wheelhouse/docs/README-${{ matrix.aim }}.md
           fi
- 
+
       - name: Upload wheels (${{ matrix.aim }})
         uses: actions/upload-artifact@v4
         with:
@@ -336,7 +341,7 @@ jobs:
           path: |
             wheelhouse/*.whl
             wheelhouse/docs/*.md
- 
+
   # ─────────────────────────────────────────────
   # JOB 3c: Linux aarch64 — regular build
   # Uses build-configs/pyproject.toml (GitHub README)
@@ -345,7 +350,7 @@ jobs:
   build-linux-aarch64-regular:
     name: Build Linux wheels (aarch64, regular)
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 525
+    timeout-minutes: 500
     if: github.event_name != 'pull_request'
     needs: [cythonize, build-rust-wheels]
     env:
@@ -386,44 +391,44 @@ jobs:
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Download Cython C files
         uses: actions/download-artifact@v4
         with:
           name: cython-c-files
           path: src/
- 
+
       - name: Download Rust wheels (Linux aarch64)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-ubuntu-24.04-arm
           path: /tmp/rust-wheels
- 
+
       - name: Copy regular pyproject.toml to root
         run: |
           echo "Using build-configs/pyproject.toml as pyproject.toml"
           cp build-configs/pyproject.toml pyproject.toml
- 
+
       - name: Debug rust-wheels on runner
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
           echo "Will expect container mount at /host/rust-wheels"
- 
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
- 
+
       - name: Build wheels (regular aarch64)
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
- 
+
       - name: Upload wheels (regular aarch64)
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-aarch64-regular
           path: wheelhouse/*.whl
- 
+
   # ─────────────────────────────────────────────
   # JOB 4: macOS — x86_64 + arm64
   # Uses pyproject-AIM-4.toml
@@ -448,37 +453,37 @@ jobs:
       CIBW_TEST_SKIP: "*-macosx_x86_64"
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Download Cython C files
         uses: actions/download-artifact@v4
         with:
           name: cython-c-files
           path: src/
- 
+
       - name: Download Rust wheels (macOS)
         uses: actions/download-artifact@v4
         with:
           name: rust-wheels-macos-latest
           path: /tmp/rust-wheels
- 
+
       - name: Copy AIM-4 pyproject.toml to root
         run: |
           echo "Using build-configs/pyproject-AIM-4.toml as pyproject.toml"
           cp build-configs/pyproject-AIM-4.toml pyproject.toml
- 
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
- 
+
       - name: Build wheels (AIM-4)
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
- 
+
       - name: Copy README for AIM-4 into wheelhouse
         run: |
           mkdir -p wheelhouse/docs
           if [ -f "readme-docs/README-AIM-4.md" ]; then cp readme-docs/README-AIM-4.md wheelhouse/docs/README-AIM-4.md; fi
- 
+
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
@@ -486,7 +491,7 @@ jobs:
           path: |
             wheelhouse/*.whl
             wheelhouse/docs/*.md
- 
+
   # ─────────────────────────────────────────────
   # JOB 5: Collect all wheels into one artifact
   # ─────────────────────────────────────────────
@@ -503,7 +508,7 @@ jobs:
           pattern: wheels-*
           merge-multiple: true
           path: all-wheels/
- 
+
       - name: List built wheels and docs
         run: |
           echo "=== Built artifacts (top-level) ==="
@@ -512,7 +517,7 @@ jobs:
           find all-wheels -name '*.whl' -print | wc -l || true
           echo "=== Found README docs ==="
           find all-wheels -type f -name 'README-AIM-*.md' -print || true
- 
+
       - name: Gather wheels and README docs into all-wheels root
         run: |
           set -euo pipefail
@@ -522,7 +527,7 @@ jobs:
           echo "After gather:"
           ls -lah all-wheels/ || true
           ls -lah all-wheels/docs/ || true
- 
+
       - name: Upload combined artifact
         uses: actions/upload-artifact@v4
         with:
@@ -531,4 +536,3 @@ jobs:
             all-wheels/*.whl
             all-wheels/docs/*.md
           retention-days: 30
- 
