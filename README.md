@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.7.5 Official Release.
+- Development Stage on PyPi: 0.7.6 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -19,12 +19,30 @@
 ### Github Link (for Visiting and cloning)
 - https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework
 
-
 - The library also includes precompiled binaries for:
  - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
  - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
  - Windows 64 bit architecture (only python 3.13 only)
 
+- Library installation if you dont have aarch64 setup, you can download the correct wheel for your setup in this repository or by using pip:
+  - ✨ use pip for downloading the correct wheels for your setup:
+     - ```bash
+       pip install abstractintegratedmodule --find-links https://github.com/Micro-Novelty/abstract-modules/releases  --break-system-packages
+       # ensures proper installation by bypassing pip strict external download setup. 
+       ```
+       - Note: This repository contains wheels for:
+       - x86_64 and aarch64 with manylinux (v. 2.17+) and musllinux (v. 1.2+) architecture
+       - macOS with aarch64 and x86_64 architecture. (v. 10.9+)
+       - All of this Wheels Only Supports python 3.10 3.11 and 3.12.
+       - This setup will automatically download the correct wheel Based on your python/pip version and OS / hardware architecture setup.
+
+- For specific module in Rust for handling and loading Weights and Parsing JSON values with reduced memory lookup overhead.
+ - Consider using this Optimization library by using:
+    - ```bash
+      pip install abstract-weights-core
+      ```
+    - Note: This Optimization would allow AbstractIntegratedModule faster JSON parsing and much more flexible database handling handled in Rust.
+   
 - Proven Capabilities:
    - The library has been thoroughly tested in Multiple Environments from Windows to ARM64 Environment. The library is now Robust for Wider use and Deployment.
    - Proven Works on ARM64 Environment, Training and Prediction works efficient on Docker ARM64 environment with QEMU, good parallelizing behavior is guaranteed.
@@ -35,21 +53,9 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-       - v0.7.5:
-            - [=] New features: 
-            - Adding Optimization and refinements, especially bug fixes in:
-               - IntegratedPipeline lstm samples creating
-               - IntegratedPipeline shape adaptation
-               - IntegratedPipeline probability calibration
-               - IntegratedPipeline auto generate labels text
-               - IntegratedPipeline MLP samples generation.
-            - Added New specific module in Rust for Parsing JSON values with reduced memory lookup overhead.
-              - You can use this Optimization by using:
-                - ```bash
-                  pip install abstract-weights-core
-                  ```
-                  Note: This Optimization would allow AbstractIntegratedModule faster JSON parsing and much more flexible database handling handled in Rust.
-            - Fixed bug where number of classes can be None in edge cases.
+     - v0.7.6:
+        - [=] New features: 
+        - Adding Optimization and refinements for parsing JSON in Rust
         
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
