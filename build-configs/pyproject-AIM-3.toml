@@ -13,3 +13,6 @@ readme = "readme-docs/README-AIM-3.md"
 license = "MIT"
 requires-python = ">=3.10"
 dependencies = ["numpy>=2.1.0"]
+
+[tool.cibuildwheel]
+manylinux-x86_64-image = "manylinux_2_28"
