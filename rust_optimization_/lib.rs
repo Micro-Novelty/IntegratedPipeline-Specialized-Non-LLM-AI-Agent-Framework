@@ -102,11 +102,11 @@ fn parse_delimited(s: &str) -> Option<Vec<f32>> {
 pub fn parse_array_string<'py>(py: Python<'py>, s: &str) -> PyResult<Bound<'py, PyAny>> {
     match parse_array_string_inner(s) {
         ParseResult::Array(floats) => {
-            let list = PyList::new(py, &floats)?;
+            let list = PyList::new(py, &floats);
             Ok(list.into_any())
         }
         ParseResult::Original(original) => {
-            Ok(original.to_object(py).into_ref(py))
+            Ok(original.to_object(py).to_ref(py))
         }
     }
 }
