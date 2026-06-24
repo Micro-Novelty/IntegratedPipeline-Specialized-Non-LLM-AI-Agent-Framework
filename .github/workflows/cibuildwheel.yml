@@ -6,14 +6,11 @@ on:
     paths:
       - '**/*.pyx'
       - '**/*.rs'
-      - '**/Cargo.toml'
-      - 'build-configs/pyproject-AIM-*.toml'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
     paths:
       - '**/*.pyx'
       - '**/*.rs'
-      - '**/Cargo.toml'
       - 'build-configs/pyproject-AIM-*.toml'
   workflow_dispatch:
 
@@ -147,8 +144,6 @@ jobs:
       CIBW_ARCHS: x86_64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
-      CIBW_ENVIRONMENT: >
-        RUST_WHEEL_DIR=/host/rust-wheels
       CIBW_BEFORE_ALL_LINUX: |
         set -euo pipefail
         echo "Detecting package manager..."
@@ -173,12 +168,14 @@ jobs:
           echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
         fi
       CIBW_BEFORE_BUILD: >
-        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+        pip install /tmp/rust-wheels/*.whl || true
       # Use manylinux_2_28 image — produces clean manylinux_2_28_x86_64 tag
       # without the legacy manylinux2014 compat dual tag
       CIBW_MANYLINUX_X86_64_IMAGE: "quay.io/pypa/manylinux_2_28_x86_64"
+      # Pin --plat to match the image — prevents auditwheel from re-tagging
+      # back to manylinux2014 compat
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
-        auditwheel repair -w {dest_dir} {wheel} 
+        auditwheel repair --plat manylinux_2_28_x86_64 -w {dest_dir} {wheel}
       CIBW_TEST_COMMAND: >
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
       CIBW_CONTAINER_ENGINE: "docker"
@@ -211,15 +208,11 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # No per-step env: override — all CIBW_* vars come from job-level env above
       - name: Build wheels (${{ matrix.aim }})
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_ENVIRONMENT: >
-            RUST_WHEEL_DIR=/host/rust-wheels
-          CIBW_BEFORE_BUILD: >
-            pip install /tmp/rust-wheels/*.whl || true
 
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
