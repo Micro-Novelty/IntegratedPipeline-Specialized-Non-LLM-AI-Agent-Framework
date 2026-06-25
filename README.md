@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.7.8 Official Release.
+- Development Stage on PyPi: 0.7.9 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,11 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.7.8:
+     - v0.7.9:
         - [=] New features: 
         - Fixed possible errors from inhomogenous shape during tokenizing arrays into a hash ID.
         - fixed fragility where number of classes is not distributed well to sequence encoding function causing the model to use wrong number of classes.
+        - Added robustness for handling complex samples during prediction batching.
         
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
