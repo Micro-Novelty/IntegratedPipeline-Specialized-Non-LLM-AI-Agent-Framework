@@ -27,7 +27,7 @@
 - Library installation if you dont have aarch64 setup, you can download the correct wheel for your setup in this repository or by using pip:
   - ✨ use pip for downloading the correct wheels for your setup:
      - ```bash
-       pip install abstractintegratedmodule --find-links https://github.com/Micro-Novelty/abstract-modules/releases  --break-system-packages
+       pip install abstractintegratedmodule --extra-index-url https://Micro-Novelty.github.io/abstract-modules/whl/ --break-system-packages
        # ensures proper installation by bypassing pip strict external download setup. 
        ```
        - Note: This repository contains wheels for:
