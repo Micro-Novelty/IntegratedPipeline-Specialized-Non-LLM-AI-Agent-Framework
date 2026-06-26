@@ -76,7 +76,7 @@ jobs:
           workspaces: "./rust_optimization_ -> target"
 
       - name: Install sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
+        uses: mozilla-actions/sccache-action@v0.0.10
 
       - uses: actions/setup-python@v5
         with:
