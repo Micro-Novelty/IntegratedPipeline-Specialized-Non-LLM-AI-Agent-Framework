@@ -43,7 +43,6 @@ extensions = [
 
 setup(
     author="Micro-Novelty",
-    version="0.7.9",
     author_email="hernikpuspita5@gmail.com",
     license="MIT",
     ext_modules=cythonize(
