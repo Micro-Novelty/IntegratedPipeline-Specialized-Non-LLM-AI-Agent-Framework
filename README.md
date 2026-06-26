@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.8.1 Official Release.
+- Development Stage on PyPi: 0.8.2 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,11 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.8.1:
+     - v0.8.2:
         - [=] New features: 
-        - Added robust conversion function to handles ragged list-to-list samples.
-        - added 2D array conversion function to handles inhomogenous shape during anisotropy measurement.
-        - fixed Fragile inhomogenous shape handling in AME Encoder function.
+        - Added new calibration method for advanced batch prediction to calibrate probability based on attention and final index chosen from advanced prediction method.
+        - Added robust fix for inhomogenous shape handling in hash_ID function
         
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
