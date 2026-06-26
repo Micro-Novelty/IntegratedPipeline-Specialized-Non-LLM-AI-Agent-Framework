@@ -57,6 +57,11 @@
         - [=] New features: 
         - Added new calibration method for advanced batch prediction to calibrate probability based on attention and final index chosen from advanced prediction method.
         - Added robust fix for inhomogenous shape handling in hash_ID function
+        - Fixed P2P Vulnerabilities:
+           - Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES external IPs instead of allowing all
+           - Startup validation warns about dangerous config combinations
+           - Loopback (127.0.0.1) always permitted for local agent comms
+           - DEVELOPMENT/STAGING retains allow-all behavior with explicit warning since local P2P testing requires it
         
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
