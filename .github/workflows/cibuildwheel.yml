@@ -210,7 +210,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build wheels (${{ matrix.aim }})
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v4.1.0
         with:
           output-dir: wheelhouse
         env:
@@ -320,7 +320,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build wheels (${{ matrix.aim }})
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v4.1.0
         with:
           output-dir: wheelhouse
 
@@ -416,7 +416,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build wheels (regular aarch64)
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v4.1.0
         with:
           output-dir: wheelhouse
 
@@ -472,7 +472,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build wheels (AIM-4)
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v4.1.0
         with:
           output-dir: wheelhouse
 
