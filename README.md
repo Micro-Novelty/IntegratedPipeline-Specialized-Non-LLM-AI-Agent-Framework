@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.8.2 Official Release.
+- Development Stage on PyPi: 0.8.3 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,15 +53,16 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.8.2:
+     - v0.8.3:
         - [=] New features: 
-        - Added new calibration method for advanced batch prediction to calibrate probability based on attention and final index chosen from advanced prediction method.
-        - Added robust fix for inhomogenous shape handling in hash_ID function
+        - Added more robust inhomogenous shape handling for handling input_ids in Transformer and AccurateAnswerCache architecture.
         - Fixed P2P Vulnerabilities:
            - Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES external IPs instead of allowing all
            - Startup validation warns about dangerous config combinations
            - Loopback (127.0.0.1) always permitted for local agent comms
            - DEVELOPMENT/STAGING retains allow-all behavior with explicit warning since local P2P testing requires it
+           - pickle.loads() replaced by json.loads with utf-8 encoding order.
+           - generate self signed cert fixes and added client.crt for fallback when users dont provide any SSL cert and key for both server and client.
         
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
