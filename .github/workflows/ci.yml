@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '**.pyx'
+      - 'src/*.pyx'
   pull_request:
     branches: [ main ]
     paths:
-      - '**.pyx'
+      - 'src/*.pyx'
 
 jobs:
   build:
