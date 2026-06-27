@@ -537,6 +537,7 @@ _______________________________________
       ```
       Note = window_title is target_title and label is target_label, check step below to use it.
 
+
 4. Use IntegratedPipeline as in this example:
    ```python
    from AbstractIntegratedModule import IntegratedPipeline
@@ -547,15 +548,46 @@ _______________________________________
    cert_file = <your_cert_file_dir> # your .crt file
    key_file = <your_key_file_dir> # your .key file
 
+   # SSL Setup for users who used Lets encrypt / Public CA cert:
+   # Server context
+   server_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+   server_ctx.load_cert_chain('your_server.crt', 'your_server.key') # No load_verify_locations needed — OS trust store handles public CA
+   
+   # Client context  
+   client_ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+   client_ctx.load_cert_chain('your_client.crt', 'your_client.key') # no load_verify_locations — OS trust store handles it
+
+   # for enterprise and internal CA:
+   '''
+   server_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+   server_ctx.load_cert_chain('their.crt', 'their.key')
+   server_ctx.load_verify_locations('company_ca.crt')  # internal CA not in OS store
+   server_ctx.verify_mode   = ssl.CERT_REQUIRED
+   server_ctx.check_hostname = False
+   
+   client_ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+   client_ctx.load_cert_chain('their.crt', 'their.key')
+   client_ctx.load_verify_locations('company_ca.crt')
+   client_ctx.verify_mode   = ssl.CERT_REQUIRED
+   client_ctx.check_hostname = False
+   ''' # uncomment to use
+
+   # Note: The Above setup is Important for Users who wants to do Secure P2P In deployment case, for local P2P the above setup is optional and automatic self-signed CERT will be used for local-device P2P.
+
    main_model = IntegratedPipeline(
       memory_name=memory_name,  # memory name for the AI you already initialized
       use_async=True, # local asynchronous prediction is permitted, if not PipelineAsyncManager wont start asynchronous prediction.
       agent_port=5001, # this port is used to set AgentDistributedInference server (optional)
-      ssl_cert_file=cert_file, ssl_key_file=key_file) # provide your cert_file path or key_file path (optional)
+      ssl_cert_file=cert_file, ssl_key_file=key_file,# provide your cert_file path or key_file path (optional)
+      ssl_context=server_ctx, # used by the Agent server. (optional)
+      client_ssl_context=client_ctx # used by the client. (optional)
+      ) 
 
    main_prediction = PipelinePredictionManager(
       main_model, # your initialized pipeline
-      label_csv='example_manual_training.txt', # your .txt file that contains CSV format.
+      label_csv='example_manual_training.txt', 
+      # your filename that contains the .txt file and contains the CSV format.
+      # the Agent will automatically searched the nearby folder like: downloads, data, and desktop folder.
       target_title='window_title', label='label')
 
    # example_manual_training is a .txt file that contain csv format like above example.
