@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '*.yml'
+      - '.github/workflows/ci.yml'
       - 'src/*.pyx'
   pull_request:
     branches: [ main ]
