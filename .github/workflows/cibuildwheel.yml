@@ -45,7 +45,7 @@ jobs:
 
       # Upload generated .c files so every build job uses them
       - name: Upload Cython C files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cython-c-files
           path: src/*.c
@@ -114,7 +114,7 @@ jobs:
           fi
 
       - name: Upload Rust wheels
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: rust-wheels-${{ matrix.os }}
           path: |
@@ -227,7 +227,7 @@ jobs:
           fi
 
       - name: Upload wheels (${{ matrix.aim }})
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheels-linux-x86_64-${{ matrix.aim }}
           path: |
@@ -332,7 +332,7 @@ jobs:
           fi
 
       - name: Upload wheels (${{ matrix.aim }})
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheels-linux-aarch64-${{ matrix.aim }}
           path: |
@@ -421,7 +421,7 @@ jobs:
           output-dir: wheelhouse
 
       - name: Upload wheels (regular aarch64)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheels-linux-aarch64-regular
           path: wheelhouse/*.whl
@@ -482,7 +482,7 @@ jobs:
           if [ -f "readme-docs/README-AIM-4.md" ]; then cp readme-docs/README-AIM-4.md wheelhouse/docs/README-AIM-4.md; fi
 
       - name: Upload wheels
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheels-macos
           path: |
@@ -526,7 +526,7 @@ jobs:
           ls -lah all-wheels/docs/ || true
 
       - name: Upload combined artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: all-wheels
           path: |
