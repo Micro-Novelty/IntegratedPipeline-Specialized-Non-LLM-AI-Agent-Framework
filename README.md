@@ -167,6 +167,11 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    - AbstractIntegratedModule (Main library binary)
      
 - Binaries can be downloaded from release or code section.
+- NOTE: Binaries in this repo is outdated, consider downloading the correct python wheel for your setup in here:
+   - ```bash
+     pip install abstractintegratedmodule --extra-index-url https://Micro-Novelty.github.io/abstract-modules/whl/ --break-system-packages
+     ```
+     Note: using this installation method grants you a much safer, predictable behavior, and more secure AbstractIntegratedModule library than a pure binary file.
    - Windows Native OS -
       - AbstractIntegratedModule.cp313-win_amd64 and its AbstractOptimizedModules.pyd Supports Python 3.13 for Windows Only (Robust, Stable version)
    - Linux x86_64
