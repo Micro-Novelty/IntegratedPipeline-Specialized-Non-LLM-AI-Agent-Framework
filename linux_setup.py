@@ -9,21 +9,28 @@ import platform
 # Detect architecture for ARM64-specific optimization
 is_arm64 = platform.machine() in ('aarch64', 'arm64')
 
+cflags = os.environ.get("CFLAGS", "-O2")
+extra_compile_args = cflags.split()
+
+# Optional: also pick up any extra ARCHFLAGS on macOS (e.g. -arch arm64)
+archflags = os.environ.get("ARCHFLAGS", "")
+extra_link_args = archflags.split() if archflags else []
+
 # List all your .pyx files
 extensions = [
     Extension(
         "AbstractIntegratedModule",  # Module name (import AbstractIntegratedModule)
         sources=["src/AbstractIntegratedModule.pyx"],  # Your Cython source file
         include_dirs=[np.get_include()],
-        extra_compile_args=['-O2', '-march=native'],  # Optimizations
-        extra_link_args=[]
+        extra_compile_args=extra_compile_args,  # Optimizations
+        extra_link_args=extra_link_args
     ),
     Extension(
         "AbstractOptimizedModules",  # Module name (import AbstractOptimizedModules)
         sources=["src/AbstractOptimizedModules.pyx"],  # ARM64 optimized Cython source file
         include_dirs=[np.get_include()],
-        extra_compile_args=['-O2', '-march=native'] if is_arm64 else ['-O2', '-march=native'],  # ARM64 gets higher optimization
-        extra_link_args=[]
+        extra_compile_args=extra_compile_args,  # ARM64 gets higher optimization
+        extra_link_args=extra_link_args
     ),
 ]
 
