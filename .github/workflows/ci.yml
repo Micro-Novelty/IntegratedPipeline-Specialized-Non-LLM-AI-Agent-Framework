@@ -1,4 +1,5 @@
-name: CI Compiler for Cross-platform.
+name: CI Compiler for Cross-platform
+
 on:
   push:
     branches: [ main ]
@@ -20,50 +21,45 @@ jobs:
             python-version: '3.10'
             arch: x86_64
             artifact-suffix: linux-x86_64-cp310
-
           - os: ubuntu-latest
             python-version: '3.11'
             arch: x86_64
             artifact-suffix: linux-x86_64-cp311
-
           - os: ubuntu-latest
             python-version: '3.12'
             arch: x86_64
             artifact-suffix: linux-x86_64-cp312
-
           # macOS — .so output
           - os: macos-latest
             python-version: '3.10'
-            arch: x86_64
+            arch: arm64
             artifact-suffix: macos-cp310
-
           - os: macos-latest
             python-version: '3.11'
-            arch: x86_64
+            arch: arm64
             artifact-suffix: macos-cp311
-
           - os: macos-latest
             python-version: '3.12'
-            arch: x86_64
+            arch: arm64
             artifact-suffix: macos-cp312
-
           # Windows — .pyd output
           - os: windows-latest
             python-version: '3.10'
             arch: x86_64
             artifact-suffix: windows-x86_64-cp310
-
           - os: windows-latest
             python-version: '3.11'
             arch: x86_64
             artifact-suffix: windows-x86_64-cp311
-
           - os: windows-latest
             python-version: '3.12'
             arch: x86_64
             artifact-suffix: windows-x86_64-cp312
 
     runs-on: ${{ matrix.os }}
+
+    env:
+      PYTHONUTF8: "1"  # Fix Windows emoji/Unicode encoding issues across all steps
 
     steps:
       - uses: actions/checkout@v4
@@ -83,6 +79,18 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install gcc
+
+      - name: Set compiler flags (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "arm64" ]; then
+            echo "CFLAGS=-O2 -arch arm64" >> $GITHUB_ENV
+            echo "ARCHFLAGS=-arch arm64" >> $GITHUB_ENV
+          else
+            echo "CFLAGS=-O2 -march=native" >> $GITHUB_ENV
+            echo "ARCHFLAGS=-arch x86_64" >> $GITHUB_ENV
+          fi
 
       - name: Install Python dependencies
         run: |
