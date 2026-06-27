@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
+      - '*.yml'
       - 'src/*.pyx'
   pull_request:
     branches: [ main ]
