@@ -13,23 +13,22 @@ is_arm64 = platform.machine() in ('aarch64', 'arm64')
 extensions = [
     Extension(
         "AbstractIntegratedModule",  # Module name (import AbstractIntegratedModule)
-        sources=["AbstractIntegratedModule.pyx"],  # Your Cython source file
+        sources=["src/AbstractIntegratedModule.pyx"],  # Your Cython source file
         include_dirs=[np.get_include()],
         extra_compile_args=['-O2', '-march=native'],  # Optimizations
         extra_link_args=[]
     ),
     Extension(
         "AbstractOptimizedModules",  # Module name (import AbstractOptimizedModules)
-        sources=["AbstractOptimizedModules.pyx"],  # Your ARM64 optimized Cython source file
+        sources=["src/AbstractOptimizedModules.pyx"],  # ARM64 optimized Cython source file
         include_dirs=[np.get_include()],
-        extra_compile_args=['-O3', '-march=native'] if is_arm64 else ['-O2', '-march=native'],  # ARM64 gets higher optimization
+        extra_compile_args=['-O2', '-march=native'] if is_arm64 else ['-O2', '-march=native'],  # ARM64 gets higher optimization
         extra_link_args=[]
     ),
 ]
 
 setup(
     name="AbstractIntegratedModule",
-    version="1.0",
     description="AbstractIntegratedModule - A Cython implementation of the AbstractIntegratedModule and AbstractOptimizedModules",
     ext_modules=cythonize(
         extensions,
