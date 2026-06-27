@@ -4,14 +4,14 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '**.pyx'
+      - 'src/*.pyx'
       - 'requirements.txt'
       - 'linux_setup.py'
       - '.github/workflows/test.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - '**.pyx'
+      - 'src/*.pyx'
       - 'requirements.txt'
       - 'linux_setup.py'
       - '.github/workflows/test.yml'
