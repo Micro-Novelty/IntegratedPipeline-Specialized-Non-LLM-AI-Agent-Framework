@@ -623,7 +623,7 @@ _______________________________________
 
    # set IntegratedPipeline Penalty rate when it output wrong answer:
    main_model.error_rate = 0.75
-   # error_rate=0.75 means old errors fade — a class that was wrong 3 predictions
+   # error_rate > 0.5 means old errors fade — a class that was wrong 3 predictions
    ago matters less than one wrong just now, making the model less likely to output repetitive wrong answer.
    
    
