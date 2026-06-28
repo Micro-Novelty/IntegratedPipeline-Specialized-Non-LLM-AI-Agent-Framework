@@ -15,13 +15,13 @@ requires-python = ">=3.10"
 dependencies = ["numpy>=2.1.0"]
 
 [project.urls]
-Main Repository =  "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework"
-Second Repository = "https://github.com/Micro-Novelty/abstract-modules"
+Main-Repository =  "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework"
+Second-Repository = "https://github.com/Micro-Novelty/abstract-modules"
 Releases =  "https://github.com/Micro-Novelty/abstract-modules/releases"
 Issues =  "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/issues"
-Open PRs = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/pulls"
-Architecture Docs = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/blob/main/ARCHITECTURE.md"
-Patched Vulnerabilities = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/blob/main/SECURITY.md"
+Open-PRs = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/pulls"
+Architecture-Docs = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/blob/main/ARCHITECTURE.md"
+Patched-Vulnerabilities = "https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/blob/main/SECURITY.md"
 
 
 
