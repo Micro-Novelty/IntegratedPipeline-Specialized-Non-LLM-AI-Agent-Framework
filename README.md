@@ -622,9 +622,10 @@ _______________________________________
    # main_model.use_transformer = True if you want to use transformer, this will notify all modules that used advanced_prediction_method will initiate prediction with both transformer and MLP.
 
    # set IntegratedPipeline Penalty rate when it output wrong answer:
-   main_model.error_rate = 0.75
+   main_model.error_decay = 0.75
    # error_rate > 0.5 means old errors fade — a class that was wrong 3 predictions
    ago matters less than one wrong just now, making the model less likely to output repetitive wrong answer.
+   # this a flexible tunable-knob for the model judgement regarding wrong answer, this will propagate through prediction layers to inform about the model repetitive answer and calibrate it immediately.
    
    
    # test samples with more sophisticated rules and more complex titles for prediction
