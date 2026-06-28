@@ -620,6 +620,11 @@ _______________________________________
    main_model.show_explainability_details = True
    main_model.distribution.predict_manager = main_prediction # set PipelinePredictionManager to AgentDistributedInference for asynchronous prediction later (Very important for asynchronous prediction)
    # main_model.use_transformer = True if you want to use transformer, this will notify all modules that used advanced_prediction_method will initiate prediction with both transformer and MLP.
+
+   # set IntegratedPipeline Penalty rate when it output wrong answer:
+   main_model.error_rate = 0.75
+   # error_rate=0.75 means old errors fade — a class that was wrong 3 predictions
+   ago matters less than one wrong just now, making the model less likely to output repetitive wrong answer.
    
    
    # test samples with more sophisticated rules and more complex titles for prediction
