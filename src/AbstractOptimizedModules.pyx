@@ -7,7 +7,7 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-from libc.math cimport exp, tanh, fabs, log1p, sqrt
+from libc.math cimport exp, tanh, fabs, log1p, sqrt, log
 
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
@@ -51,6 +51,145 @@ def optimized_tanh_deriv(np.ndarray[DTYPE_t, ndim=1] t):
         out[i] = 1.0 - t[i] * t[i]
     return out
 
+
+# _______ dynamic ensemble method __________
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def optimized_dynamic_weighted_ensemble(
+    np.ndarray[DTYPE_t, ndim=2] trans_probs,    # (B, n_trans)
+    np.ndarray[DTYPE_t, ndim=2] mlp_probs,      # (B, n_mlp)
+    np.ndarray[DTYPE_t, ndim=2] attn_flat,      # (B, attn_features) — pre-flattened
+    np.ndarray[DTYPE_t, ndim=2] lstm_probs,     # (B, n_lstm) or None→zeros(B,1)
+    np.ndarray[DTYPE_t, ndim=1] lstm_weight_hints,  # (B,) per-sample hint
+    DTYPE_t confidence_threshold,
+    bint has_lstm                                # True if lstm_probs is here
+):
+    cdef Py_ssize_t B          = trans_probs.shape[0]
+    cdef Py_ssize_t n_trans    = trans_probs.shape[1]
+    cdef Py_ssize_t n_mlp      = mlp_probs.shape[1]
+    cdef Py_ssize_t n_lstm     = lstm_probs.shape[1] if has_lstm else 0
+    cdef Py_ssize_t n_classes  = n_trans
+    if n_mlp  > n_classes: n_classes = n_mlp
+    if n_lstm > n_classes: n_classes = n_lstm
+
+    cdef np.ndarray[DTYPE_t, ndim=2] ensemble = np.zeros((B, n_classes), dtype=DTYPE)
+
+    cdef Py_ssize_t i, j
+    cdef DTYPE_t trans_sum, mlp_sum, lstm_sum
+    cdef DTYPE_t trans_pred_val, mlp_pred_val, lstm_pred_val
+    cdef Py_ssize_t trans_pred, mlp_pred, lstm_pred
+    cdef DTYPE_t agreement, lstm_agreement
+    cdef DTYPE_t attn_focus, attn_growth, anisotropy, attn_limit
+    cdef DTYPE_t attn_mean, attn_std, attn_sq_sum
+    cdef DTYPE_t mlp_entropy, mlp_conf_factor
+    cdef DTYPE_t trans_conf_factor, trans_weight, mlp_weight, lstm_weight, total
+    cdef Py_ssize_t attn_len = attn_flat.shape[1]
+
+    # preallocate row buffers — reused each iteration
+    cdef np.ndarray[DTYPE_t, ndim=1] trans_row = np.empty(n_classes, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=1] mlp_row   = np.empty(n_classes, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=1] lstm_row  = np.empty(n_classes, dtype=DTYPE)
+
+    for i in range(B):
+
+        # ── build aligned rows ───────────────────────────────────────
+        for j in range(n_classes):
+            trans_row[j] = trans_probs[i, j] if j < n_trans else 0.0
+            mlp_row[j]   = mlp_probs[i, j]   if j < n_mlp  else 0.0
+            lstm_row[j]  = lstm_probs[i, j]   if (has_lstm and j < n_lstm) else 0.0
+
+        # normalize rows
+        trans_sum = 0.0
+        mlp_sum   = 0.0
+        lstm_sum  = 0.0
+        for j in range(n_classes):
+            trans_sum += trans_row[j]
+            mlp_sum   += mlp_row[j]
+            lstm_sum  += lstm_row[j]
+        trans_sum += 1e-8
+        mlp_sum   += 1e-8
+        lstm_sum  += 1e-8
+        for j in range(n_classes):
+            trans_row[j] /= trans_sum
+            mlp_row[j]   /= mlp_sum
+            if has_lstm:
+                lstm_row[j] /= lstm_sum
+
+        # ── argmax predictions ───────────────────────────────────────
+        trans_pred = 0
+        mlp_pred   = 0
+        lstm_pred  = 0
+        trans_pred_val = trans_probs[i, 0]
+        mlp_pred_val   = mlp_probs[i, 0]
+        for j in range(1, n_trans):
+            if trans_probs[i, j] > trans_pred_val:
+                trans_pred_val = trans_probs[i, j]
+                trans_pred = j
+        for j in range(1, n_mlp):
+            if mlp_probs[i, j] > mlp_pred_val:
+                mlp_pred_val = mlp_probs[i, j]
+                mlp_pred = j
+        if has_lstm:
+            lstm_pred_val = lstm_probs[i, 0]
+            for j in range(1, n_lstm):
+                if lstm_probs[i, j] > lstm_pred_val:
+                    lstm_pred_val = lstm_probs[i, j]
+                    lstm_pred = j
+
+        agreement = 1.0 if trans_pred == mlp_pred else 0.3
+
+        # ── attention confidence factor ───────────────────────────────
+        # attn_flat[i] is the pre-flattened attention row
+        # compute mean and std in one C pass (Welford)
+        attn_mean   = 0.0
+        attn_sq_sum = 0.0
+        for j in range(attn_len):
+            attn_mean += attn_flat[i, j]
+        attn_mean /= (attn_len + 1e-8)
+        for j in range(attn_len):
+            attn_sq_sum += (attn_flat[i, j] - attn_mean) ** 2
+        attn_focus  = (attn_sq_sum / (attn_len + 1e-8)) ** 0.5
+        attn_growth = 1.0 / (1.0 + exp(-attn_focus))
+
+        # anisotropy approximation — ratio of std to mean
+        anisotropy      = attn_focus / (attn_mean + 1e-8)
+        attn_limit      = (1.0 - attn_focus + attn_growth) * anisotropy
+        trans_conf_factor = attn_growth + attn_limit * attn_focus
+
+        # ── MLP entropy confidence ────────────────────────────────────
+        mlp_entropy = 0.0
+        for j in range(n_mlp):
+            if mlp_probs[i, j] > 1e-8:
+                mlp_entropy -= mlp_probs[i, j] * log(mlp_probs[i, j] + 1e-8)
+        mlp_conf_factor = 1.0 / (1.0 + mlp_entropy)
+
+        # ── weights ───────────────────────────────────────────────────
+        trans_weight = trans_conf_factor * (1.0 + agreement) / 2.0
+        mlp_weight   = mlp_conf_factor   * (1.0 + agreement) / 2.0
+
+        if has_lstm:
+            lstm_agreement = 1.0 if (lstm_pred == trans_pred or
+                                     lstm_pred == mlp_pred) \
+                             else confidence_threshold
+            lstm_weight = lstm_weight_hints[i] * (1.0 + lstm_agreement) / 2.0
+            total = trans_weight + mlp_weight + lstm_weight + 1e-8
+            trans_weight /= total
+            mlp_weight   /= total
+            lstm_weight  /= total
+            for j in range(n_classes):
+                ensemble[i, j] = (trans_weight * trans_row[j] +
+                                  mlp_weight   * mlp_row[j]   +
+                                  lstm_weight  * lstm_row[j])
+        else:
+            total = trans_weight + mlp_weight + 1e-8
+            trans_weight /= total
+            mlp_weight   /= total
+            for j in range(n_classes):
+                ensemble[i, j] = (trans_weight * trans_row[j] +
+                                  mlp_weight   * mlp_row[j])
+
+    return ensemble
 
 # ── LSTM cell forward ─────────────────────────
 @cython.boundscheck(False)
