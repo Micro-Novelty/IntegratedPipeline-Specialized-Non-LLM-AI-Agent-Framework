@@ -1,6 +1,21 @@
 ## Changelog
 All notable changes to this project will be documented in this file.
-
+### PyPi AbstractIntegratedModule New Version changelog:
+- Version 0.8.6: 2026-06-28.
+- Changelog:
+     - v0.8.6:
+        - [=] New features: 
+        - Added new Optimization module using Cython maths for dynamic weighted ensemble function.
+        - Added Penalty for wrong prediction in both single advanced prediction and advanced batch prediction to reduce repetitive errors.
+        - Fixed P2P Vulnerabilities:
+           - Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES external IPs instead of allowing all
+           - Startup validation warns about dangerous config combinations
+           - Loopback (127.0.0.1) always permitted for local agent comms
+           - DEVELOPMENT/STAGING retains allow-all behavior with explicit warning since local P2P testing requires it
+           - pickle.loads() replaced by json.loads with utf-8 encoding order.
+           - generate self signed cert fixes and added client.crt for fallback when users dont provide any SSL cert and key for both server and client.
+         
+# Binary-new Release Changelog (Only inside in this repository)
 ### [0.1.0] - 2026-05-05
 [=] Added
 Initial release of IntegratedPipeline
