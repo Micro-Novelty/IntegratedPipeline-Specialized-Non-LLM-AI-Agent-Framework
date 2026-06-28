@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, master]
     paths:
-      - '**/*.pyx'
+      - '**/*.pyx' #.pyx
       - '**/*.rs'
       - '.github/workflows/cibuildwheel.yml'
   pull_request:
