@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.8.4 Official Release.
+- Development Stage on PyPi: 0.8.5 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,9 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.8.4:
+     - v0.8.5:
         - [=] New features: 
-        - Added more robust inhomogenous shape handling for handling input_ids in Transformer and AccurateAnswerCache architecture.
-        - Added improvements for handling batch prediction responses, ensuring robust references and graceful conditions for edge cases.
+        - Added new Optimization module using Cython maths for dynamic weighted ensemble function.
         - Fixed P2P Vulnerabilities:
            - Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES external IPs instead of allowing all
            - Startup validation warns about dangerous config combinations
