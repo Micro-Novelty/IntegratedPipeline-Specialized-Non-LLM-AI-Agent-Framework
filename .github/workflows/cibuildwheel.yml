@@ -1,4 +1,4 @@
-name: Build wheels (cibuildwheel) for Linux and macOS (x86_64 + aarch64)
+name: Build wheels (cibuildwheel) for Linux and macOS (x86_64 + aarch64).
 
 on:
   push:
