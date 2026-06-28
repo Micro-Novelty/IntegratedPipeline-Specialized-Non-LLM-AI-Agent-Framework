@@ -1,5 +1,6 @@
-## [-] Security Vulnerability for AbstractIntegratedModule
+## [-] Security Vulnerabilities for AbstractIntegratedModule
 
+[PATCHED]:
 ### Vulnerabilities includes:
 ✅ Vulnerability 1 — pickle.loads() before signature verification (line 6797)
    CONFIRMED. The exact sequence is:
@@ -35,14 +36,15 @@
    - 0.5.0 -> 0.8.1
   
 ### Patches:
-Fixed in 0.8.2:
-→ Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES
-external IPs instead of allowing all
-→ Startup validation warns about dangerous config combinations
-→ Loopback (127.0.0.1) always permitted for local agent comms
-→ DEVELOPMENT/STAGING retains allow-all behavior with explicit warning
+[=] Fixed in 0.8.2+:
+- → Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES
+- external IPs instead of allowing all
+- → Startup validation warns about dangerous config combinations
+- → Loopback (127.0.0.1) always permitted for local agent comms
+- → DEVELOPMENT/STAGING retains allow-all behavior with explicit warning
 since local P2P testing requires it
--> used json.loads with utf-8 encoding for better security.
+- -> self-signed certificate now provides both server and client during P2P if users dont manually provide their CERT and key file or SSL contexts.
+- -> used json.loads with utf-8 encoding for better security.
 
   
 
