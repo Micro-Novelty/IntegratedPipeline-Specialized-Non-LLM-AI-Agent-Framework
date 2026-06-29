@@ -146,6 +146,10 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    2. - TF-IDF (Term Frequency-Inverse Document Frequency) is a numerical statistic used in machine learning and NLP to evaluate how important a word is to a document within a collection (corpus). It boosts rare words and penalizes common words (like "the", "and") by multiplying two metrics: how often a word appears in a document (TF) and the inverse frequency of the word across all documents (IDF). 
    3. - Explainability provides deeper transparency of why a model thought about a detail by showing its internal metrics like attention quality, from distributed peer memory or Ensemble prediction result's.
 
+
+### Important Note:
+- All of the files provided here can be found  in the github repository, if you are seeing this on PyPi and wanted to Try out the .py, .sh or Dockerfile scripts below, consider visiting the github link Above.
+
 ### Introduction and demo
 [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
 - Quick demo start: [main.py](main.py)
