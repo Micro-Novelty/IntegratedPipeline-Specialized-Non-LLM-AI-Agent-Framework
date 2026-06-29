@@ -6,7 +6,7 @@ on:
     paths:
       - '**/*.pyx' #.pyx
       - '**/*.rs'
-      - '.github/workflows/cibuildwheel.yml'
+      - '.github/workflows/cibuildwheel.yml' #ci
   pull_request:
     paths:
       - '**/*.pyx'
