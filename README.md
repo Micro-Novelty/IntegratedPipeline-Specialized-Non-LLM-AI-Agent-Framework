@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.8.6 Official Release.
+- Development Stage on PyPi: 0.8.7 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.8.6:
-        - [=] New features: 
-        - Added new Optimization module using Cython maths for dynamic weighted ensemble function.
-        - Added Penalty for wrong prediction in both single advanced prediction and advanced batch prediction to reduce repetitive errors.
+     - v0.8.7:
+        - [=] New features:
+        - Added new continuos predictive correction for MLP class to reduce inflated confidence despite outputting wrong answer.
+        - Reduced the frequency of penalty based calibration in advanced prediction method to prevent the models from being too conservative.
         - Fixed P2P Vulnerabilities:
            - Empty allowed_ips in PRODUCTION/HARDENED mode now DENIES external IPs instead of allowing all
            - Startup validation warns about dangerous config combinations
