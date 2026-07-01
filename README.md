@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.9.1Official Release.
+- Development Stage on PyPi: 0.9.2 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,13 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.9.1:
+     - v0.9.2:
         - [=] New features:
-        - Ensemble method prediction is now secondary after conditions are met, and no longers acts as the Main prediction flow, Single pass (One Model) prediction now governs the Main prediction for long term stability and determinism in its learning capability.
-        - Modifed advanced prediction to use single pass prediction as its main prediction method, ensemble prediction will be triggered when conditions are met.
-        - modifed advanced batch prediction to use single pass prediction for faster and more reliable prediction method.
-        - added robustness for input_ids shape modification from list to array.
-        - fixed wrong pipeline initisialization on hybrid prediction method.
+        - Replace ensemble fallback in advanced batch prediction with calibration method between Transformer and MLP models.
+        - fixed wrong argument type in hybrid prediction method in advanced prediction method.
   
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
