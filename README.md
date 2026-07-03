@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.9.2 Official Release.
+- Development Stage on PyPi: 0.9.3 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,13 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.9.2:
+     - v0.9.3:
         - [=] New features:
-        - Replace ensemble fallback in advanced batch prediction with calibration method between Transformer and MLP models.
-        - fixed wrong argument type in hybrid prediction method in advanced prediction method.
+        - titles and rules is now Optional in all prediction methods, given if X and y samples are provided during prediction.
+        - added guards for saving samples to check for ellipsis object.
+        - Both Asynchronous Prediction and P2P doesnt rely on titles and rules, given if X and y samples are provided.
+        - refined Transformer and MLP training methods.
+        - Added new method to generate supported samples from the Provided X samples that matched Transformer token embedding
   
          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
@@ -646,13 +649,16 @@ _______________________________________
    # prevent the model from training and make weights unchanged for static prediction.
       
    results, chosen_label, confidence = main_prediction.advanced_prediction_method(
-      test_titles, label_map, example_rules,
+      titles=test_titles, label_map=label_map, rules=example_rules, # titles and rules can be set to None (Optional samples), but label_map must NOT be None.
          X=None, y=None # you could create your own X and y samples and put it here (Optional)
                show_proba=False, top_k=3, 
                use_transformer=True,
                return_attention=False,
                save_results=True,
                batch_size=2)
+   # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
+
+
    # batch size=2 is needed during transformer training for batching, if you have larger samples consider using batch_size > 8, for medium amount of samples (>10 -> <50 samples) consider using 2 or 4 batch_size.
    # ... more features you can add
    ```
@@ -709,7 +715,10 @@ async_manager = PipelineAsyncManager(main_model,
 
 async_manager.start(method='Transformer_included', bootstrap_token=None) # boothstrap token is optional for better security
 
-texts = {'test_titles': test_titles, 'label_map': label_map, 'rules': example_rules, 'X': None, 'y':None, 'use_transformer': True} # all samples needed for advanced prediction method. (X and y are optional samples)
+texts = {'test_titles': test_titles, 'label_map': label_map, 'rules': example_rules, # test_titles and rules can be set to None here since they are Optional samples.
+                                                                                     # but label_map must not be None.
+          'X': None, 'y':None, 'use_transformer': True} # all samples needed for advanced prediction method. (X and y are optional samples)
+# Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
 
 regular_predict = async_manager.predict(
    texts=texts,
@@ -719,11 +728,12 @@ regular_predict = async_manager.predict(
 
 # with retries: async_manager.predict(texts, timeout=60, retries=5, api_key=secret_key) # 5 times retry if failed
 
+# NOTE: This function below must require test_titles or titles, label_map and example rules:
 print('[==] Initiating advanced batch prediction')
          predicted_output = async_manager.advanced_batch_prediction(test_titles, label_map, example_rules, 
          X=None, y=None, # provide your initialized X and y samples (Also Optional, can be set to None)
          secret_key=secret_key, client_ip=None) # you can add client_ip to provide a robust authentication paired with secret_key
-# for better and faster advanced prediction, consider using advanced batch prediction like in the above example
+# for better and faster advanced prediction when using titles and rules, consider using advanced batch prediction like in the above example
 
 ```
 [=] Note:
@@ -828,7 +838,9 @@ try:
      api_key = agent1.get_api_key()
      print(f"\n🔑 Using API Key: {api_key[:20]}...")
 
-     texts = {"test_titles": test_titles, "label_map": label_map, "rules": rules, 'X': None, "y":None, "use_transformer": True, "agent_id": agent_id} # (X and y are optional samples here too)
+     texts = {"test_titles": test_titles, "label_map": label_map, "rules": rules, # test_titles and rules are Optional samples, can be set to None.
+'X': None, "y":None, "use_transformer": True, "agent_id": agent_id} # (X and y are optional samples here too)
+     # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
 
      # texts dictionary must contain test_titles, label_map, and rules that you can assign,
      # agent ID can be strings, int, or floats, recommendded to make it long for better security.
