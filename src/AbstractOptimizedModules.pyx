@@ -7,7 +7,7 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-from libc.math cimport exp, tanh, fabs, log1p, sqrt
+from libc.math cimport exp, tanh, fabs, log1p, sqrt, log
 
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
