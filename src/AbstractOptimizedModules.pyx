@@ -7,11 +7,66 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-from libc.math cimport exp, tanh, fabs, log1p, sqrt, log
+from libc.math cimport exp, tanh, fabs, log1p, sqrt
 
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
 
+# _________ replaces einsum equations directly with Cython for Dynamic backward _________
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def optimized_qkv_weight_grad(
+    np.ndarray[DTYPE_t, ndim=3] x,        # (B, S, D)
+    np.ndarray[DTYPE_t, ndim=4] d_proj,   # (B, H, S, M) — d_Q, d_K, or d_V
+    Py_ssize_t B, Py_ssize_t S, Py_ssize_t H,
+    Py_ssize_t D, Py_ssize_t M
+):
+    """
+    Replaces einsum('bsd,bhsm->hdm', x, d_proj).
+    Computes weight gradient: for each head h, dim d, dim m:
+      sum over b,s of x[b,s,d] * d_proj[b,h,s,m]
+    """
+    cdef np.ndarray[DTYPE_t, ndim=3] out = np.zeros((H, D, M), dtype=DTYPE)
+    cdef Py_ssize_t b, h, s, d, m
+    cdef DTYPE_t acc
+
+    for h in range(H):
+        for d in range(D):
+            for m in range(M):
+                acc = 0.0
+                for b in range(B):
+                    for s in range(S):
+                        acc += x[b, s, d] * d_proj[b, h, s, m]
+                out[h, d, m] = acc
+    return out
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def optimized_qkv_input_grad(
+    np.ndarray[DTYPE_t, ndim=4] d_proj,   # (B, H, S, M)
+    np.ndarray[DTYPE_t, ndim=3] W,        # (H, D, M)
+    Py_ssize_t B, Py_ssize_t S, Py_ssize_t H,
+    Py_ssize_t D, Py_ssize_t M
+):
+    """
+    Replaces einsum('bhsm,hdm->bsd', d_proj, W).
+    Computes input gradient: for each batch b, position s, dim d:
+      sum over h,m of d_proj[b,h,s,m] * W[h,d,m]
+    """
+    cdef np.ndarray[DTYPE_t, ndim=3] out = np.zeros((B, S, D), dtype=DTYPE)
+    cdef Py_ssize_t b, h, s, d, m
+    cdef DTYPE_t acc
+
+    for b in range(B):
+        for s in range(S):
+            for d in range(D):
+                acc = 0.0
+                for h in range(H):
+                    for m in range(M):
+                        acc += d_proj[b, h, s, m] * W[h, d, m]
+                out[b, s, d] = acc
+    return out
 
 # ── activation functions ──────────────────────
 @cython.boundscheck(False)
