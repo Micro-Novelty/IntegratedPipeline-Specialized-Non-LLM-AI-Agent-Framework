@@ -145,6 +145,13 @@ jobs:
       CIBW_ARCHS: x86_64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
+      # FIX: bind-mount the runner's /tmp/rust-wheels into the manylinux/
+      # musllinux container at /host/rust-wheels. Without this, nothing
+      # inside the container can see the wheels downloaded onto the host,
+      # and every "pip install $RUST_WHEEL_DIR/*.whl" below silently
+      # no-ops (masked by `|| true`), so the Rust extension never
+      # actually ends up in the built wheels.
+      CIBW_CONTAINER_ENGINE: "docker; create_args: -v /tmp/rust-wheels:/host/rust-wheels:ro"
       CIBW_ENVIRONMENT: >
         RUST_WHEEL_DIR=/host/rust-wheels
       CIBW_BEFORE_ALL_LINUX: |
@@ -170,8 +177,10 @@ jobs:
         else
           echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
         fi
+      # FIX: use the same (container-side, mounted) path as CIBW_ENVIRONMENT
+      # instead of the host-only /tmp/rust-wheels.
       CIBW_BEFORE_BUILD: >
-        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+        pip install "${RUST_WHEEL_DIR:-/host/rust-wheels}"/*.whl || true
       # Use manylinux_2_28 image — produces clean manylinux_2_28_x86_64 tag
       # without the legacy manylinux2014 compat dual tag
       CIBW_MANYLINUX_X86_64_IMAGE: "quay.io/pypa/manylinux_2_28_x86_64"
@@ -179,7 +188,6 @@ jobs:
         auditwheel repair -w {dest_dir} {wheel} --only-plat
       CIBW_TEST_COMMAND: >
         python -c "import sys; print('✓ Python', sys.version, 'OK')"
-      CIBW_CONTAINER_ENGINE: "docker"
     steps:
       - uses: actions/checkout@v4
 
@@ -204,20 +212,19 @@ jobs:
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
-          echo "Will expect container mount at /host/rust-wheels"
+          echo "This directory is bind-mounted into the build container at /host/rust-wheels"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # FIX: removed the step-level `env:` override that used to duplicate
+      # (and contradict) the job-level CIBW_ENVIRONMENT / CIBW_BEFORE_BUILD
+      # above with a different, unmounted path. The job-level env is
+      # sufficient and now consistent, so cibuildwheel just inherits it.
       - name: Build wheels (${{ matrix.aim }})
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_ENVIRONMENT: >
-            RUST_WHEEL_DIR=/host/rust-wheels
-          CIBW_BEFORE_BUILD: >
-            pip install /tmp/rust-wheels/*.whl || true
 
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
@@ -259,6 +266,8 @@ jobs:
       CIBW_ARCHS: aarch64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
+      # FIX: same bind-mount fix as the x86_64 job above.
+      CIBW_CONTAINER_ENGINE: "docker; create_args: -v /tmp/rust-wheels:/host/rust-wheels:ro"
       CIBW_ENVIRONMENT: >
         RUST_WHEEL_DIR=/host/rust-wheels
       CIBW_BEFORE_ALL_LINUX: |
@@ -284,8 +293,9 @@ jobs:
         else
           echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
         fi
+      # FIX: use the mounted container path, consistent with CIBW_ENVIRONMENT.
       CIBW_BEFORE_BUILD: >
-        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+        pip install "${RUST_WHEEL_DIR:-/host/rust-wheels}"/*.whl || true
       # Use manylinux_2_28 image with GCC 14+ for NumPy 2.5.1+ compatibility
       CIBW_MANYLINUX_AARCH64_IMAGE: "quay.io/pypa/manylinux_2_28_aarch64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
@@ -316,20 +326,16 @@ jobs:
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
-          echo "Will expect container mount at /host/rust-wheels"
+          echo "This directory is bind-mounted into the build container at /host/rust-wheels"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # FIX: removed the contradicting step-level env override (see x86_64 job note above).
       - name: Build wheels (${{ matrix.aim }})
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_ENVIRONMENT: >
-            RUST_WHEEL_DIR=/host/rust-wheels
-          CIBW_BEFORE_BUILD: >
-            pip install /tmp/rust-wheels/*.whl || true
 
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
@@ -362,6 +368,8 @@ jobs:
       CIBW_ARCHS: aarch64
       CIBW_BUILD: "cp310-* cp311-* cp312-*"
       CIBW_BUILD_FRONTEND: "build[uv]"
+      # FIX: same bind-mount fix as the other Linux jobs above.
+      CIBW_CONTAINER_ENGINE: "docker; create_args: -v /tmp/rust-wheels:/host/rust-wheels:ro"
       CIBW_ENVIRONMENT: >
         RUST_WHEEL_DIR=/host/rust-wheels
       CIBW_BEFORE_ALL_LINUX: |
@@ -387,8 +395,9 @@ jobs:
         else
           echo "No rust wheels found in ${RUST_WHEEL_DIR:-/host/rust-wheels}"
         fi
+      # FIX: use the mounted container path, consistent with CIBW_ENVIRONMENT.
       CIBW_BEFORE_BUILD: >
-        pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+        pip install "${RUST_WHEEL_DIR:-/host/rust-wheels}"/*.whl || true
       # Use manylinux_2_28 image with GCC 14+ for NumPy 2.5.1+ compatibility
       CIBW_MANYLINUX_AARCH64_IMAGE: "quay.io/pypa/manylinux_2_28_aarch64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
@@ -419,20 +428,16 @@ jobs:
         run: |
           echo "Contents of /tmp/rust-wheels on runner:"
           ls -la /tmp/rust-wheels || true
-          echo "Will expect container mount at /host/rust-wheels"
+          echo "This directory is bind-mounted into the build container at /host/rust-wheels"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # FIX: removed the contradicting step-level env override (see x86_64 job note above).
       - name: Build wheels (regular aarch64)
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
-        env:
-          CIBW_ENVIRONMENT: >
-            RUST_WHEEL_DIR=/host/rust-wheels
-          CIBW_BEFORE_BUILD: >
-            pip install /tmp/rust-wheels/*.whl || true
 
       - name: Copy README for regular build into wheelhouse
         run: |
@@ -465,6 +470,8 @@ jobs:
       CIBW_BUILD_FRONTEND: "build[uv]"
       CIBW_BEFORE_ALL_MACOS: >
         pip install numpy scikit-learn psutil aiohttp pandas
+      # Note: macOS builds run natively on the runner (no container), so
+      # /tmp/rust-wheels is directly visible here — no mount needed.
       CIBW_BEFORE_BUILD: >
         pip install /tmp/rust-wheels/*.whl || true
       CIBW_TEST_COMMAND: >
@@ -532,7 +539,10 @@ jobs:
       - name: List built wheels and docs
         run: |
           echo "=== Built artifacts (top-level) ==="
-          ls -Rall all-wheels/ || true
+          # FIX: "-Rall" is not a valid combination of ls flags; this was
+          # silently doing something other than the intended recursive,
+          # long-format, all-files listing.
+          ls -laR all-wheels/ || true
           echo "=== Found wheels count ==="
           find all-wheels -name '*.whl' -print | wc -l || true
           echo "=== Found README docs ==="
