@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.9.5 Official Release.
+- Development Stage on PyPi: 0.9.6 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,13 +53,13 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.9.5:
+     - v0.9.6:
         - [=] New features:
-        - added guards for string chars from propagating through MLP layers.
-        - Refined MLP forward layer with performance score that can reflect the actual accuracy of the output, directly to the models forward block.
-        - Added confidence calibrtion metric in Advanced batch prediction to detect over-confidence-ness.
-  
-         
+        - Added refinement for Worker pool class functions to handle Unhandles OS thread limit.
+        - Added guards for AutoBatching function used in IntegratedPipeline from memory leak Case.
+        - Fixed bugs in ThreadedMessageQueue architecture fragile stop and start handling.
+        - All Asynchronous handling Pipeline blocks have been Thoroughly Tested and robustness is ensured from dangerous Memory leak and hanging threads.
+          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
 
