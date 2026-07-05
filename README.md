@@ -1,7 +1,7 @@
 # [=] IntegratedPipeline-Specialized-AI-Agent-library
 
 [~] Introduction:
-- IntegratedPipeline is a standalone Specialized AI Agent Library for Non-LLL memory Augmented Agentic Framework orchestrator - Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. 
+- IntegratedPipeline is a standalone Specialized AI Agent Library for Non-LLM memory Augmented Agentic Framework orchestrator - Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. 
 - AbstractIntegratedModule Contains specialized MLP using Its Own specialized geometric Weight shaping (AWE), Specialized efficient Transformer and LSTM (Long-short term memory) architecture for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment or Messy environments.
 
 
