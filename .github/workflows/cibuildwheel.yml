@@ -286,6 +286,8 @@ jobs:
         fi
       CIBW_BEFORE_BUILD: >
         pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+      # Use manylinux_2_28 image with GCC 14+ for NumPy 2.5.1+ compatibility
+      CIBW_MANYLINUX_AARCH64_IMAGE: "quay.io/pypa/manylinux_2_28_aarch64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
         auditwheel repair -w {dest_dir} {wheel}
       CIBW_TEST_COMMAND: >
@@ -323,6 +325,11 @@ jobs:
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
+        env:
+          CIBW_ENVIRONMENT: >
+            RUST_WHEEL_DIR=/host/rust-wheels
+          CIBW_BEFORE_BUILD: >
+            pip install /tmp/rust-wheels/*.whl || true
 
       - name: Copy README for ${{ matrix.aim }} into wheelhouse
         run: |
@@ -382,6 +389,8 @@ jobs:
         fi
       CIBW_BEFORE_BUILD: >
         pip install "${RUST_WHEEL_DIR:-/tmp/rust-wheels}"/*.whl || true
+      # Use manylinux_2_28 image with GCC 14+ for NumPy 2.5.1+ compatibility
+      CIBW_MANYLINUX_AARCH64_IMAGE: "quay.io/pypa/manylinux_2_28_aarch64"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
         auditwheel repair -w {dest_dir} {wheel}
       CIBW_TEST_COMMAND: >
@@ -419,12 +428,26 @@ jobs:
         uses: pypa/cibuildwheel@v2.22.0
         with:
           output-dir: wheelhouse
+        env:
+          CIBW_ENVIRONMENT: >
+            RUST_WHEEL_DIR=/host/rust-wheels
+          CIBW_BEFORE_BUILD: >
+            pip install /tmp/rust-wheels/*.whl || true
+
+      - name: Copy README for regular build into wheelhouse
+        run: |
+          mkdir -p wheelhouse/docs
+          if [ -f "readme-docs/README.md" ]; then
+            cp readme-docs/README.md wheelhouse/docs/README.md
+          fi
 
       - name: Upload wheels (regular aarch64)
         uses: actions/upload-artifact@v7
         with:
           name: wheels-linux-aarch64-regular
-          path: wheelhouse/*.whl
+          path: |
+            wheelhouse/*.whl
+            wheelhouse/docs/*.md
 
   # ─────────────────────────────────────────────
   # JOB 4: macOS — x86_64 + arm64
