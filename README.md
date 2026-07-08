@@ -163,7 +163,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 - Download via Binaries manually in the repository (Choose one minimal, specified for your needs):
    - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
    - AbstractIntegratedModule (Main library)
-   - Binaries can be downloaded from release section in the repository link.
+   - Binaries can be downloaded from release section in the Main repo or You can use this link:
+     - Release section: https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/releases
   
 - NOTE: consider downloading the correct python wheel for your setup in here for a much flexible installation:
    - ```bash
