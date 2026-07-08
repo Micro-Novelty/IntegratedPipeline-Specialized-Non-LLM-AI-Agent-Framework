@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 0.9.8 Official Release.
+- Development Stage on PyPi: 0.9.9 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,12 +53,11 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v0.9.8:
+     - v0.9.9:
         - [=] New features:
-        - All Asynchronous handling Pipeline blocks have been Thoroughly Tested and robustness is ensured from dangerous Memory leak and hanging threads.
-        - Fixed multiple rate limiter bugs, ex: clock skew can corrupt buckets.
-        - fixed edge cases where poison text injection can happen in Input sanitizer block, ensuring robustness during P2P.
-          
+        - Added new optimization module implemented in Cython for LSTM backward method.
+        - Added new Cython function in AbstractOptimizedModules implementing LSTM backward calculations for speed.
+       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
 ## [+] MANN Intro
