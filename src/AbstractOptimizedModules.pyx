@@ -1,4 +1,3 @@
-
 # cython: language_level=3
 # cython: boundscheck=True
 # cython: wraparound=True
@@ -13,7 +12,6 @@ from libc.math cimport exp, tanh, fabs, log1p, sqrt, log
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
 
-# source
 # _________ replaces einsum equations directly with Cython for Dynamic backward _________
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -331,6 +329,84 @@ def optimized_lstm_cell_forward(
 
     return hs, cs, cache
 
+
+# ___________________
+# ____ LSTM backward _______
+# _____________________
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def optimized_lstm_cell_backward(
+    np.ndarray[DTYPE_t, ndim=2] dhs,        # (T, H)
+    list cache,                              # list of tuples, same as forward's cache
+    np.ndarray[DTYPE_t, ndim=2] W,           # (4H, input+H)
+    Py_ssize_t input_size,
+    Py_ssize_t hidden_size,
+    np.ndarray[DTYPE_t, ndim=1] dh_next,     # (H,) — zeros if None here
+    np.ndarray[DTYPE_t, ndim=1] dc_next,     # (H,) — zeros if None
+    Py_ssize_t T_limit
+):
+    cdef Py_ssize_t T  = T_limit
+    cdef Py_ssize_t H  = hidden_size
+    cdef Py_ssize_t H2 = H * 2
+    cdef Py_ssize_t H3 = H * 3
+    cdef Py_ssize_t xh_len = input_size + H
+    cdef Py_ssize_t t, j, k
+
+    cdef np.ndarray[DTYPE_t, ndim=2] dW = np.zeros((4 * H, xh_len), dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=1] db = np.zeros(4 * H, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=1] dh = dh_next.copy()
+    cdef np.ndarray[DTYPE_t, ndim=1] dc = dc_next.copy()
+    cdef np.ndarray[DTYPE_t, ndim=2] dx_seq = np.zeros((T, input_size), dtype=DTYPE)
+
+    cdef np.ndarray[DTYPE_t, ndim=1] dz  = np.empty(4 * H, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=1] dxh = np.empty(xh_len, dtype=DTYPE)
+
+    cdef DTYPE_t do_v, dtanhc_v, dc_new_v, df_v, di_v, dg_v
+    cdef DTYPE_t f_v, i_v, g_v, o_v, c_prev_v, tanh_c_v
+    cdef DTYPE_t acc
+
+    for t in range(T - 1, -1, -1):
+        x, h_prev, c_prev, f, i, g, o, c_new, tanh_c, xh = cache[t]
+
+        # gate math, pure C loop over hidden units
+        for j in range(H):
+            do_v     = (dhs[t, j] + dh[j]) * tanh_c[j]
+            dtanhc_v = (dhs[t, j] + dh[j]) * o[j]
+            dc_new_v = dtanhc_v * (1.0 - tanh_c[j] * tanh_c[j]) + dc[j]
+
+            f_v = f[j]; i_v = i[j]; g_v = g[j]; o_v = o[j]; c_prev_v = c_prev[j]
+
+            df_v = dc_new_v * c_prev_v
+            di_v = dc_new_v * g_v
+            dg_v = dc_new_v * i_v
+            dc[j] = dc_new_v * f_v
+
+            dz[j]      = df_v * f_v * (1.0 - f_v)          # sigmoid_deriv(f)
+            dz[H + j]  = di_v * i_v * (1.0 - i_v)          # sigmoid_deriv(i)
+            dz[H2 + j] = dg_v * (1.0 - g_v * g_v)          # tanh_deriv(g)
+            dz[H3 + j] = do_v * o_v * (1.0 - o_v)          # sigmoid_deriv(o)
+
+        # dW += outer(dz, xh) and db += dz — direct C accumulationn,
+        # no np.outer allocation per timestep
+        for j in range(4 * H):
+            db[j] += dz[j]
+            for k in range(xh_len):
+                dW[j, k] += dz[j] * xh[k]
+
+        # dxh = W.T @ dz — pure C matmul
+        for k in range(xh_len):
+            acc = 0.0
+            for j in range(4 * H):
+                acc += W[j, k] * dz[j]
+            dxh[k] = acc
+
+        for k in range(input_size):
+            dx_seq[t, k] = dxh[k]
+        for j in range(H):
+            dh[j] = dxh[input_size + j]
+
+    return {"dW": dW, "db": db}, dx_seq, dh, dc
 
 # ── multi head attention ──────────────────────
 @cython.boundscheck(False)
