@@ -160,11 +160,12 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   python -m pip install AbstractIntegratedModule
   ```
   
-- (Optional) Download AbstractIntegratedModule Raw Binary file extension manually in the repository for Users who can't use pip install (Choose one minimal, specified for your needs):
+- (Optional) Download AbstractIntegratedModule Compiled Binary file extension manually in the repository for Users who can't use pip install (Choose one minimal, specified for your needs):
    - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
    - AbstractIntegratedModule (Main library)
-   - Raw Binaries can be downloaded from release section in the Main repo or You can use this link:
+   - Compiled Binaries can be downloaded from release section in the Main repo or You can use this link:
      - Release section: https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/releases
+     - Supported OS: Mac-Os, linux x86-64 and Windows.
   
 - NOTE: for Mac-OS or linux x86-64 Users, consider downloading the correct python wheel for your setup in here for a much flexible installation:
    - ```bash
@@ -172,13 +173,13 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      ```
      Note: using this installation method grants you a much safer, predictable behavior, and more secure AbstractIntegratedModule library rather than a pure binary file.
   
-   - (Optional) Libraries needed (For using raw binary, not python wheels):
+   - (Optional) Libraries needed (For using Compiled binary, not python wheels):
      - Pandas
      - aiohttp
      - scikit-learn
      - numpy
      - psutil
-   - (Optional) Install AbstractIntegratedModule Raw binaries from release section:
+   - (Optional) Install AbstractIntegratedModule Compiled binaries from release section:
   
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, Go to Step's for in-depth Usage below.
@@ -254,7 +255,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    - psutil
      
 4. Run IntegratedPipeline in a Container:
-    - Install AbstractIntegratedModule via PIP or binaries (for binaries, can  be downloaded in release section):
+    - Install AbstractIntegratedModule via PIP or Compiled binaries:
     - ```bash
       pip install AbstractIntegratedModule # or
       python -m pip install AbstractIntegratedModule
