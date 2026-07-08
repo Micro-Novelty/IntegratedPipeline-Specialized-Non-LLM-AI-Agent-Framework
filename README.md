@@ -41,7 +41,7 @@
     - ```bash
       pip install abstract-weights-core
       ```
-    - Note: This Optimization would allow AbstractIntegratedModule faster JSON parsing and much more flexible database handling handled in Rust.
+    - Note: This Optimization would help AbstractIntegratedModule with faster JSON parsing and much more flexible database handling handled efficiently using Rust programming language.
    
 - Proven Capabilities:
    - The library has been thoroughly tested in Multiple Environments from Windows to ARM64 Environment. The library is now Robust for Wider use and Deployment.
