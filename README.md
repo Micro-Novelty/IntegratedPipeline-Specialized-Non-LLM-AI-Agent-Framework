@@ -58,6 +58,7 @@
         - Added new optimization module implemented in Cython for LSTM backward method.
         - Added new Cython function in AbstractOptimizedModules implementing LSTM backward calculations for speed.
         - Applied clean up staled request after adding request for batch prediction to prevent memory leak.
+        - Fixed edge cases where Advanced prediction method reputation calibration function call receives final_probs=None in Multi-threading environment.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
