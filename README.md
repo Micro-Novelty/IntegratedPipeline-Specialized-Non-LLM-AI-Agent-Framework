@@ -59,6 +59,7 @@
         - Added new Cython function in AbstractOptimizedModules implementing LSTM backward calculations for speed.
         - Applied clean up staled request after adding request for batch prediction to prevent memory leak.
         - Fixed edge cases where Advanced prediction method reputation calibration function call receives final_probs=None in Multi-threading environment.
+        - Added parameters for users to directly set how much Epochs are needed for MLP and Transformer training.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
@@ -587,7 +588,10 @@ _______________________________________
    main_model.error_decay = 0.75
    # error_rate > 0.5 means old errors fade quickly — a class that was wrong 3 predictions ago matters less than one wrong just now, making the model less likely to output repetitive wrong answer.
    # this a flexible tunable-knob for the model judgement regarding wrong answer, this will propagate through prediction layers to inform about the model repetitive answer and calibrate it immediately.
-   
+
+   main_model.mlp_training_epochs = 2000
+   main_model.transformer_training_epochs = 200
+   # You can set how much epochs are needed to Train your MLP and Transformer for your Models.
    
    # test samples with more sophisticated rules and more complex titles for prediction
    # (title, intent)
