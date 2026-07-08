@@ -165,31 +165,21 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
    - AbstractIntegratedModule (Main library binary)
      
 - Binaries can be downloaded from release or code section.
-- NOTE: Binaries in this repo is outdated, consider downloading the correct python wheel for your setup in here:
+- NOTE: consider downloading the correct python wheel for your setup in here for a much flexible installation:
    - ```bash
      pip install abstractintegratedmodule --extra-index-url https://Micro-Novelty.github.io/abstract-modules/whl/ --break-system-packages
      ```
-     Note: using this installation method grants you a much safer, predictable behavior, and more secure AbstractIntegratedModule library than a pure binary file.
-   - Windows Native OS -
-      - AbstractIntegratedModule.cp313-win_amd64 and its AbstractOptimizedModules.pyd Supports Python 3.13 for Windows Only (Robust, Stable version)
-   - Linux x86_64
-     - AbstractIntegratedModule.cpython-312-x86_64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.12 only.
-   - Linux ARM64 - Raspberry Pi (Supports Raspberry pi 3 - 5)
-     - AbstractIntegratedModule.cpython-310-aarch64-linux-gnu.so and its AbstractOptimizedModules.so supports Python 3.10 only.
+     Note: using this installation method grants you a much safer, predictable behavior, and more secure AbstractIntegratedModule library rather than a pure binary file.
   
-   - Libraries needed (For binary usage):
+   - Libraries needed (For using raw binary, not python wheels):
      - Pandas
      - aiohttp
      - scikit-learn
      - numpy
      - psutil
 
-   - Download AbstractIntegratedModule binaries from release section:
-     - This file contains:
-      - AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd (For windows machine).
-      - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (For linux x86_64).
-      - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so, AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi).
-
+   - Download AbstractIntegratedModule binaries from pip or release section:
+  
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, Go to Step's for in-depth Usage below.
 
@@ -256,7 +246,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      sudo docker build -t integrated-agent.
      ```
 2. Download library dependencies for binaries usage:
-   [=] Required libraries (when using binary):
+   [=] Required libraries (when using binary, not python wheel provided in the library):
    - Numpy
    - Scikit-learn
    - pandas
@@ -427,96 +417,66 @@ _______________________________________
      python -m pip install AbstractIntegratedModule
      ```
 
-1. Download for binaries:
-   - AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd (For windows machine) (Python 3.13)
-   - AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (For linux x86_64) (Python 3.12)
-   - AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so,  AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so (for Linux ARM64 - Raspberry Pi) (Python 3.10)
-   -  ```
-      # Download from release
-      # AbstractIntegratedModule.pyd, AbstractOptimizedModules.pyd  (windows) /
-      # Abstractcpython-39-x86_64-linux-gnu.so, AbstractOptimizedModules.cpython-39-x86_64-linux-gnu.so (x86_64) /
-      # AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so  ,  AbstractOptimizedModules.cpython-39-aarch64-linux-gnu.so 
-      ```
+1. Clone repository:
+
+ - ```
+   # prerequisites (for Raspberry pi OS Only)
+   # Update system
+   sudo apt-get update
+   sudo apt-get upgrade -y
+
+   # Install Python 3.13 and development tools
+   sudo apt-get install python3.13 python3.13-dev python3.13-venv -y
+
+   # Install additional build tools
+   sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y
+
+   # Clone immediately for Windows and x86_64 only without prerequisites          
+   git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
+   cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework     
+   ```   
+ 2. Install System Dependencies (for x86_64 installation):
+    ```
+    # Ubuntu/Debian
+    sudo apt-get update
+    sudo apt-get install python3.13 python3.13-dev python3.13-venv
+
+    # CentOS/RHEL
+    sudo yum install python313 python313-devel
+
+    # Fedora
+    sudo dnf install python3.13 python3.13-devel
+    ```
+    
+ 3. Create a virtual environment:
+     - ```
+       # Create virtual environment (windows)
+       python -m venv venv
+       # Activate virtual environment
+       venv\Scripts\activate
+       
+       # Create virtual environment (x86_64) (ARM64 / raspberry pi)
+       python3.13 -m venv venv
+       # Activate virtual environment
+       source venv/bin/activate
+       ```
+         
    
-   [=] Steps for installation:
-   Note: AbstractIntegratedModule has 5 library dependencies that must be installed on your computer if you use AbstractIntegratedModule binaries:
-   - [=] Required Libraries (For binaries usage):
-   - Numpy
-   - Scikit-learn
-   - pandas
-   - aiohttp
-   - psutil
-   
-   1. Clone repository:
-         - ```
-           # prerequisites (for Raspberry pi OS Only)
-           # Update system
-           sudo apt-get update
-           sudo apt-get upgrade -y
-
-           # Install Python 3.13 and development tools
-           sudo apt-get install python3.13 python3.13-dev python3.13-venv -y
-
-           # Install additional build tools
-           sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y
-
-           # Clone immediately for Windows and x86_64 only without prerequisites          
-           git clone https://github.com/Micro-Novelty/IntegratedPipeline-Continous-Learning-AI-Agent-library-framework.git
-           cd IntegratedPipeline-Continous-Learning-AI-Agent-library-framework     
-           ```   
-   2. Install System Dependencies (for x86_64 installation):
-      ```
-      # Ubuntu/Debian
-      sudo apt-get update
-      sudo apt-get install python3.13 python3.13-dev python3.13-venv
-
-      # CentOS/RHEL
-      sudo yum install python313 python313-devel
-
-      # Fedora
-      sudo dnf install python3.13 python3.13-devel
+ 4. Verify Installation:
+    - ```
+      python -c "from AbstractIntegratedModule import IntegratedPipeline; print('✓ Installation successful!')"
       ```
       
-   3. Create a virtual environment:
-       - ```
-         # Create virtual environment (windows)
-         python -m venv venv
-         # Activate virtual environment
-         venv\Scripts\activate
-         
-         # Create virtual environment (x86_64) (ARM64 / raspberry pi)
-         python3.13 -m venv venv
-         # Activate virtual environment
-         source venv/bin/activate
-         ```
-         
-   4. Copy AbstractIntegratedModule binary:
-      - ```
-        # For windows:
-        # Copy the .pyd file to your project root
-        # AbstractIntegratedModule.pyd
-        copy C:\path\to\AbstractIntegratedModule.pyd .\AbstractIntegratedModule.pyd
-        
-        # Copy the .so file to your project root (for x86_64)
-        cp /path/to/AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so ./AbstractIntegratedModule.cpython-39-x86_64-linux-gnu.so
-        
-        # Copy ARM64 / Raspberry pi binary
-        cp /path/to/AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so ./AbstractIntegratedModule.cpython-39-aarch64-linux-gnu.so
-
-   5. Verify Installation:
-      - ```
-        python -c "from AbstractIntegratedModule import IntegratedPipeline; print('✓ Installation successful!')"
-        ```
-        
-   6. Run main.py for quick test of successful imports:
-      - ```
-        # run this for quick import test.
-        python main.py
-        ```
+ 5. Run main.py for quick test of successful imports:
+    - Download main.py in our repository code section: [main.py](main.py)
+    - ```
+      # run this for quick import test.
+      python main.py
+      ```
            
          
      
-3. Create CSV file that contains training labels and titles:
+3. Create CSV file that contains training labels and titles (Optional for training using texts):
    -  Example format:
       ```txt
       window_title,label
