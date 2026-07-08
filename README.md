@@ -160,7 +160,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   python -m pip install AbstractIntegratedModule
   ```
   
-- (Optional) Download via Raw Binary file extension manually in the repository (Choose one minimal, specified for your needs):
+- (Optional) Download AbstractIntegratedModule Raw Binary file extension manually in the repository for Users who can't use pip install (Choose one minimal, specified for your needs):
    - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
    - AbstractIntegratedModule (Main library)
    - Raw Binaries can be downloaded from release section in the Main repo or You can use this link:
