@@ -60,6 +60,7 @@
         - Applied clean up staled request after adding request for batch prediction to prevent memory leak.
         - Fixed edge cases where Advanced prediction method reputation calibration function call receives final_probs=None in Multi-threading environment.
         - Added parameters for users to directly set how much Epochs are needed for MLP and Transformer training.
+        - Added capability for the Model to save accurate answer to Database efficiently.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
@@ -623,9 +624,16 @@ _______________________________________
                save_results=True,
                batch_size=2)
    # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
-
-
    # batch size=2 is needed during transformer training for batching, if you have larger samples consider using batch_size > 8, for medium amount of samples (>10 -> <50 samples) consider using 2 or 4 batch_size.
+
+   # This setup below would allow you to save the Accurate answer (if the model guessed a specific problem correct) directly to the database,
+   # without initiating prediction over the sample repeatedly.
+   input_ids = main_model.model2.cache['input_ids'] # input indices the transformer used as input (model2 is Transformer).
+   index = results.get('index') # predicted index where the Model have chosen the label.
+   confidence = results.get('confidence') # the model confidence over the predicted Output from advanced prediction method.
+   main_model.accurate_cache_lookup.add_verified(X, input_ids, chosen_label, confidence, index,
+                     source='Correctly-Answered') # You can modify the the source with "Answered-Correctly" (fit to your needs)
+   
    # ... more features you can add
    ```
    
