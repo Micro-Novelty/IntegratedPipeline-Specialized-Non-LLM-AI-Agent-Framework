@@ -160,13 +160,13 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   python -m pip install AbstractIntegratedModule
   ```
   
-- Download via Binaries manually in the repository (Choose one minimal, specified for your needs):
+- (Optional) Download via Raw Binary file extension manually in the repository (Choose one minimal, specified for your needs):
    - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
    - AbstractIntegratedModule (Main library)
-   - Binaries can be downloaded from release section in the Main repo or You can use this link:
+   - Raw Binaries can be downloaded from release section in the Main repo or You can use this link:
      - Release section: https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/releases
   
-- NOTE: consider downloading the correct python wheel for your setup in here for a much flexible installation:
+- NOTE: for Mac-OS or linux x86-64 Users, consider downloading the correct python wheel for your setup in here for a much flexible installation:
    - ```bash
      pip install abstractintegratedmodule --extra-index-url https://Micro-Novelty.github.io/abstract-modules/whl/ --break-system-packages
      ```
@@ -178,8 +178,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      - scikit-learn
      - numpy
      - psutil
-
-   - Download AbstractIntegratedModule binaries from pip or release section:
+   - (Optional) Install AbstractIntegratedModule Raw binaries from release section:
   
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, Go to Step's for in-depth Usage below.
