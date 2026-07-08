@@ -160,18 +160,18 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   python -m pip install AbstractIntegratedModule
   ```
   
-- Download binaries manually (Choose one minimal, specified for your needs):
+- Download via Binaries manually in the repository (Choose one minimal, specified for your needs):
    - AbstractOptimizedModules for Optimizing Transformer using Cython (Optional)
-   - AbstractIntegratedModule (Main library binary)
-     
-- Binaries can be downloaded from release or code section.
+   - AbstractIntegratedModule (Main library)
+   - Binaries can be downloaded from release section in the repository link.
+  
 - NOTE: consider downloading the correct python wheel for your setup in here for a much flexible installation:
    - ```bash
      pip install abstractintegratedmodule --extra-index-url https://Micro-Novelty.github.io/abstract-modules/whl/ --break-system-packages
      ```
      Note: using this installation method grants you a much safer, predictable behavior, and more secure AbstractIntegratedModule library rather than a pure binary file.
   
-   - Libraries needed (For using raw binary, not python wheels):
+   - (Optional) Libraries needed (For using raw binary, not python wheels):
      - Pandas
      - aiohttp
      - scikit-learn
@@ -246,7 +246,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      sudo docker build -t integrated-agent.
      ```
 2. Download library dependencies for binaries usage:
-   [=] Required libraries (when using binary, not python wheel provided in the library):
+   - [Optional]: Required libraries (when using binary, not python wheel provided in the library):
    - Numpy
    - Scikit-learn
    - pandas
@@ -425,8 +425,10 @@ _______________________________________
    sudo apt-get update
    sudo apt-get upgrade -y
 
-   # Install Python 3.13 and development tools
-   sudo apt-get install python3.13 python3.13-dev python3.13-venv -y
+   # Install Python 3.x and development tools
+   # Version 3.x means you can install python 3.10 to 3.13 only,
+   # choose one version specified for your needs (3.10 or 3.11 or 3.12 ...).
+   sudo apt-get install python3.x python3.x-dev python3.x-venv -y
 
    # Install additional build tools
    sudo apt-get install build-essential libatlas-base-dev libjasper-dev -y
@@ -438,25 +440,27 @@ _______________________________________
  2. Install System Dependencies (for x86_64 installation):
     ```
     # Ubuntu/Debian
+    # example with Version 3.10:
     sudo apt-get update
-    sudo apt-get install python3.13 python3.13-dev python3.13-venv
+    sudo apt-get install python3.10 python3.10-dev python3.10-venv
 
     # CentOS/RHEL
-    sudo yum install python313 python313-devel
+    sudo yum install python310 python310-devel
 
     # Fedora
-    sudo dnf install python3.13 python3.13-devel
+    sudo dnf install python3.10 python3.10-devel
     ```
     
  3. Create a virtual environment:
      - ```
        # Create virtual environment (windows)
+       # example with python 3.10
        python -m venv venv
        # Activate virtual environment
        venv\Scripts\activate
        
        # Create virtual environment (x86_64) (ARM64 / raspberry pi)
-       python3.13 -m venv venv
+       python3.10 -m venv venv
        # Activate virtual environment
        source venv/bin/activate
        ```
