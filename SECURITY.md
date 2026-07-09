@@ -46,6 +46,7 @@ since local P2P testing requires it
 - -> used json.loads with utf-8 encoding for better security.
 
 ### [CREDITS]:
-[=] VUlnerabiliy Reporters:
-- hongfei du
+[=] Vulnerabiliy Reporters:
+- DU Hongfei
+
 
