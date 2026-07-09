@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.0 Official Release.
+- Development Stage on PyPi: 1.0.1 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,7 +53,7 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.0:
+     - v1.0.1:
         - [=] New features:
         - Applied clean up staled request after adding request for batch prediction to prevent memory leak.
         - Fixed edge cases where Advanced prediction method reputation calibration function call receives final_probs=None in Multi-threading environment.
