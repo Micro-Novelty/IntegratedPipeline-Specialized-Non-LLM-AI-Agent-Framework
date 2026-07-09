@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
 
@@ -87,6 +87,7 @@ jobs:
 
       - name: Build Rust wheels (all Python versions)
         working-directory: ./rust_optimization_
+        shell: bash
         run: |
           # Graceful sccache fallback — if GH cache is down, build anyway
           if sccache --start-server 2>/dev/null; then
@@ -102,9 +103,14 @@ jobs:
 
       - name: sccache stats
         if: always()
+        shell: bash
         run: sccache --show-stats || true
 
+      # FIX: force git-bash on Windows so the `[ -f ... ]` / `cp` syntax
+      # below works the same on all four matrix OSes — Windows runners
+      # default `run:` steps to pwsh, which doesn't understand this.
       - name: Copy opt-README into Rust wheels output
+        shell: bash
         run: |
           if [ -f "readme-docs/opt-README.md" ]; then
             cp readme-docs/opt-README.md rust_optimization_/target/wheels/opt-README.md
@@ -520,6 +526,77 @@ jobs:
             wheelhouse/docs/*.md
 
   # ─────────────────────────────────────────────
+  # JOB 4b: Windows — x86_64 (AMD64)
+  # Uses the plain build-configs/pyproject.toml
+  # and readme-docs/README.md (no AIM-1..4 variants)
+  # ─────────────────────────────────────────────
+  build-windows:
+    name: Build Windows wheels (AMD64)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    needs: [cythonize, build-rust-wheels]
+    env:
+      CIBW_PLATFORM: windows
+      CIBW_ARCHS: AMD64
+      CIBW_BUILD: "cp310-* cp311-* cp312-*"
+      CIBW_BUILD_FRONTEND: "build[uv]"
+      CIBW_BEFORE_ALL_WINDOWS: >
+        pip install numpy scikit-learn psutil aiohttp pandas
+      # Windows runners build natively (no container) like macOS, so the
+      # downloaded rust-wheels/ dir is directly visible here — no mount
+      # needed. Installing via a small python -c snippet (rather than a
+      # shell glob) avoids cmd/pwsh vs bash quoting differences for the
+      # `*.whl || true` pattern used on Linux/macOS.
+      CIBW_BEFORE_BUILD: >
+        python -c "import glob, subprocess, sys; wheels = glob.glob('rust-wheels/*.whl'); subprocess.run([sys.executable, '-m', 'pip', 'install', *wheels]) if wheels else print('No rust wheels found in rust-wheels/')"
+      CIBW_TEST_COMMAND: >
+        python -c "import sys; print('OK Python', sys.version, 'OK')"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Cython C files
+        uses: actions/download-artifact@v8
+        with:
+          name: cython-c-files
+          path: src/
+
+      - name: Download Rust wheels (Windows)
+        uses: actions/download-artifact@v8
+        with:
+          name: rust-wheels-windows-latest
+          path: rust-wheels
+
+      - name: Copy regular pyproject.toml to root
+        shell: bash
+        run: |
+          echo "Using build-configs/pyproject.toml as pyproject.toml"
+          cp build-configs/pyproject.toml pyproject.toml
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build wheels (Windows, regular)
+        uses: pypa/cibuildwheel@v2.22.0
+        with:
+          output-dir: wheelhouse
+
+      - name: Copy README for regular build into wheelhouse
+        shell: bash
+        run: |
+          mkdir -p wheelhouse/docs
+          if [ -f "readme-docs/README.md" ]; then
+            cp readme-docs/README.md wheelhouse/docs/README.md
+          fi
+
+      - name: Upload wheels (Windows)
+        uses: actions/upload-artifact@v7
+        with:
+          name: wheels-windows
+          path: |
+            wheelhouse/*.whl
+            wheelhouse/docs/*.md
+
+  # ─────────────────────────────────────────────
   # JOB 5: Collect all wheels into one artifact
   # ─────────────────────────────────────────────
   collect-wheels:
@@ -527,7 +604,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: always()
-    needs: [build-linux-x86_64, build-linux-aarch64, build-linux-aarch64-regular, build-macos]
+    needs: [build-linux-x86_64, build-linux-aarch64, build-linux-aarch64-regular, build-macos, build-windows]
     steps:
       - name: Download all wheel artifacts
         uses: actions/download-artifact@v8
