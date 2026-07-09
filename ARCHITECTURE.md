@@ -25,14 +25,14 @@ IntegratedPipeline consists of 20 interconnected components working together.
 - **Input**: TF-IDF features
 - **Hidden Layers**: Configurable (default 2-3)
 - **Output**: Class probabilities
-- **Advantage**: Noise-robust classification
-- 
+- **Advantage**: Noise-robust classification, Used less Parameter for getting the same Accuracy as Normal MLP.
+
 ### 3. Optimized Transformer
 - **Components**: Multi-head attention, feed-forward, layer norm
 - **Key Innovation**: Alpha-based computing for stable training
 - **Input**: Sequence embeddings
 - **Output**: Contextual representations
-- 
+  
 ### 4. WeightedEnsemblePredictor
 - **Combines**: MLP + Transformer predictions
 - **Weighting**: Dynamic, based on attention quality + confidence
