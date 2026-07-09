@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AbstractIntegratedModule-hybrid"
-version = "0.9.9"
+version = "1.0.0"
 authors = [
     {name = "Micro-Novelty", email = "hernikpuspita5@gmail.com"},
 ]
