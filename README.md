@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.1 Official Release.
+- Development Stage on PyPi: 1.0.2 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,13 +53,11 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.1:
+     - v1.0.2:
         - [=] New features:
-        - Applied clean up staled request after adding request for batch prediction to prevent memory leak.
-        - Fixed edge cases where Advanced prediction method reputation calibration function call receives final_probs=None in Multi-threading environment.
-        - Added parameters for users to directly set how much Epochs are needed for MLP and Transformer training.
-        - Added capability for the Model to save accurate answer to Database efficiently.
-        - Fixed bug that can cause shape and type errors in edge cases in calibration function inside MLP.
+        - Fixed multiple Possible Vulnerabilities where Dangerous Peer might still be allowed to Connect with QueryNode class.
+        - Optimized LSTM update function with global-norm clipping instead of single-grad clipping.
+        - Removed Useless time.sleep()
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
