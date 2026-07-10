@@ -22,7 +22,7 @@
 - The library also includes precompiled binaries for:
  - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
  - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
- - Windows 64 bit architecture (only python 3.13 only)
+ - Windows 64 bit architecture (python 3.10, 3.11, 3.12, 3.13 only)
 
 - Library installation if you dont have aarch64 setup, you can download the correct wheel for your setup in this repository or by using pip:
   - ✨ use pip for downloading the correct wheels for your setup:
