@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.2 Official Release.
+- Development Stage on PyPi: 1.0.3 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,11 +53,11 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.2:
+     - v1.0.3:
         - [=] New features:
-        - Fixed multiple Possible Vulnerabilities where Dangerous Peer might still be allowed to Connect with QueryNode class.
-        - Optimized LSTM update function with global-norm clipping instead of single-grad clipping.
-        - Removed Useless time.sleep()
+        - Added MLP learning rate in integratedpipeline __init__ so Users could Control the learning rate at Their favor.
+        - Added LSTM learning rate integratedpipeline __init__ so Users could Control the learning rate at Their favor.
+        - Transformer Heads and d_model can be customizable for users who wants to increase the Transformer processing capability.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
@@ -587,9 +587,18 @@ _______________________________________
    # error_rate > 0.5 means old errors fade quickly — a class that was wrong 3 predictions ago matters less than one wrong just now, making the model less likely to output repetitive wrong answer.
    # this a flexible tunable-knob for the model judgement regarding wrong answer, this will propagate through prediction layers to inform about the model repetitive answer and calibrate it immediately.
 
+   # (Optional manual setup) if you want to Cuztomize the Model setup.
    main_model.mlp_training_epochs = 2000
    main_model.transformer_training_epochs = 200
-   # You can set how much epochs are needed to Train your MLP and Transformer for your Models.
+   main_model.transformer_lr = 0.25
+   main_model.mlp_lr = 0.5
+   main_model.lstm_training_epochs = 200
+   main_model.lstm_lr = 5e-1
+   main_model.lstm_hidden_dim = 64 # LSTM Hidden dim can be set manually, MLP and Transformer hidden dim are already set automatically based on the samples input they have received.
+   # Transformer heads and d_model manual setup
+   main_model.transformer_heads = 4
+   main_model.transformer_d_model = 64
+   # You can set how much epochs are needed to Train your MLP, LSTM and Transformer for your Models, along with their Learning rates. (lr).
    
    # test samples with more sophisticated rules and more complex titles for prediction
    # (title, intent)
