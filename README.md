@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.3 Official Release.
+- Development Stage on PyPi: 1.0.4 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,11 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.3:
+     - v1.0.4:
         - [=] New features:
-        - Added MLP learning rate in integratedpipeline __init__ so Users could Control the learning rate at Their favor.
-        - Added LSTM learning rate integratedpipeline __init__ so Users could Control the learning rate at Their favor.
-        - Transformer Heads and d_model can be customizable for users who wants to increase the Transformer processing capability.
+        - Refined ConsecutivePeerAgent Ensemble method to be much more robust.
+        - refined CohesiveAgentDeployment P2P ensemble method.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
