@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.4 Official Release.
+- Development Stage on PyPi: 1.0.5 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.4:
+     - v1.0.5:
         - [=] New features:
-        - Refined ConsecutivePeerAgent Ensemble method to be much more robust.
-        - refined CohesiveAgentDeployment P2P ensemble method.
+        - Fixed Rigid peer probabilities request that makes Model usually Output 100% Confidence and discard lower, much more coherent Confidence when both MLP and Transformer Disagrees.
+        - Modifed Advanced Prediction handling to Quickly Output a much more coherent confidence after the first Initial prediction if conditions match, making the Model much more Controllable and not Rigid.
        
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
