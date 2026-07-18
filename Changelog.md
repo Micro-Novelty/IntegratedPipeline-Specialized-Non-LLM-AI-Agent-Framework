@@ -1,7 +1,7 @@
 ## Changelog
 All notable changes to this project will be documented in this file.
 ### PyPi AbstractIntegratedModule New Version changelog:
-- Version 0.8.6: 2026-06-28.
+- Version 1.0.7 - 2026-18-07.
 - Changelog:
      - v1.0.7:
      [=] New features:
