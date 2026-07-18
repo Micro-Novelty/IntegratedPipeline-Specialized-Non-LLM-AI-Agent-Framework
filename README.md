@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.6 Official Release.
+- Development Stage on PyPi: 1.0.7 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,12 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.6:
+     - v1.0.7:
         - [=] New features:
-        - Added safety gate When the Model prediction is None to be converted to Unknown label to prevent downstream error during P2P and asynchronous Prediction.
-       
+        - Added new Forget gate bias in LSTM __init__ to make the model remember more, forget less about certain memory.
+        - Added safety clip during New cell generation in LSTM.
+        - Added small print logs to alert when LSTM experienced Vanishing gradient or large gradient norm during Training.
+          
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
 ## [+] MANN Intro
