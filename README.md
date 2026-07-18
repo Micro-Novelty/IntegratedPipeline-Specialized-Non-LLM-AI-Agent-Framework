@@ -58,6 +58,9 @@
         - Added new Forget gate bias in LSTM __init__ to make the model remember more, forget less about certain memory.
         - Added safety clip during New cell generation in LSTM.
         - Added small print logs to alert when LSTM experienced Vanishing gradient or large gradient norm during Training.
+     - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
+       - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
+       
           
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
