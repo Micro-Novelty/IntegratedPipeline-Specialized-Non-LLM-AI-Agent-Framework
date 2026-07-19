@@ -635,7 +635,7 @@ _______________________________________
                save_results=True,
                batch_size=2)
    # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
-   # Note: The X and y samples will be organized and processed using train_test_split() scikit-learn function, so when you pass the X and y samples, you must past the raw X sample and the already y hot-encoded sample,
+   # Note: The X and y samples will be organized and processed using train_test_split() scikit-learn function for creating better generalization behavior for the model, so when you pass the X and y samples, you must pass the raw X sample (Not modified, just raw X) and the already y hot-encoded sample,
    # batch size=2 is needed during transformer training for batching, if you have larger samples consider using batch_size > 8, for medium amount of samples (>10 -> <50 samples) consider using 2 or 4 batch_size.
 
    # This setup below would allow you to save the Accurate answer (if the model guessed a specific problem correct) directly to the database,
