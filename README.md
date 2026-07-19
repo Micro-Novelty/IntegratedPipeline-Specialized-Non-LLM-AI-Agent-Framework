@@ -58,6 +58,7 @@
         - Added new train_test_split() function using Sklearn to provide a more robust Training for the Model during advanced_prediction_method.
         - Added guards for MLP backward to prevent exploding gradient.
         - Modified LSTM calibrate(), and derive_bins_from_data() function to match the newer train_test_split() samples shape.
+        - Added guards for NaN that might appear in Transformer forward method from corrupted/empty input indices.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -627,13 +628,14 @@ _______________________________________
       
    results, chosen_label, confidence = main_prediction.advanced_prediction_method(
       titles=test_titles, label_map=label_map, rules=example_rules, # titles and rules can be set to None (Optional samples), but label_map must NOT be None.
-         X=None, y=None # you could create your own X and y samples and put it here (Optional)
+         X=None, y=None # you could create your own X and y samples and put it here (Optional, y sample must already be one hot encoded first).
                show_proba=False, top_k=3, 
                use_transformer=True,
                return_attention=False,
                save_results=True,
                batch_size=2)
    # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
+   # Note: The X and y samples will be organized and processed using train_test_split() scikit-learn function, so when you pass the X and y samples, you must past the raw X sample and the already y hot-encoded sample,
    # batch size=2 is needed during transformer training for batching, if you have larger samples consider using batch_size > 8, for medium amount of samples (>10 -> <50 samples) consider using 2 or 4 batch_size.
 
    # This setup below would allow you to save the Accurate answer (if the model guessed a specific problem correct) directly to the database,
