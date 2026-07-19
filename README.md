@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.7 Official Release.
+- Development Stage on PyPi: 1.0.8 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,11 +53,12 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.7:
+     - v1.0.8:
         - [=] New features:
-        - Added new Forget gate bias in LSTM __init__ to make the model remember more, forget less about certain memory.
-        - Added safety clip during New cell generation in LSTM.
-        - Added small print logs to alert when LSTM experienced Vanishing gradient or large gradient norm during Training.
+        - Added new train_test_split() function using Sklearn to provide a more robust Training for the Model during advanced_prediction_method.
+        - Added guards for MLP backward to prevent exploding gradient.
+        - Modified LSTM calibrate(), and derive_bins_from_data() function to match the newer train_test_split() samples shape.
+    
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
