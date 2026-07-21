@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.0.8 Official Release.
+- Development Stage on PyPi: 1.0.9 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,12 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.0.8:
+     - v1.0.9:
         - [=] New features:
-        - Added new train_test_split() function using Sklearn to provide a more robust Training for the Model during advanced_prediction_method.
-        - Added guards for MLP backward to prevent exploding gradient.
-        - Modified LSTM calibrate(), and derive_bins_from_data() function to match the newer train_test_split() samples shape.
-        - Added guards for NaN that might appear in Transformer forward method from corrupted/empty input indices.
+        - Added safety Gate for Probabilities batching in Pipeline to guard against input indices that is None.
+        - Added safety gate for Prediction for probabilities in pipeline to guard against input indices that is None.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
