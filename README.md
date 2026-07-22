@@ -1,4 +1,4 @@
-# [=] AbstractIntegratedModule-Specialized-AI-Agent-library
+# [=] AbstractIntegratedModule, Specialized-AI-Agent-framework for Local Non-LLM edge AI.
 
 [~] Introduction:
 - AbstractIntegratedModule or IntegratedPipeline in short, is a standalone Specialized AI Agent Library for Non-LLM memory Augmented Agentic Framework orchestrator - Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. 
