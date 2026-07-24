@@ -6,7 +6,7 @@
 
 
 ### Library Short Description:
-- Development Stage on PyPi: 1.1.0 Official Release.
+- Development Stage on PyPi: 1.1.1 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -53,10 +53,10 @@
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.0:
+     - v1.1.1:
         - [=] New features:
-        - Added safety gate in advanced_prediction_method for a not properly y hot-encoded samples to hot-encode the y sample automatically to prevent Overfitting and exploding Gradients.
-        - Fixed bug where Transformer d_model isnot passed correctly inside Features to sequence function for generating compatible inputs for Transformer.
+        - Added safety warning for Empty dataset in sequence encoding function.
+        - Added safety gate for len(sequence_inputs.shape) == 1 flowing through transformer pooled features function in specific edge Cases where X is very Small.
     
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
