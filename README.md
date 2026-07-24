@@ -55,8 +55,8 @@
   - Changelog:
      - v1.1.1:
         - [=] New features:
-        - Added safety warning for Empty dataset in sequence encoding function.
-        - Added safety gate for len(sequence_inputs.shape) == 1 flowing through transformer pooled features function in specific edge Cases where X is very Small.
+        - Added Safety warning for Empty dataset in Sequence Encoding function.
+        - Added Safety warning for len(sequence_inputs.shape) == 1 flowing through Transformer pooled features function in Specific Edge Cases where X is very Small.
     
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
