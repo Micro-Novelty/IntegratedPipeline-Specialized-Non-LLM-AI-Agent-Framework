@@ -4,7 +4,7 @@
 - AbstractIntegratedModule or IntegratedPipeline in short, is a standalone Specialized AI Agent Library for Non-LLM memory Augmented Agentic Framework orchestrator - Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. 
 - AbstractIntegratedModule Contains specialized MLP using Its Own specialized geometric Weight shaping (AWE), Specialized efficient Transformer and LSTM (Long-short term memory) architecture for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment or Messy environments.
 
-
+____________________________________________________________________________________________________________________
 ### Library Short Description:
 - Development Stage on PyPi: 1.1.1 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
@@ -134,6 +134,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 
 [3.] Non-Representative data (Undersampled) : IntegratedPipeline Support's ambiguous data that come's from file with format such as CSV Format to extract title's and label's necessary to create automatic Dataset for Later use in Training, making it optimized for specific task's and easier dataset creation with lower overfitting rate for reliability.
 
+_____________________________________________________________________________________________________________
 [=] Architectural-Overview
 <img width="1600" height="859" alt="New Arch" src="https://github.com/user-attachments/assets/a5db1ed2-9149-4635-8d95-d022ad6e8608" />
 ---
@@ -156,6 +157,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
     - [P2PDirectTest.py](P2P_Setups/P2PDirectTest.py)
     - Purpose: let you demonstrate simple P2P using AbstractIntegratedModule quickly, there may be bugs in this P2P setup so feel free to share it in issues.
 
+____________________________________________________________________________________________________________________
 ## [=] Requirements
 [~] To run and execute IntegratedPipeline, Requirement's include Or see [Requirements](installation_guides/usage_needs.txt):
 - pip install for quick usage:
@@ -188,6 +190,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 [=] for labels assignation:
 - CSV file that contains training labels and titles used for training and prediction label map, example will be provided below, Go to Step's for in-depth Usage below.
 
+_______________________________________________________________________________________________________________________
 ### [=] Requirements for Docker container
 - Dockerfile (For Container assembler) 
 - Python scripts (Such as main.py for Dockerfile usage).
@@ -316,6 +319,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
      docker-compose down
      ```
 
+________________________________________________________________________________________________________________________
 ## Performance in linux ARM64 Docker Environment/Container
 A. [=] Computational performance results with Transformer included during Advanced prediction method.
 ```txt
@@ -407,6 +411,7 @@ _______________________________________
    - Distribute it: Share the original or modified code with others.
    - Commercialize it: Package, brand, and sell the software for profit.
 
+______________________________________________________________________________________________________________________
 ## [=] Step's for in-depth Usage
 0. Download via PIP:
    - Clone repository first:
@@ -954,6 +959,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
 
 7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
+________________________________________________________________________________________
 ## [+] Troubleshooting
 1. Issue 1: "ModuleNotFoundError: No module named 'AbstractIntegratedModule'" When using the binary version of the library,
 Solution:
@@ -1102,7 +1108,7 @@ When gradients flow backward:
 2. With alpha: early stage -> rely on stable structure → meaningful gradients
 
 
-
+_____________________________________________________________________________________________________________
 ## Main Components
 [=] 1. - Consider checking and run: [IntegratedPipeline_Flow.html](IntegratedPipeline_Flow.html) regarding each function of the whole components and deep-dive mechanism.
     2. - consider checking [ARCHITECTURE.md](ARCHITECTURE.md) for more explanation about the main components.
