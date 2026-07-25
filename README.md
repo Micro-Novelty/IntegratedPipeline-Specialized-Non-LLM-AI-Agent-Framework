@@ -23,6 +23,7 @@
  - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
  - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
  - Windows 64 bit architecture (python 3.10, 3.11, 3.12, 3.13 only)
+ - tarball file for Users who want to test the libraries up to Python version 3.13+.
 
 - Library installation if you dont have aarch64 setup, you can download the correct wheel for your setup in this repository or by using pip:
   - ✨ use pip for downloading the correct wheels for your setup:
@@ -57,8 +58,7 @@
         - [=] New features:
         - Added Safety warning for Empty dataset in Sequence Encoding function.
         - Added Safety warning for len(sequence_inputs.shape) == 1 flowing through Transformer pooled features function in Specific Edge Cases where X is very Small.
-    
-    
+
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
