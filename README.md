@@ -23,8 +23,8 @@
  - aarch64 manylinux (accepts version 2.17+) architecture, accepts python version 3.10, 3.11 only.
  - aarch64 musllinux (accepts version 1.2+) architecture, accepts python version 3.10, 3.11 only.
  - Windows 64 bit architecture (python 3.10, 3.11, 3.12, 3.13 only)
- - tarball file for Users who want to test the libraries up to Python version 3.13+.
-
+ - tarball file for Users who want to test the library up to Python version 3.13+.
+ ____________________________________________________________________________________________________
 - Library installation if you dont have aarch64 setup, you can download the correct wheel for your setup in this repository or by using pip:
   - ✨ use pip for downloading the correct wheels for your setup:
      - ```bash
@@ -62,7 +62,7 @@
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
-          
+______________________________________________________________________________________________________       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
 ## [+] MANN Intro
