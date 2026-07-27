@@ -1,5 +1,5 @@
 # ===== Build Tools =====
-cython>=3.2.8
+cython>=3.2.9
 setuptools>=83.0.0
 wheel>=0.47.0
 
