@@ -1,6 +1,8 @@
 ## [-] Security Vulnerabilities for AbstractIntegratedModule
+### [UNPATCHED]:
+  - None.
 
-[PATCHED]:
+### [PATCHED]:
 ### Vulnerabilities includes:
 ✅ Vulnerability 1 — pickle.loads() before signature verification (line 6797)
    CONFIRMED. The exact sequence is:
