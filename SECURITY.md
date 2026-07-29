@@ -1,4 +1,4 @@
-## [-] Security Vulnerabilities for AbstractIntegratedModule
+## [-] Security Vulnerabilities for AbstractIntegratedModule reports.
 ### [UNPATCHED]:
   - None.
 
