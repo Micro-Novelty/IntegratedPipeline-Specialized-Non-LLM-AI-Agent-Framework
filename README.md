@@ -65,16 +65,16 @@ ________________________________________________________________________________
        
 ________________________________________________________________________________________________________________________
 ### Full Documentation Features
-- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#IntegratedPipeline-Specialized-AI-Agent-library)
-- [Go to MANN Intro](#MANN-Intro)
-- [Go to Abstract Weight Encoder (AWE) Intro](#Abstract-Weight-Encoder-(AWE)-Intro)
+- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#integratedpipeline-specialized-ai-agent-library)
+- [Go to MANN Intro](#mann-Intro)
+- [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-(awe)-intro)
 - [Go to LSTM And Transformer Into](#-lstm-and-transformer-intro)
-- [Go to Why IntegratedPipeline?](#Why-IntegratedPipeline?)
-- [Go to Requirements](#Requirements)
-- [Go to System-Specific-Notes](#System-Specific-Notes)
+- [Go to Why IntegratedPipeline?](#why-integratedpipeline?)
+- [Go to Requirements](#requirements)
+- [Go to System-Specific-Notes](#system-specific-notes)
 - [Go to Quickstart with Docker](#Quickstart-with-Docker)
 - [Go to Performance in ARM64 Environment/Container](#Performance-in-ARM64-Environment/Container)
-- [Go to Step's for library in-depth Usage](#Step's-for-library-in-depth-Usage)
+- [Go to Step's for library in-depth Usage](#step's-for-library-in-depth-usage)
 - [Go to Troubleshooting](#Troubleshooting)
 - [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
 - [Go to Main Components](#Components)
