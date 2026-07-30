@@ -64,7 +64,7 @@ ________________________________________________________________________________
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
 ________________________________________________________________________________________________________________________
-### Full Documentation Features
+### [>] Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#[=]-abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
 - [Go to MANN Intro](#-MANN-Intro)
 - [Go to Performance Overview](#both-performance-overview)
