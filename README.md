@@ -66,7 +66,7 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 ### Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
-- [Go to MANN Intro](#mann-intro)
+- [Go to MANN Intro](#https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework/blob/main/README.md#mann-intro)
 - [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-awe-intro)
 - [Go to LSTM And Transformer Intro](#lstm-and-transformer-intro)
 - [Go to Why IntegratedPipeline?](#why-integratedpipeline)
