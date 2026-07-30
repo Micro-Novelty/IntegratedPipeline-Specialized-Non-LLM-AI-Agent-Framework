@@ -83,6 +83,7 @@ ________________________________________________________________________________
 
 Consider checking:
   - [ROADMAP.md](ROADMAP.md)
+  - [SECURITY.md](SECURITY.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
   - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
