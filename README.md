@@ -65,7 +65,7 @@ ________________________________________________________________________________
        
 ________________________________________________________________________________________________________________________
 ### Full Documentation Features
-- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
+- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#[=]-abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
 - [Go to MANN Intro](#MANN-Intro)
 - [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-awe-intro)
 - [Go to LSTM And Transformer Intro](#lstm-and-transformer-intro)
