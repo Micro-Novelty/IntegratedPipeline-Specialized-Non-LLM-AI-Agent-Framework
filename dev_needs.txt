@@ -12,7 +12,7 @@ pytest-xdist>=3.8.0  # parallel tests
 black>=23.0.0
 isort>=8.0.1
 flake8>=7.3.0
-mypy>=2.2.0
+mypy>=2.3.0
 pylint>=4.0.6
 
 # ===== Benchmarking =====
