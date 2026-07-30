@@ -1,7 +1,12 @@
 ## [-] Security Vulnerabilities for AbstractIntegratedModule reports.
+### Note:
+   - This section actively Documents regarding AbstractIntegratedModule Unpatched vulnerabilities (that is probably in progress of fixing) and Patched vulnerabilities in newer Versions of the library.
+
+__________________________________________________________________________________________________________
 ### [UNPATCHED]:
   - None.
 
+_____________________________________________________________________________________________________________
 ### [PATCHED]:
 ### Vulnerabilities includes:
 ✅ Vulnerability 1 — pickle.loads() before signature verification (line 6797)
