@@ -65,26 +65,28 @@ ________________________________________________________________________________
        
 ________________________________________________________________________________________________________________________
 ### Full Documentation Features
-- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#integratedpipeline-specialized-ai-agent-library)
+- [Go to IntegratedPipeline-Specialized-AI-Agent-library](#abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
 - [Go to MANN Intro](#mann-intro)
-- [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-(awe)-intro)
-- [Go to LSTM And Transformer Into](#-lstm-and-transformer-intro)
-- [Go to Why IntegratedPipeline?](#why-integratedpipeline?)
+- [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-awe-intro)
+- [Go to LSTM And Transformer Intro](#lstm-and-transformer-intro)
+- [Go to Why IntegratedPipeline?](#why-integratedpipeline)
 - [Go to Requirements](#requirements)
 - [Go to System-Specific-Notes](#system-specific-notes)
-- [Go to Quickstart with Docker](#Quickstart-with-Docker)
-- [Go to Performance in ARM64 Environment/Container](#Performance-in-ARM64-Environment/Container)
-- [Go to Step's for library in-depth Usage](#step's-for-library-in-depth-usage)
-- [Go to Troubleshooting](#Troubleshooting)
-- [Go to Detailed process of Alpha-computing](#Detailed-process-of-Alpha-computing)
-- [Go to Main Components](#Components)
-- [Go to Source code](#Source-code-of-AbstractIntegratedModule)
-- Consider checking:
+- [Go to Quickstart with Docker](#docker-container-application)
+- [Go to Performance in ARM64 Environment/Container](#performance-in-linux-arm64-docker-environmentcontainer)
+- [Go to Step's for library in-depth Usage](#steps-for-library-in-depth-usage)
+- [Go to Troubleshooting](#troubleshooting)
+- [Go to Detailed process of Alpha-computing](#detailed-process-of-alpha-computing)
+- [Go to Main Components](#main-components)
+- [Go to Source code](#source-code-of-abstractintegratedmodule)
+
+Consider checking:
   - [ROADMAP.md](ROADMAP.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
   - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
+    
 ___________________________________________________________________________________________________       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
 
