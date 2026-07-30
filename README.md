@@ -66,7 +66,7 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 ### Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#integratedpipeline-specialized-ai-agent-library)
-- [Go to MANN Intro](#mann-Intro)
+- [Go to MANN Intro](#mann-intro)
 - [Go to Abstract Weight Encoder (AWE) Intro](#abstract-weight-encoder-(awe)-intro)
 - [Go to LSTM And Transformer Into](#-lstm-and-transformer-intro)
 - [Go to Why IntegratedPipeline?](#why-integratedpipeline?)
