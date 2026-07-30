@@ -6,7 +6,7 @@
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description:
-- Development Stage on PyPi: 1.1.2 Official Release.
+- Development Stage on PyPi: 1.1.3 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -54,11 +54,11 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.2:
+     - v1.1.3:
         - [=] New features:
-        - Added more robust gate for triggering Ensemble Method in advanced prediction method.
-        - Fixed Multiple Ambiguous report from Explainability Module.
-        - Added small Decay for Error counts and Prediction counts after shape alignment due to misaligned shape in calibration penalized check function.
+        - Added new Verified cache (Where the correct answer stored will halt Training) earlier in pipeline to better control training behavior to not output mismatched probabilities.
+        - Fixed ambiguous print Method inside Training functions in IntegratedPipeline.
+        - Added small safety guard inside probability calibration method when mlp target index is more than len(probability) in specific edge cases.
           
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
