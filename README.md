@@ -75,7 +75,7 @@ ________________________________________________________________________________
 - [Go to System-Specific-Notes](#-system-specific-notes)
 - [Go to Quickstart with Docker](#-docker-container-application)
 - [Go to Performance in ARM64 Environment/Container](#performance-in-linux-arm64-docker-environmentcontainer)
-- [Go to Step's for library in-depth Usage](#-steps-for-library-in-depth-usage)
+- [Go to Step's to use IntegratedPipeline](#-steps-for-library-in-depth-usage)
 - [Go to Troubleshooting](#-troubleshooting)
 - [Go to Detailed process of Alpha-computing](#-detailed-process-of-alpha-computing)
 - [Go to Main Components](#main-components)
