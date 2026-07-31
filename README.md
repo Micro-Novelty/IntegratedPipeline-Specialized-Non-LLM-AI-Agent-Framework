@@ -652,7 +652,8 @@ ________________________________________________________________________________
       <your_filename.>,  # the name of your .txt file with CSV format.
       <target_title>, <target_label>)
 
-   # TRAINING BLOCK
+   # OPTIONAL TRAINING BLOCK
+   # (Training will happens in the advanced prediction method below, but if you want separate Training for MLP, you can use this setup: )
    # small training with simple titles first
    main_model.train(titles, y)
 
@@ -660,7 +661,7 @@ ________________________________________________________________________________
    # prevent the model from training and make weights unchanged for static prediction.
 
    # PREDICTION BLOCK:
-   # the below section called advanced_prediction_method(...) is a prediction method that will output a single answer of a problem you have give n to it.
+   # the below section called advanced_prediction_method(...) is a prediction method that will output a single answer of a problem you have given to it, it will output a single answer from the label_map you have given as its final prediction.
    # meaning advanced_prediction method is only used to predict an answer based on the given label_map and only output a single answer, not in batches.
    # this prediction method is also where training, ensemble and final prediction happens.
    # Use case: - classification problems that requires a model to only output a single answer.
