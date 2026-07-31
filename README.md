@@ -542,6 +542,7 @@ ________________________________________________________________________________
    from AbstractIntegratedModule import PipelinePredictionManager
    import numpy as np
 
+   # SETUP BLOCK.
    memory_name = 'agent_memory'
    cert_file = <your_cert_file_dir> # your .crt file
    key_file = <your_key_file_dir> # your .key file
@@ -651,12 +652,18 @@ ________________________________________________________________________________
       <your_filename.>,  # the name of your .txt file with CSV format.
       <target_title>, <target_label>)
 
+   # TRAINING BLOCK
    # small training with simple titles first
    main_model.train(titles, y)
 
    # main_model.froze_learning = True
    # prevent the model from training and make weights unchanged for static prediction.
-      
+
+   # PREDICTION BLOCK:
+   # the below section called advanced_prediction_method(...) is a prediction method that will output a single answer of a problem you have give n to it.
+   # meaning advanced_prediction method is only used to predict an answer based on the given label_map and only output a single answer, not in batches.
+   # this prediction method is also where training, ensemble and final prediction happens.
+   # Use case: - classification problems that requires a model to only output a single answer.
    results, chosen_label, confidence = main_prediction.advanced_prediction_method(
       titles=test_titles, label_map=label_map, rules=example_rules, # titles and rules can be set to None (Optional samples), but label_map must NOT be None.
          X=None, y=None # you could create your own X and y samples and put it here (Optional, y sample must already be one hot encoded first).
