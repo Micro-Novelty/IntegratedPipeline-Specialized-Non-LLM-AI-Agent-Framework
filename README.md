@@ -6,7 +6,7 @@
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description:
-- Development Stage on PyPi: 1.1.3 Official Release.
+- Development Stage on PyPi: 1.1.4 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -54,11 +54,11 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.3:
+     - v1.1.4:
         - [=] New features:
-        - Added new Verified cache (Where the correct answer stored will halt Training) earlier in pipeline to better control training behavior to not output mismatched probabilities.
-        - Fixed ambiguous print Method inside Training functions in IntegratedPipeline.
-        - Added small safety guard inside probability calibration method when mlp target index is more than len(probability) in specific edge cases.
+        - Added new evaluation function to Help diagnose MLP Training performance with K-fold split and Confusion Matrix.
+        - Fixed bug where Final confidence might be set to always Low in specific edge cases when Standard deviation is high, replaced using sigmoid growth instead of standard deviation for final confidence.
+        - Added small safetu guard for calculating Transformer confidence to prevent IndexError when Sample mismatch happens.
           
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -660,6 +660,12 @@ ________________________________________________________________________________
    # main_model.froze_learning = True
    # prevent the model from training and make weights unchanged for static prediction.
 
+   # SIMULATION BLOCK:
+   # This function below allows you to create A continuous Training simulations using K-fold split to evaluate MLP Training performance using your provided X and Y samples, This function helps to diagnose if Your samples are appropriate for MLP and make It generalize instead of severely Overfitting.
+   # This function will create a fresh instance of MLP every k-amount you have set (the k=5), and also prints a Confusion matrix that helps diagnose Your MLP Training Accuracy Performance.
+   # This function is great to help you diagnose Further degradation of MLP performance and also Its consistency, And also helps validate our AWE Method at how well it makes MLP Training performance Consistent Accross different Seeds for better Reliability performance.
+   main_model.evaluate_mlp_performance(X, y, label_map, k=5, seed=42)
+   
    # PREDICTION BLOCK:
    # the below section called advanced_prediction_method(...) is a prediction method that will output a single answer of a problem you have given to it, it will output a single answer from the label_map you have given as its final prediction.
    # meaning advanced_prediction method is only used to predict an answer based on the given label_map and only output a single answer, not in batches.
