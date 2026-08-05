@@ -6,7 +6,7 @@
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description:
-- Development Stage on PyPi: 1.1.4 Official Release.
+- Development Stage on PyPi: 1.1.5 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -54,11 +54,9 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.4:
+     - v1.1.5:
         - [=] New features:
-        - Added new evaluation function to Help diagnose MLP Training performance with K-fold split and Confusion Matrix.
-        - Fixed bug where Final confidence might be set to always Low in specific edge cases when Standard deviation is high, replaced using sigmoid growth instead of standard deviation for final confidence.
-        - Added small safetu guard for calculating Transformer confidence to prevent IndexError when Sample mismatch happens.
+        - Fixed one small bug that triggers in specific edge cases when The model receives low similarity score between an input that contains the correct answer and one that has different probability, that caused target probability to be None.
           
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
