@@ -210,6 +210,7 @@ ________________________________________________________________________________
      - scikit-learn
      - numpy
      - psutil
+     - cryptography
    - (Optional) Install AbstractIntegratedModule Compiled binaries from release section:
   
 [=] for labels assignation:
