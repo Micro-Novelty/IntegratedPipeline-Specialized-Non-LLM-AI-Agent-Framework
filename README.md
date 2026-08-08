@@ -692,7 +692,7 @@ ________________________________________________________________________________
    
    # ... more features you can add
    ```
-   - Note: This script setup can be downloaded here: [usage_script](scripts/usage_scripts.py)
+   - Note: This script setup can be downloaded here: [usage_script](scripts/usage_script.py)
    
 4. B. Using Standalone IntegratedPipeline Transformer:
    ```python
