@@ -692,6 +692,7 @@ ________________________________________________________________________________
    
    # ... more features you can add
    ```
+   Note: This script setup can be downloaded here: [usage_script](scripts/usage_scripts.py)
 4 B. Using Standalone IntegratedPipeline Transformer:
    ```python
    # if you want to use the IntegratedPipeline Transformer only, you can use this setup:
@@ -716,14 +717,14 @@ ________________________________________________________________________________
    y = y.detach().cpu().numpy() 
    y = np.eye(num_classes)[np.asarray(y)] # proper y-onehot
 
-  sequence_inputs = main_model._features_to_sequence(x, d_model=pipeline.transformer_d_model) # Converts X samples into sequences that the Transformer can recognize.
-  # embedded=True will ensure that Transformer forward method will put a correct mask for the samples.
-  # mode='dynamic_backward' helps Transformer to gains better accuracy for Complex images.
-  model_transformer.train(sequence_inputs, y, epochs=100, mode='dynamic_backward', lr=0.1, embedded=True, batch_size=2)
+   sequence_inputs = main_model._features_to_sequence(x, d_model=pipeline.transformer_d_model) # Converts X samples into sequences that the Transformer can recognize.
+   # embedded=True will ensure that Transformer forward method will put a correct mask for the samples.
+   # mode='dynamic_backward' helps Transformer to gains better accuracy for Complex images.
+   model_transformer.train(sequence_inputs, y, epochs=100, mode='dynamic_backward', lr=0.1, embedded=True, batch_size=2)
 
-  # save Transformer weights
-  tf = model_transformer
-  json_data = {
+   # save Transformer weights
+   tf = model_transformer
+   json_data = {
         'token_embedding': tf.token_embedding,
         'pos_embedding': tf.pos_embedding,
         'W_q': tf.W_q,
@@ -753,6 +754,7 @@ ________________________________________________________________________________
     transformer_model.W_q = loaded_data['token_embedding']
     ... # and so on until output_bias.
    ```
+   Note: script setup can be downloaded here: [transformer_usage](scripts/transformer_usage.py)
 
 5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
@@ -832,6 +834,7 @@ print('[==] Initiating advanced batch prediction')
    - CPU Above > 95%    - Disk space is < 100 MB
    - RAM above > 95%
  - When event loop is not triggered, Asynchronous prediction can't be initiated and must be restarted/retried.
+ - Script setup can be downloaded here: [async_script](scripts/async_script.py)
 
 7. Peer-to-Peer Probability coordination:
    - Each peer is both server and client simultaneously for robustness and resilience during during P2P.
