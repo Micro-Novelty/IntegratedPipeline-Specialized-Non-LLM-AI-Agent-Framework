@@ -692,8 +692,9 @@ ________________________________________________________________________________
    
    # ... more features you can add
    ```
-   Note: This script setup can be downloaded here: [usage_script](scripts/usage_scripts.py)
-4 B. Using Standalone IntegratedPipeline Transformer:
+   - Note: This script setup can be downloaded here: [usage_script](scripts/usage_scripts.py)
+   
+4. B. Using Standalone IntegratedPipeline Transformer:
    ```python
    # if you want to use the IntegratedPipeline Transformer only, you can use this setup:
    # hybrid method, combining Pytorch image processing with IntegratedPipeline Transformer properly:
