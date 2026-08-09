@@ -109,6 +109,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
 - How it works: Instead of reading sequences linearly, Transformers read the entire sequence all at once. They utilize a self-attention mechanism, which calculates how much "attention" or weight every part of the sequence should give to every other part, understanding the global context instantly.
 - Use Cases: The backbone of Large Language Models (LLMs) like ChatGPT or BERT, making them perfect for machine translation, text generation, and summarization.
 - Limitations: Transformers require massive amounts of training data and computing power to work effectively.
+- Data Hungry when Analyzing Images.
 
 
 [~] For a much In-Depth Explanation You can visit This repository to learn more about AWE and its performance results:
@@ -128,6 +129,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   - IntegratedPipeline usually used 1 Model for regular prediction, but in some Conditions, it used 2 Different type's of AI Architecture stacked together, and one architecture to weight their confidence and probability fairly (ensemble method) to get the final prediction for the problem it faced, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm for contextual reasoning, LSTM architecture to provides proof-of-credibility over a certain output, acting as a support mechanism rather than Main orchestrator like MLP and Transformer. The reason why those Models complement and used together:
       - Specialized MLP Provides synchronous robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN (Feed-forward-network) because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding, making AWE Generated weight causes inefficient inside Transformer dynamic FFN/QKV projection.
       - Specialized Transformer provides robust synchronous advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
+        - Honest Limitation: Our Transformer does not support Input that is an Image converted into X samples due to Masking behavior in Transformer forward method, Future version for Image analyzer will be considered.
+          
       - LSTM doesn't act as a Main orchestrator, instead it Provides coherent Short-term memory for the Ensemble architecture, acting as a support mechanism to provides proof-of-credibility of a given answer from past previous context input, this allows flexible and achievable Aggreement between Transformer and MLP over a short period of time.
       - Ensemble weighting provides the model a much more robust classification best from both worlds perspective, weighting both MLP and Transformer confidence and probability, combined with Attention quality from the transformer to get the final prediction of an input if transformer is allowed and permitted to be in use.
    
@@ -692,35 +695,24 @@ ________________________________________________________________________________
    
    # ... more features you can add
    ```
-   - Note: This script setup can be downloaded here: [usage_script](scripts/usage_script.py)
+   - Note: This script setup can be downloaded here: [usage_script](scripts/usage_scripts.py)
    
 4. B. Using Standalone IntegratedPipeline Transformer:
    ```python
    # if you want to use the IntegratedPipeline Transformer only, you can use this setup:
-   # hybrid method, combining Pytorch image processing with IntegratedPipeline Transformer properly:
    # ideal when you want blazing Fast Transformer Training and prediction, and the Transformer weights are loaded using JSON, this made Transformer Training much more feasible and easily intuitive for Beginners who wants Complex abstraction models that can run on cheap Edge devices.
-   import torch
-   ...
 
-   loader = get_custom_dataloaders(...)
-   num_classes = #<your_data_classes>
-   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+   vocab_size = # <your actual vocab size>.
    model_transformer = Transformer(
-                  vocab_size=1,  # set to always 1 because the Transformer is used to analyze images, not Texts.
+                  vocab_size=vocab_size
                   d_model=main_model.transformer_d_model,
                   n_heads=pipeline.transformer_heads,
                   num_classes=num_classes
               )
-   for x, y in loader: # extract proper X and Y samples.
-      x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
-  
-   x = x.flatten(start_dim=1).detach().cpu().numpy() # flatten X to be compatible for later pipeline processing, and convert X into standalone numpy object.
-   y = y.detach().cpu().numpy() 
-   y = np.eye(num_classes)[np.asarray(y)] # proper y-onehot
 
-   sequence_inputs = main_model._features_to_sequence(x, d_model=pipeline.transformer_d_model) # Converts X samples into sequences that the Transformer can recognize.
+   sequence_inputs = main_model._features_to_sequence(X, d_model=pipeline.transformer_d_model) # Converts X samples into sequences that the Transformer can recognize.
    # embedded=True will ensure that Transformer forward method will put a correct mask for the samples.
-   # mode='dynamic_backward' helps Transformer to gains better accuracy for Complex images.
+   # mode='dynamic_backward' helps Transformer to gains better accuracy for Complex vocabularies.
    model_transformer.train(sequence_inputs, y, epochs=100, mode='dynamic_backward', lr=0.1, embedded=True, batch_size=2)
 
    # save Transformer weights
@@ -755,9 +747,10 @@ ________________________________________________________________________________
     transformer_model.W_q = loaded_data['token_embedding']
     ... # and so on until output_bias.
    ```
-   Note: script setup can be downloaded here: [transformer_usage](scripts/transformer_usage.py)
+   - Note: script setup can be downloaded here: [transformer_usage](scripts/transformer_usage.py)
+   
 
-5. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+6. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example without transformer:
    ```python
@@ -769,7 +762,7 @@ ________________________________________________________________________________
             )
    
    ```
-6. Asynchronous prediction:
+7. Asynchronous prediction:
   - Asynchronous prediction request is important and is critical because it keeps prediction interfaces responsive, maximizes local hardware efficiency, and enables apps to handle background tasks seamlessly without waiting on remote server responses,
   - for asynchronous prediction handling, consider using this setup
 ```python
