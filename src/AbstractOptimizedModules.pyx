@@ -118,7 +118,9 @@ def optimized_dynamic_weighted_ensemble(
     np.ndarray[DTYPE_t, ndim=2] lstm_probs,     # (B, n_lstm) or None→zeros(B,1)
     np.ndarray[DTYPE_t, ndim=1] lstm_weight_hints,  # (B,) per-sample hint
     DTYPE_t confidence_threshold,
-    bint has_lstm                                # True if lstm_probs is here
+    bint has_lstm,                                # True if lstm_probs is here
+    DTYPE_t mean_pred_counts
+
 ):
     cdef Py_ssize_t B          = trans_probs.shape[0]
     cdef Py_ssize_t n_trans    = trans_probs.shape[1]
@@ -196,7 +198,7 @@ def optimized_dynamic_weighted_ensemble(
 
         # ── attention confidence factor ───────────────────────────────
         # attn_flat[i] is the pre-flattened attention row
-        # compute mean and std in one C pass (Welford)
+        # compute mean and std in one C pass (Welford met.)
         attn_mean   = 0.0
         attn_sq_sum = 0.0
         for j in range(attn_len):
@@ -221,7 +223,7 @@ def optimized_dynamic_weighted_ensemble(
 
         # ── weights ───────────────────────────────────────────────────
         trans_weight = trans_conf_factor * (1.0 + agreement) / 2.0
-        mlp_weight   = mlp_conf_factor   * (1.0 + agreement) / 2.0
+        mlp_weight   = mlp_conf_factor * mean_pred_counts * (1.0 + agreement) / 2.0
 
         if has_lstm:
             lstm_agreement = 1.0 if (lstm_pred == trans_pred or
