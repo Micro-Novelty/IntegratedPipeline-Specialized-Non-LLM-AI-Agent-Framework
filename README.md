@@ -73,8 +73,8 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 ### [>] Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#[=]-abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
-- [Go to Framework purpose](#[+]-framework's-purpose)
-- [Go to Library short description](#-library-short-description)
+- [Go to Framework purpose](#[+]-framework's-purpose:)
+- [Go to Library short description](#-library-short-description:)
 - [Go to MANN Intro](#-MANN-Intro)
 - [Go to Performance Overview](#both-performance-overview)
 - [Go to Abstract Weight Encoder (AWE) Intro](#-abstract-weight-encoder-awe-intro)
