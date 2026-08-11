@@ -7,9 +7,10 @@
     - Tabular Data Prediction: Finding patterns in structured spreadsheets or rows of numerical and categorical features.
     - Classification Tasks: Separating data into groups, such as spam detection, customer churn, or disease diagnosis.
     - Regression Tasks: Predicting continuous numerical values like house prices, sensors output, sales numbers, or weather metrics.
-   
-[+] Framework's Purpose:
-    - This framework is intended for Engineers who is early in ML Engineering in order to provide a Clearer picture of How edge AI Should operate, Low memory management, and Also how it can be Made continuously learn using Pragmatic solution by using SQLite to save Weights to prevent continuous catasthropic forgetting, IntegratedPipeline source code is open-sourced and can be found in our github repository, Meaning you can modify the Source code however You liked it to be, and help Us Grow the first Community!
+
+___________________________________________________________________________________________________________________
+### [+] Framework's Purpose:
+  - This framework is intended for Engineers who is early in ML Engineering in order to provide a Clearer picture of How edge AI Should operate, Low memory management, and Also how it can be Made continuously learn using Pragmatic solution by using SQLite to save Weights to prevent continuous catasthropic forgetting, IntegratedPipeline source code is open-sourced and can be found in our github repository, Meaning you can modify the Source code however You liked it to be, and help Us Grow the first Community!
     
 ____________________________________________________________________________________________________________________
 ### Library Short Description:
@@ -72,6 +73,8 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 ### [>] Full Documentation Features
 - [Go to IntegratedPipeline-Specialized-AI-Agent-library](#[=]-abstractintegratedmodule-specialized-ai-agent-framework-for-non-llm-continual-learning-edge-ai-models)
+- [Go to Framework purpose](#[+]-framework's-purpose)
+- [Go to Library short description](#-library-short-description)
 - [Go to MANN Intro](#-MANN-Intro)
 - [Go to Performance Overview](#both-performance-overview)
 - [Go to Abstract Weight Encoder (AWE) Intro](#-abstract-weight-encoder-awe-intro)
