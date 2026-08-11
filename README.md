@@ -3,10 +3,17 @@
 [~] Introduction:
 - AbstractIntegratedModule or IntegratedPipeline in short, is a standalone Specialized AI Agent Library for Non-LLM memory Augmented Agentic Framework orchestrator - Specifically designed to provide Agentic capability for any Autonomous Agentic Framework locally and Coordinatively that runs efficiently from consumer based machine to High-end embedded systems, where the AI Can directly and continously learn, with minimal and efficient compute, built-in augmented memory, Secure Peer-To-Peer (Multi-Agent) Coordination with security layers as an option, And Explainability capability based on proof from in it's internal metrics, reducing Black-Box condition necessary for reliability. 
 - AbstractIntegratedModule Contains specialized MLP using Its Own specialized geometric Weight shaping (AWE), Specialized efficient Transformer and LSTM (Long-short term memory) architecture for Scarce Data with Alpha-based computation, specifically designed for low-amount samples environment or Messy environments.
-
+  - IntegratedPipeline Use-Case:
+    - Tabular Data Prediction: Finding patterns in structured spreadsheets or rows of numerical and categorical features.
+    - Classification Tasks: Separating data into groups, such as spam detection, customer churn, or disease diagnosis.
+    - Regression Tasks: Predicting continuous numerical values like house prices, sensors output, sales numbers, or weather metrics.
+   
+[+] Framework's Purpose:
+    - This framework is intended for Engineers who is early in ML Engineering in order to provide a Clearer picture of How edge AI Should operate, Low memory management, and Also how it can be Made continuously learn using Pragmatic solution by using SQLite to save Weights to prevent continuous catasthropic forgetting, IntegratedPipeline source code is open-sourced and can be found in our github repository, Meaning you can modify the Source code however You liked it to be, and help Us Grow the first Community!
+    
 ____________________________________________________________________________________________________________________
 ### Library Short Description:
-- Development Stage on PyPi: 1.1.5 Official Release.
+- Development Stage on PyPi: 1.1.6 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -54,10 +61,11 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.5:
+     - v1.1.6:
         - [=] New features:
-        - Fixed one small bug that triggers in specific edge cases when The model receives low similarity score between an input that contains the correct answer and one that has different probability, that caused target probability to be None.
-          
+        - Transformer Training can now be Optional, meaning that When The OS has Low amount of RAM left, and sample that has low complexity, will now Skip Transformer Training.
+        - Fixed bug in refit sparse data function regarding single text incompatibility in .fit().
+    
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
