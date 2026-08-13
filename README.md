@@ -14,7 +14,7 @@ ________________________________________________________________________________
     
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.1.6 Official Release.
+- Development Stage on PyPi: 1.1.7 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -62,10 +62,9 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.6:
+     - v1.1.7:
         - [=] New features:
-        - Transformer Training can now be Optional, meaning that When The OS has Low amount of RAM left, and sample that has low complexity, will now Skip Transformer Training.
-        - Fixed bug in refit sparse data function regarding single text incompatibility in .fit().
+        - Revised supervised-learning to have proper X samples to avoid very scarce data to enter the pipeline stream.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -670,7 +669,7 @@ ________________________________________________________________________________
    # small training with simple titles first
    main_model.train(titles, y)
 
-   # main_model.froze_learning = True
+   # main_model.freeze_learning = True
    # prevent the model from training and make weights unchanged for static prediction.
 
    # SIMULATION BLOCK:
