@@ -66,6 +66,7 @@ ________________________________________________________________________________
         - [=] New features:
         - Revised supervised-learning to have proper X samples to avoid very scarce data to enter the pipeline stream.
         - Fixed UnboundLocalError that can happens in specific edge case during outputting final confidence and probability.
+        - Fixed wrong placement of Transformer pooling feature to generate features for X samples that caused X to be filled with Noise due to untrained Transformer token embedding.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
