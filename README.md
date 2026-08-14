@@ -14,7 +14,7 @@ ________________________________________________________________________________
     
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.1.7 Official Release.
+- Development Stage on PyPi: 1.1.7.5 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -62,9 +62,10 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.7:
+     - v1.1.7.5:
         - [=] New features:
         - Revised supervised-learning to have proper X samples to avoid very scarce data to enter the pipeline stream.
+        - Fixed UnboundLocalError that can happens in specific edge case during outputting final confidence and probability.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
