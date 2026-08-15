@@ -445,8 +445,8 @@ _______________________________________
 
 ## Source code of AbstractIntegratedModule 
 - Note: The source code is provided in the repository.
-- [=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedPipeline-SourceCode.zip](AbstractIntegratedPipeline-SourceCode.zip)
-- [=] Separated Modules of AbstractIntegratedModule: [separated-modules](separated-modules)
+- [=] Full Monolithic extensively-documented source code (12K+ Lines): [AbstractIntegratedModule.py](src/AbstractIntegratedModule.py)
+- [=] Separated Modules of AbstractIntegratedModule With proper Documentation: [separated-module](separated-module)
 - [=] up-to-date Source code: [AbstractIntegratedModule.pyx](src/AbstractIntegratedModule.pyx) and [AbstractOptimizedModules.pyx](src/AbstractOptimizedModules.pyx) files for independent compilation or direct compiling on real ARM64 device or if you want to see the up-to-date, undocumented version of AbstractIntegratedModule library.
 - [lib.rs](rust_optimization_setups/lib.rs) that contains Rust optimization for Models weight handling.
 - [~] Note:
