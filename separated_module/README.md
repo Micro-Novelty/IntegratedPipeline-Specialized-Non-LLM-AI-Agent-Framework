@@ -30,5 +30,3 @@ This package is the original `AbstractIntegratedModule.py`
 | `main.py` | The original demo/CLI entry point (`PermissiveTest`, `AsyncWrappertest`, etc.) |
 | `__init__.py` | Re-exports everything so `from separated_module import X` works |
 
-internally, or the redundant per-file `try/except` optional-accelerator
-imports consolidated into `common.py` only, that's a good next step — just ask.
