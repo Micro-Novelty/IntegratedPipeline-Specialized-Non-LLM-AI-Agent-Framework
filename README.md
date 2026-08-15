@@ -14,7 +14,7 @@ ________________________________________________________________________________
     
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.1.8 Official Release.
+- Development Stage on PyPi: 1.1.9 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -62,15 +62,10 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
 -----
   - Changelog:
-     - v1.1.8:
+     - v1.1.9:
         - [=] New features:
-        - Fixed _verify_signature function that used pickle.dumps() instead of json.dumps() encoded in utf-8.
-        - Fixed _authenticate_agent's shared-secret-match branch that never hits a return True — falls through to an implicit None, so correct-shared-secret auth likely reads as "failed" to callers.
-        - Fixed start_server that computes bind_host via _get_bind_host()'s environment-aware policy but then hardcodes .bind(('0.0.0.0', self.port)), ignoring it.
-        - Fixed _accept_connections that uses return instead of continue on IP-blocked and auth-failed connections — this kills the whole accept thread on the first rejection rather than just skipping that one connection.
-        - Fixed bug In WeightedEnsemblePredictor, explainability_prediction_batch that is defined twice; the second (surviving) definition doesn't index probs/attention per-sample like the first does.
-        - Fixed bug in _attention_weighted_ensemble that has a branch that references attn/anisotropy from a prior loop iteration — undefined on first use.
-        - Fixed  _meta_ensemble that still used hardcoded feature-vector indices that are only correct when has_lstm is False.
+        - Added new Optimizer for MLP architecture called adam optimizer.
+        - MLP Backward now used Adam optimizer to smooth gradient directions.
           
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
