@@ -91,13 +91,100 @@ from . import activations
 from . import mlp
 from . import weight_shaping
 
+# Optimizer used by MLP after calculating backward gradient.
+class AdamOptimizer:
+    def __init__(self, params_shapes, lr=0.001, beta1=0.9, beta2=0.999,
+                 eps=1e-8, weight_decay=0.0, amsgrad=False):
+        """
+        params_shapes: dict of {param_name: shape} for every trainable param
+                        e.g. {'W1': (20,64), 'b1': (64,), 'W2': (64,3), 'b2': (3,)}
+        weight_decay:  decoupled weight decay coefficient (AdamW-style, 0 = off)
+        amsgrad:       if True, use the AMSGrad variant (max of v_hat history)
+        """
+        self.lr = lr
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.eps = eps
+        self.weight_decay = weight_decay
+        self.amsgrad = amsgrad
+        self.t = 0
+
+        self.m = {k: np.zeros(shape) for k, shape in params_shapes.items()}
+        self.v = {k: np.zeros(shape) for k, shape in params_shapes.items()}
+        if self.amsgrad:
+            self.v_max = {k: np.zeros(shape) for k, shape in params_shapes.items()}
+
+    def step(self, params, grads, lr=None, clip_norm=None):
+        self.t += 1
+        lr = self.lr if lr is None else lr
+        bc1 = 1 - self.beta1 ** self.t
+        bc2 = 1 - self.beta2 ** self.t
+
+        for key in grads:
+            g = grads[key]
+            g_shape = np.asarray(g).shape
+
+            # reinitialize any moment buffer whose shape has
+            # drifted from the current gradient, 
+            for buf_name, buf_dict in (('m', self.m), ('v', self.v)):
+                if key not in buf_dict or np.asarray(buf_dict[key]).shape != g_shape:
+                    if key in buf_dict:
+                        print(f'[⚠️] Adam: "{buf_name}" buffer for "{key}" stale '
+                            f'shape {np.asarray(buf_dict[key]).shape} != '
+                            f'expected {g_shape} — reinitializing to zeros')
+                    buf_dict[key] = np.zeros(g_shape)
+
+            if self.amsgrad and (key not in self.v_max or
+                                np.asarray(self.v_max[key]).shape != g_shape):
+                self.v_max[key] = np.zeros(g_shape)
+
+            if clip_norm is not None:
+                norm = np.linalg.norm(g)
+                if norm > clip_norm:
+                    g = g * (clip_norm / norm)
+
+            if self.weight_decay > 0:
+                params[key] -= lr * self.weight_decay * params[key]
+
+            self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * g
+            self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * (g ** 2)
+            m_hat = self.m[key] / bc1
+
+            if self.amsgrad:
+                self.v_max[key] = np.maximum(self.v_max[key], self.v[key])
+                v_hat = self.v_max[key] / bc2
+            else:
+                v_hat = self.v[key] / bc2
+
+            # distinguish "params also disagree" (a real backward()
+            # bug) from the moment-buffer case.
+            if np.asarray(params[key]).shape != g_shape:
+                raise ValueError(
+                    f'[!] params["{key}"] shape {np.asarray(params[key]).shape} '
+                    f'!= grads["{key}"] shape {g_shape} — trace backward() '
+                    f'for key "{key}", this is not a stale-buffer issue.'
+                )
+
+            params[key] -= lr * m_hat / (np.sqrt(v_hat) + self.eps)
+
+        return params
+
 class Dense:
     def __init__(self, x, input_size, output_size, activation=None):
 
         self.special_weight = weight_shaping.GeometricWeightShaping(input_size, output_size)
         self.W = self.special_weight.weight_shaping(x)
-
         self.b = np.zeros((1, output_size))
+        self.params_shape = {
+            'W1': self.W.shape,
+            'b1': self.b.shape
+        }
+        self.params = {
+            'W1': self.W,
+            'b1': self.b
+        }
+        self.opt = AdamOptimizer(self.params_shape, lr=0.001, weight_decay=1e-4)
+        
         self.activation_name = activation
        
 
@@ -209,7 +296,8 @@ class Dense:
         self.W -= (lr * dW) 
         self.b -= (lr * db) + (1.0 + perf_score) * 1e-5  # small bias regularization
 
-        return dx
+        key_grad = {'W1': dW, 'b1': db}
+        return dx, key_grad
         
 
     	
