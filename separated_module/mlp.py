@@ -395,16 +395,16 @@ class MLP:
         perf_score = self.performance_calculation(grad, AME=AME, anisotropy=anisotropy)
 
         for layer in reversed(self.feed_layers):
-            grad = layer.backward(grad, lr, perf_score)
-        return grad  
+            grad, key_grad = layer.backward(grad, lr, perf_score)
+        return grad, key_grad
 
     def backward(self, grad, lr):
         grad = self.softmax.backward(grad)
         perf_score = self.performance_calculation(grad, AME=self.temp_AME_sample, anisotropy=self.temp_anisotropy_sample)
 
         for layer in reversed(self.layers):
-            grad = layer.backward(grad, lr, perf_score)
-        return grad
+            grad, key_grad = layer.backward(grad, lr, perf_score)
+        return grad, key_grad
             
     def predict(self, X, y, epochs=1000, verbose=True):
         for epoch in range(epochs):
@@ -531,9 +531,17 @@ class MLP:
                 loss = activations.Loss.categorical_crossentropy(y_true, y_pred)
                 grad = activations.Loss.softmax_crossentropy_derivative(y_true, y_pred)
                 if focused_fit_condition:
-                    _ = self.focused_backward(grad, self.lr, AME, anisotropy)
+                    _, key_grad = self.focused_backward(grad, self.lr, AME, anisotropy)
                 else:
-                    _ = self.backward(grad, self.lr)
+                    _, key_grad = self.backward(grad, self.lr)
+
+				# Adam Optimizer used here after gradient was calculated and weight has changed, adam preserve gradient direction and renormalize it to 
+				# be more suited to what the gradient has and contains and stabilize parameters update.
+                try:
+                    params = self.layers[0].opt.step(self.layers[0].params, key_grad, clip_norm=5.0)
+                except:
+                    continue
+					
                 if np.isnan(loss) or np.isinf(loss):
                     if focused_fit_condition:
                         focused_fit_condition = False
