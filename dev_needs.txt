@@ -13,7 +13,7 @@ black>=23.0.0
 isort>=8.0.1
 flake8>=7.3.0
 mypy>=2.3.0
-pylint>=4.0.6
+pylint>=4.0.7
 
 # ===== Benchmarking =====
 pytest-benchmark>=5.2.3
