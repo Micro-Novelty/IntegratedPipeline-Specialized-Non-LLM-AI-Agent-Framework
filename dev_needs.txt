@@ -1,7 +1,7 @@
 # ===== Build Tools =====
 cython>=3.2.8
 setuptools>=83.0.0
-wheel>=0.47.0
+wheel>=0.48.0
 
 # ===== Testing =====
 pytest>=9.1.0
