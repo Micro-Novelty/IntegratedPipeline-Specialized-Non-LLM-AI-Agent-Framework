@@ -14,7 +14,7 @@ ________________________________________________________________________________
     
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.1.9 Official Release.
+- Development Stage on PyPi: 1.2.0 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
