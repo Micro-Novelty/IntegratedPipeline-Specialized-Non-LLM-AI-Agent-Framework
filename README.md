@@ -59,13 +59,17 @@ ________________________________________________________________________________
    - AWE setup Proven Efficient on Hard-uncontrolled dataset such as Activity Recognition from the given Database.
    - LSTM is Optimized efficiently for scarce data with AWE method.
    - Robust Advanced prediction capabilities proven effective on ARM64 Using MLP + LSTM Architectures.
-   - Transformer Optimized using Cython, to reduce Memory overhead and Reduce CPU Usage, With Reduced Training Time.
+   - Transformer Optimized using Cython, reduced Memory overhead and Reduce CPU Usage, With Reduced Training Time is guaranteed.
 -----
   - Changelog:
-     - v1.1.9:
+     - v1.2.0:
         - [=] New features:
-        - Added new Optimizer for MLP architecture called adam optimizer.
-        - MLP Backward now used Adam optimizer to smooth gradient directions.
+        - Added new Architecture module separate from Main Pipeline usage (This modules is'nt used inside Pipeline prediction):
+          - Small-HNSW (Hierarchical Navigable Small World).
+          - kNN-Augmented Transformer.
+          - PerHeadMemory class to Apply memory to each Transformers Head.
+        - Added new Functions to call the kNN-Augmented Transformer for separate usage.
+            
           
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -140,7 +144,8 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
   - IntegratedPipeline usually used 1 Model for regular prediction, but in some Conditions, it used 2 Different type's of AI Architecture stacked together, and one architecture to weight their confidence and probability fairly (ensemble method) to get the final prediction for the problem it faced, Specialized MLP for Noise robustness And Specialized Transformer that used Alpha-based Computing algorithm for contextual reasoning, LSTM architecture to provides proof-of-credibility over a certain output, acting as a support mechanism rather than Main orchestrator like MLP and Transformer. The reason why those Models complement and used together:
       - Specialized MLP Provides synchronous robust classification Against noise with its specialized Weight Encoder (AWE) to handle noise using eigenvalue based computing that is lightweight and efficient. This Method can't be replicated Inside Transformer FFN (Feed-forward-network) because of Transformer dynamic brute force computing where AWE-Based generated weight's get diluted over time by Transformer dynamic projection embedding, making AWE Generated weight causes inefficient inside Transformer dynamic FFN/QKV projection.
       - Specialized Transformer provides robust synchronous advanced contextual relationships, efficient data processing using Alpha based computing, The Transformer is tuned towards to be as flexible as possible to provide dynamic projection or fixed FFN projection training with minimal head's and dimension's to reduce computational power.
-        - Honest Limitation: Our Transformer can still analyze Images, by receiving Input that is an Image converted into X samples, its accuracy is expected to be much lower since Analyzing images requires very large datasets.
+      - Our library also provides setup for kNN (k-Nearest-neighbor) Augmented Transformer for Users who Wants to use a much More Advanced Transformer, This Transformer is'nt used in the Main prediction flow inside IntegratedPipeline due to it being Memory heavy to run, instead this Transformer can be used separately if You have Larger Dataset and wants A small Transformer Model that can Remember longer contexts Using HNSW (Hierarchical Navigable Small World) Architecture and apply it on edge Devices.
+        - Honest Limitation: Our Transformer can still analyze Images, by receiving Input that is an Image converted into X samples, its accuracy is expected to be much lower since Analyzing images requires larger datasets.
           
       - LSTM doesn't act as a Main orchestrator, instead it Provides coherent Short-term memory for the Ensemble architecture, acting as a support mechanism to provides proof-of-credibility of a given answer from past previous context input, this allows flexible and achievable Aggreement between Transformer and MLP over a short period of time.
       - Ensemble weighting provides the model a much more robust classification best from both worlds perspective, weighting both MLP and Transformer confidence and probability, combined with Attention quality from the transformer to get the final prediction of an input if transformer is allowed and permitted to be in use.
@@ -184,7 +189,7 @@ ________________________________________________________________________________
 
 
 ### Important Note:
-- All of the files provided here can be found  in the github repository, if you are seeing this on PyPi and wanted to Try out the .py, .sh or Dockerfile scripts below, consider visiting the github link Above.
+- All of the files provided here can be found  in the github repository, if you are seeing this on PyPi and wanted to Try out the provided .py, .sh or Dockerfile scripts below, consider visiting the official github repository link Above.
 
 ### Introduction and demo
 - Video Documentation: [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
@@ -760,8 +765,25 @@ ________________________________________________________________________________
    ```
    - Note: script setup can be downloaded here: [transformer_usage](scripts/transformer_usage.py)
    
-
-6. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
+5. C. Use kNN-Augmented Transformer:
+   Note: kNN-Augmented Transformer doesn't have its own Prediction pipeline flow, meaning after the Transformer forward method is called, the probabilities of the kNN Transformer will be returned and no prediction is made, We decided to be better this way because it grants Flexibility over how Prediction will be made in your favour:
+   - Example Code:
+   - ```python
+      # knn_forward_inference() lives inside PipelinePredictionManager, so you need to call this class to initiate the knn_forward_inference() function.
+      main_prediction.knn_forward_inference(X, y, memory_metric='euclidean', training=True, batch_size=2, train_mode='dynamic_backward', lr=0.1)
+      # Note: - train_mode can be set to 'dynamic_backward' if you have very large dataset, this makes Transformer Q, K, V be much more dynamic and grants flexible learning behavior for large dataset.
+              - train_mode can be set to 'fixed_backward' if you have small dataset, this makes Transformer Q, K, V to stay frozen so the FFN flow will handle the Training, making Learning in very little samples possible and deterministic in behavior.
+              - y sample must be one-hot encoded manually before its passed to the function, since the function above will not automatically one-hot encode the y-sample.
+     
+      main_prediction.pipeline.storage.save_hnsw_memory(memory_name) # This function saves the HNSW setup inside KNNAugmentedTransformer class to the the same database (activity_log.db) so it can be retrieved as Retrievable Memory later.
+      main_prediction.pipeline.storage.save_memory_head(memory_name) # This function saves the Per-Head memory setup inside KNNAugmentedTransformer class to the the same database (activity_log.db) so it can be retrieved as Retrievable Memory later.
+     
+      main_prediction.pipeline.storage.load_hnsw_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, and apply the Old Memory back to the knn-augmented Transformer.
+      main_prediction.pipeline.storage.load_head_memory_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, , and apply the Old Memory back to the knn-augmented Transformer.
+     ```
+      
+     
+7. To use IntegratedPipeline prediction without Transformer, Only Specialized MLP:
       Note: IntegratedPipeline without Transformer is'nt recommended due to it being weak at certain contextual prediction's, excel's at classification task's.
       - Example without transformer:
    ```python
@@ -773,7 +795,7 @@ ________________________________________________________________________________
             )
    
    ```
-7. Asynchronous prediction:
+8. Asynchronous prediction:
   - Asynchronous prediction request is important and is critical because it keeps prediction interfaces responsive, maximizes local hardware efficiency, and enables apps to handle background tasks seamlessly without waiting on remote server responses,
   - for asynchronous prediction handling, consider using this setup
 ```python
@@ -841,7 +863,7 @@ print('[==] Initiating advanced batch prediction')
  - When event loop is not triggered, Asynchronous prediction can't be initiated and must be restarted/retried.
  - Script setup can be downloaded here: [async_script](scripts/async_script.py)
 
-7. Peer-to-Peer Probability coordination:
+8. Peer-to-Peer Probability coordination:
    - Each peer is both server and client simultaneously for robustness and resilience during during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
    - [=] for ensemble prediction from multiple peers, exchanging predicted label with each other, consider using this setup:
