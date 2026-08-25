@@ -770,16 +770,19 @@ ________________________________________________________________________________
    - Example Code:
    - ```python
       # knn_forward_inference() lives inside PipelinePredictionManager, so you need to call this class to initiate the knn_forward_inference() function.
-      main_prediction.knn_forward_inference(X, y, memory_metric='euclidean', training=True, batch_size=2, train_mode='dynamic_backward', lr=0.1)
+      losses, accs = main_prediction.knn_forward_inference(X, y, memory_metric='euclidean', training=True, batch_size=2, train_mode='dynamic_backward', lr=0.1) # for Training kNN Transformer only
+      transformer_probs, attn_weights = main_prediction.knn_forward_inference(X, y, memory_metric='euclidean', training=False) # for returning kNN Transformer probabilities and attention weights only.
       # Note: - train_mode can be set to 'dynamic_backward' if you have very large dataset, this makes Transformer Q, K, V be much more dynamic and grants flexible learning behavior for large dataset.
-              - train_mode can be set to 'fixed_backward' if you have small dataset, this makes Transformer Q, K, V to stay frozen so the FFN flow will handle the Training, making Learning in very little samples possible and deterministic in behavior.
-              - y sample must be one-hot encoded manually before its passed to the function, since the function above will not automatically one-hot encode the y-sample.
+              # - train_mode can be set to 'fixed_backward' if you have small dataset, this makes Transformer Q, K, V to stay frozen so the FFN flow will handle the Training, making Learning in very little samples possible and deterministic in behavior.
+              # - y sample must be one-hot encoded manually before its passed to the function, since the function above will not automatically one-hot encode the y-sample.
      
       main_prediction.pipeline.storage.save_hnsw_memory(memory_name) # This function saves the HNSW setup inside KNNAugmentedTransformer class to the the same database (activity_log.db) so it can be retrieved as Retrievable Memory later.
       main_prediction.pipeline.storage.save_memory_head(memory_name) # This function saves the Per-Head memory setup inside KNNAugmentedTransformer class to the the same database (activity_log.db) so it can be retrieved as Retrievable Memory later.
      
-      main_prediction.pipeline.storage.load_hnsw_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, and apply the Old Memory back to the knn-augmented Transformer.
-      main_prediction.pipeline.storage.load_head_memory_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, , and apply the Old Memory back to the knn-augmented Transformer.
+      main_prediction.pipeline.storage.load_hnsw_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, and automatically apply the Old Memory back to the knn-augmented Transformer.
+      main_prediction.pipeline.storage.load_head_memory_setup(memory_name) # This function is used to load the saved HNSW Memory inside your (activity_log.db) database, and automatically apply the Old Memory back to the knn-augmented Transformer.
+
+     # .... # your own custom prediction block.
      ```
       
      
