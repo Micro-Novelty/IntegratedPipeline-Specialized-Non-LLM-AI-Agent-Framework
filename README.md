@@ -695,7 +695,6 @@ ________________________________________________________________________________
                show_proba=False, top_k=3, 
                use_transformer=True,
                return_attention=False,
-               save_results=True,
                batch_size=2)
    # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
    # Note: The X and y samples will be organized and processed using train_test_split() scikit-learn function for creating better generalization behavior for the model, so when you pass the X and y samples, you must pass the raw X sample (Not modified, just raw X) and the already y hot-encoded sample,
