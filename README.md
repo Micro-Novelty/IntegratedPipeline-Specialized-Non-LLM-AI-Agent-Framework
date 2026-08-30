@@ -112,7 +112,10 @@
       - The Bottle-neck: If the memory bank grows dynamically with sequence length (N), the time complexity scales drastically, making it incredibly slow for long sequences or real-time inference.Memory Footprint: Storing a massive, high-dimensional key-value memory buffer inside or alongside the cell structure dramatically increases RAM/VRAM requirements.
      - Outdated or Conflicting Memory Retrieval (Staleness):
        - If the internal kNN queries a static training database, the model may struggle if the environment undergoes a permanent structural break. Conversely, if the memory bank updates dynamically online, the model risks pulling in noisy, corrupt, or unoptimized embeddings from recent time steps. If the cell gates rely heavily on these poor retrievals, it can destabilize the hidden state transitions and trigger cascading errors down the timeline.
-    
+
+
+    ### Source code:
+    - The kNN-Augmented LSTM python source code can be found in here: [knn_lstm](knn_lstm.py) 
                 
 
 
