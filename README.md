@@ -115,7 +115,7 @@
 
 
     ### Source code:
-    - The kNN-Augmented LSTM python source code can be found in here: [knn_lstm](knn_lstm.py) 
+    - The kNN-Augmented LSTM python source code can be found in here: [knn_lstm](knn_LSTM.py) 
                 
 
 
