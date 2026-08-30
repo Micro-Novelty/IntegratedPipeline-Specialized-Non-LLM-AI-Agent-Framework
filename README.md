@@ -105,7 +105,7 @@ ________________________________________________________________________________
   - [changelog.md](changelog.md)
   - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
-  - [split-READMEs](split-README/steps_to_use_integratedpipeline.md) to use IntegratedPipeline
+  - [steps_to_use_integratedpipeline](split-READMEs/steps_to_use_integratedpipeline.md) to use IntegratedPipeline
     
 ___________________________________________________________________________________________________       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
