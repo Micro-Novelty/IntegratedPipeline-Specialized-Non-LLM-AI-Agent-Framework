@@ -115,7 +115,67 @@
 
 
     ### Source code:
-    - The kNN-Augmented LSTM python source code can be found in here: [knn_lstm](knn_LSTM.py) 
+    - The kNN-Augmented LSTM python source code can be found in here: [knn_lstm](knn_LSTM.py)
+
+    ### Experimental results:
+    - The Training results below used K=8 for k nearest neighbors, and learning rate of 0.05, over a tiny samples (roughly 100+) samples.
+    - Training results and datas:
+    - ```
+      [= FIT =] Fitting Short Term Memory...
+      n=  20  std=0.00000  delta=0.00000
+        → Converged at n=20
+      [= =] Training LSTM with confidence layers (MC dropout + gate uncertainty + prediction intervals)
+      [=] Epoch    1/100  [=] train_loss=0.070513  val_loss=0.083081
+      [=] Epoch    5/100  [=] train_loss=0.006024  val_loss=0.051940
+      [=] Epoch   10/100  [=] train_loss=0.000323  val_loss=0.054426
+      [=] Epoch   15/100  [=] train_loss=0.000056  val_loss=0.055783
+      [=] Epoch   20/100  [=] train_loss=0.000043  val_loss=0.056116
+      [=] Epoch   25/100  [=] train_loss=0.000043  val_loss=0.056179
+      [=] Epoch   30/100  [=] train_loss=0.000043  val_loss=0.056195
+      [=] Epoch   35/100  [=] train_loss=0.000043  val_loss=0.056213
+      [=] Epoch   40/100  [=] train_loss=0.000043  val_loss=0.056217
+      [=] Epoch   45/100  [=] train_loss=0.000043  val_loss=0.056218
+      [=] Epoch   50/100  [=] train_loss=0.000043  val_loss=0.056216
+      [=] Epoch   55/100  [=] train_loss=0.000043  val_loss=0.056243
+      [=] Epoch   60/100  [=] train_loss=0.000043  val_loss=0.056218
+      [=] Epoch   65/100  [=] train_loss=0.000043  val_loss=0.056217
+      [=] Epoch   70/100  [=] train_loss=0.000043  val_loss=0.056213
+      [=] Epoch   75/100  [=] train_loss=0.000043  val_loss=0.056183
+      [=] Epoch   80/100  [=] train_loss=0.000043  val_loss=0.056217
+      [=] Epoch   85/100  [=] train_loss=0.000043  val_loss=0.056190
+      [=] Epoch   90/100  [=] train_loss=0.000043  val_loss=0.056208
+      [=] Epoch   95/100  [=] train_loss=0.000043  val_loss=0.056177
+      [=] Epoch  100/100  [=] train_loss=0.000043  val_loss=0.056199
+      [=] Training complete!
+      [=] Final val loss: 0.056199
+      ===== CALIBRATION METHOD =====
+      [!] Small val set (19 samples) — flooring σ to 0.1
+      [=] Calibrated: residual μ=0.1718 σ=0.1813 coverage=94.7% n=19
+      [!] n=7 too small for tail quantiles — using 10th/90th for all intervals
+      [=] Calibrated: μ=0.0488 σ=0.1481 n=7 90%=[-0.0116, 0.1577]
+      
+      [= LSTM INSIGHT =] Per-sample confidence report:
+      [*] #     Predicted     Actual [*]   Confidence   Gate Uncert [*]         90% Interval  Label Confidence
+        ────────────────────────────────────────────────────────────────────────────────────────────────────
+        0       +0.4451    +0.4567        64.2%         0.384   [+0.433, +0.603]  Low=100%  Moderate=0%  High=0%  Extreme=0%
+        1       +0.4451    +0.4567        64.2%         0.384   [+0.433, +0.603]  Low=100%  Moderate=0%  High=0%  Extreme=0%
+        2       +0.4451    +0.4567        64.2%         0.384   [+0.433, +0.603]  Low=100%  Moderate=0%  High=0%  Extreme=0%
+      [=+=] ==== STATUS REPORT ====
+      
+      [=] Confidence breakdown for sample 0:
+          MC mean (last step)   : +0.4451
+          MC std  (last step)   : 0.0000  ← tight = certain
+          Gate uncertainty      : 0.3845  ← low = stable memory
+          MC confidence         : 100.0%
+          Overall confidence    : 64.2%
+          90% interval          : [+0.4335, +0.6028]
+          Label confidence      : {'Low': 0.9999999900000002, 'Moderate': 0.0, 'High': 0.0, 'Extreme': 0.0}
+      ```
+      - Note:
+        - Training loss never hits pure 0.00000 during Training.
+        - Validation loss decrease a lot from epoch 0 to 5 and stalls due to low complexity samples.
+        - MC std is tight meaning its certain.
+        
                 
 
 
