@@ -106,6 +106,7 @@ ________________________________________________________________________________
   - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
   - [steps_to_use_integratedpipeline](split-READMEs/steps_to_use_integratedpipeline.md) to use IntegratedPipeline
+  - Separated README contents for better understanding: [split-READMEs](split-READMEs)
     
 ___________________________________________________________________________________________________       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
