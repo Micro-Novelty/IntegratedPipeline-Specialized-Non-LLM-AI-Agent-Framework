@@ -11,7 +11,11 @@
 ___________________________________________________________________________________________________________________
 ### [+] Framework's Purpose
   - This framework is intended for Engineers who is early in ML Engineering in order to provide a Clearer picture of How edge AI Should operate, Low memory management, and Also how it can be Made continuously learn using Pragmatic solution by using SQLite to save Weights to prevent continuous catasthropic forgetting, IntegratedPipeline source code is open-sourced and can be found in our github repository, Meaning you can modify the Source code however You liked it to be, and help Us Grow the first Community!
-    
+
+### Important Note:
+- All of the files provided here can be found in the main Github repository, if You are seeing this on PyPi and wanted to try out the provided .py, .sh or Dockerfile scripts below, consider visiting the official github repository:
+- link: https://github.com/Micro-Novelty/IntegratedPipeline-Specialized-Non-LLM-AI-Agent-Framework
+
 ____________________________________________________________________________________________________________________
 ### Library Short Description
 - Development Stage on PyPi: 1.2.0 Official Release.
@@ -94,13 +98,14 @@ ________________________________________________________________________________
 - [Go to Main Components](#main-components)
 - [Go to Source code](#source-code-of-abstractintegratedmodule)
 
-Consider checking:
+- Consider checking:
   - [ROADMAP.md](ROADMAP.md)
   - [SECURITY.md](SECURITY.md)
   - [Contributing.md](Contributing.md)
   - [changelog.md](changelog.md)
   - [requirements-For-Dev](dev_needs.txt) for contributors requirements.
   - [architecture_diagram.js](architecture_diagram.js).
+  - [split-READMEs](split-README/steps_to_use_integratedpipeline.md) to use IntegratedPipeline
     
 ___________________________________________________________________________________________________       
 <img width="1280" height="600" alt="WhatsApp Image 2026-05-27 at 07 16 32" src="https://github.com/user-attachments/assets/4b58a556-45a3-419b-96fd-9c1b76cac574" />
@@ -187,9 +192,6 @@ ________________________________________________________________________________
    2. - TF-IDF (Term Frequency-Inverse Document Frequency) is a numerical statistic used in machine learning and NLP to evaluate how important a word is to a document within a collection (corpus). It boosts rare words and penalizes common words (like "the", "and") by multiplying two metrics: how often a word appears in a document (TF) and the inverse frequency of the word across all documents (IDF). 
    3. - Explainability provides deeper transparency of why a model thought about a detail by showing its internal metrics like attention quality, from distributed peer memory or Ensemble prediction result's.
 
-
-### Important Note:
-- All of the files provided here can be found  in the github repository, if you are seeing this on PyPi and wanted to Try out the provided .py, .sh or Dockerfile scripts below, consider visiting the official github repository link Above.
 
 ### Introduction and demo
 - Video Documentation: [![Introduction and demo:](https://youtube.com)](https://youtu.be/RmWvwDHU_QY?si=Lvl8mt8c_BnFypS_)
