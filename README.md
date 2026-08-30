@@ -19,4 +19,102 @@
    - The Memory Bank: All embeddings generated from the training dataset are stored as key-value pairs (Vector Database style).The Retrieval: When a new data point arrives, the LSTM embeds it. The kNN module calculates the closest matching historical neighbors using distance metrics like Euclidean or Cosine distance.
    - The Final Prediction: The final output is derived by combining the neural network's soft probabilities with the explicit labels of the kNN matches.
    - Architectural Variation 2: Sequential Residual/Updating ModelUsed heavily in Time-Series Forecasting (e.g., Stock Price or Flood Predictions).Base Prediction: The LSTM analyzes the recent window of historical data to project the next value.Residual Adjustment: The kNN looks at past instances where the model faced similar data conditions and measures how much the sequence diverged. It calculates an error adjustment factor to correct the LSTM's final trajectory.
+ 
+  - Experimental area:
+    - Apllied kNN Memory retrieval in LSTM forward function and memory broadcasting in LSTM backward function inside LSTM cell class:
+    ### kNN_Memory applied to LSTM forward pass cell:
+      - Direct Explanation:
+      - This part of LSTM has rich amount of gradients, making it a suitable part to apply kNN memory retrieval, each line of cell weights inside forward has a working mechanism that allows it to be augmented with kNN memory, targeted approach in forward pass inside LSTM:
+      - ```python
+        xh[:expected_input] = x
+        xh[expected_input:] = h
+
+        z  = self.W @ xh + self.b
+        H1, H2, H3 = H, H * 2, H * 3 
+
+        f      = sigmoid(z[:H1])
+        i      = sigmoid(z[H1:H2])
+        g      = np.tanh(z[H2:H3])
+        o      = sigmoid(z[H3:])
+            
+        c_new  = f * c + i * g
+        c_regular = np.clip(c_new, -10.0, 10.0)  # prevent overflow in tanh
+
+        c_mem, i_mem, o_mem, g_mem, mem_mask = self.memory.retrieve(f)
+        has_memory, gate, cell_out, tanh_c, h_out, mem_weights = self.memory_cell(f, c_regular, c_mem, i_mem, o_mem, g_mem, mem_mask)
+        ```
+        - Note:
+           - The f, i, g, o cell weights is the right and most targeted approach due to the fact this is where gradient mixing happens and where the gradient vectors is shaped inside forward pass, this allow a proper Memory calculation to be applied and help shapes the necessary memory gradients, the c_new weight combines f, c, i, and g weights specifically to calculate a proper gradient for forward pass probability.
+           - f weight itself is a great weight to be a "memory key" since it contains the exact same gradient which later retrieves the exact memory of i, g, o and c weights, The retrieved i, g, o, and c will be called "memory gradients".
+           - the has_memory gradient will be applied during backward pass and helps to apply The memory directly to the LSTM weights.
+
+    ### kNN memory applied to backward pass:
+      - Direct explanation:
+      - This part of function is necessary to be applied with kNN Memory since it will shape the LSTM underlying weights during a single epoch, it contains the same amount of rich gradient calculations and shaping that will directly influence the weights vectors.
+      - targeted approach inside LSTM backward cell:
+      - ```python
+        # preallocate dz buffer once
+        dz     = np.empty((4 * H, self.memory_k))
+        H1, H2, H3 = H, H * 2, H * 3
+
+        for t in reversed(range(T)):
+            x, h_prev, c_prev, f, i, g, o, c_new, tanh_c, xh = cache[t]
+
+            dh_total = dhs[t] + dh
+
+            do     = dh_total[:, np.newaxis] * tanh_c
+            dtanhc = dh_total[:, np.newaxis] * o
+            dc_deriv = dtanhc * tanh_deriv(tanh_c)
+            dc_new = dc_deriv + dc[:, np.newaxis] if len(dc.shape) < 2 else dc
+
+            c_local_out, dc_mem = self._gate_and_mem_grads(dc_new)
+
+            df = dc_mem * c_prev
+            di = dc_mem * g
+            dg = dc_mem * i
+            dc = dc_mem * f[:, np.newaxis]
+
+            # write into preallocated dz buffer
+            dz[:H1, :]  = (df * sigmoid_deriv(f)[:, np.newaxis])
+            dz[H1:H2, :] = di * sigmoid_deriv(i)
+            dz[H2:H3, :] = dg * tanh_deriv(g)
+            dz[H3:, :]   = do * sigmoid_deriv(o)
+
+            dz_mem = self.memory_cell_backward(
+                dz, tanh_c, dc_mem, o, self.cache['mem_weights']
+            )
+
+            # nplace accumulation, no intermediate allocation
+            dW  += np.outer(dz_mem, xh)   # unavoidable alloc but outer is C-level
+            db  += dz_mem
+        ```
+        - Note:
+             - the underlying memory gradients from forward pass will be applied here and will be mixed with do, dtanch, dc_deriv and dc_new weights.
+             - The abundant use of np.newaxis and sum of axis is a "cheat code" to preserve gradient directions and allows memory to be smoothed with regular gradients.
+             - the dc_mem acts as an anchor that helps to tighten memory directly into each df, di, dg, dc with a much more precise representations of sigmoid growth of memory gate that helps to smooth out gradients of c_prev, g, i, and f weights.
+             - the underlying weights will be pre allocated directly into dz for directly updating weights later.
+             - the dz weight will be smoothed out using memory weights stored inside cache, tanh_c, dc_mem, and output cell (o) since this specific gradients contains a rich representation such as output projection, a smoothed version of cell weight and memory weights. later, dz_mem will be converted into a single shape (A, ) that the dz_mem weight using sum of axis 1 so can be applied to directly into LSTM weight.
+             
+    ### Benefits and trade-offs of this Research
+    - A. Benefits:
+    -  Direct "Open-Book" Access to Past Context:
+      - Standard LSTMs suffer from a memory capacity bottleneck; they must compress all historical sequence patterns directly into fixed-size hidden vectors (Hidden params) and cell states (C weight). By embedding kNN inside the cell, the gate controllers can query explicit historical context or training instances. This turns a standard sequence-to-sequence tracking task into an "open-book exam," enabling the cell to dynamically leverage exact structural patterns or neighbor sequences that it can no longer fit within its hidden weights.
+      - Enhanced Dynamic Gating Control:
+        - When kNN is baked directly into the internal cell equations, the retrieved nearest neighbors can actively influence the behavior of the internal gates ((f, i, o weights). For example:
+          - Informed Forgetting (f weight): If the kNN retrieval indicates that the current temporal pattern closely matches a historic regime shift, the forget gate can selectively drop stale information.Contextual Candidate Modification (c weight): The cell state update can be blended with actual target attributes or features from the retrieved closest sequence analogs.
+    - Direct Mitigation of Exploding/Vanishing Gradients over Extended Horizons:
+      - Even with its core gating architecture, a traditional LSTM's gradient signal degrades over hundreds of time steps. When a kNN layer calculates distance matches inside the cell, it creates an explicit structural "shortcut" across time. The network can bypass long chains of recurrences to fetch explicit past embeddings, essentially functioning as a non-parametric attention block that mathematically stabilizes error backpropagation
+    - Rapid Adaptation to Out-of-Distribution (OOD) ShiftsDeep networks generally struggle when real-world conditions stray far from training averages. A kNN-infused cell relies on explicit distance metrics rather than static parametric approximations. If the model encounters a rare event or sudden situational change, the internal kNN mechanism can immediately pull up similar outliers or past anomalies from its reference index. This gives the cell an instant reference point to mitigate error spikes without waiting for gradient updates.
+
+    - B. Tradeoffs
+    - Massively Increased Time and Space Complexity:
+      - The most immediate drawback is computational overhead. A standard LSTM cell relies on quick matrix multiplications. Introducing a kNN lookup means that at every single time step, the model must calculate distances (e.g., Euclidean or Cosine) between the current state and all vectors in the memory bank.
+      - The Bottle-neck: If the memory bank grows dynamically with sequence length (N), the time complexity scales drastically, making it incredibly slow for long sequences or real-time inference.Memory Footprint: Storing a massive, high-dimensional key-value memory buffer inside or alongside the cell structure dramatically increases RAM/VRAM requirements.
+     - Outdated or Conflicting Memory Retrieval (Staleness):
+       - If the internal kNN queries a static training database, the model may struggle if the environment undergoes a permanent structural break. Conversely, if the memory bank updates dynamically online, the model risks pulling in noisy, corrupt, or unoptimized embeddings from recent time steps. If the cell gates rely heavily on these poor retrievals, it can destabilize the hidden state transitions and trigger cascading errors down the timeline.
+    
+                
+
+
+            
    
