@@ -366,12 +366,15 @@ class HNSW:
         candidates.sort(key=lambda x: x[0])
         return [(n, d) for d, n in candidates[:k]]
 
+
+
 class PerCellMemory:
     def __init__(self, inp_size, dim_size, capacity=8000, k=8, metric='euclidean', evict_fraction=0.1):
         self.inp_size = inp_size
         self.dim_size = dim_size
         self.k = k
         self.dim_ratio = self.dim_size // self.k
+        self.memory_capacity = capacity
 
         self.evict_batch = max(1, int(capacity * evict_fraction))
         self.indices = [HNSW(dim=self.dim_size, M=16, ef_construction=100, metric='euclidean') for _ in range(self.dim_ratio)]
@@ -379,20 +382,19 @@ class PerCellMemory:
         self._values_1 = [[] for _ in range(self.dim_size)]
         self._values_2 = [[] for _ in range(self.dim_size)]
         self._values_3 = [[] for _ in range(self.dim_size)]
-        self._values_4 = [[] for _ in range(self.dim_size)]
-        self._values_5 = [[] for _ in range(self.dim_size)]
         self._count = [0] * self.dim_size
 
     def write(self, c, i, o, g):
-        B = c.shape
+        B = c.shape[0]
         for hid in range(B):
-            if self._count[hid] >= self.capacity:
+            if self._count[hid] >= self.memory_capacity:
                 continue
 
-            self.indices[hid].insert(c[t])
-            self._count[hid] += 1
+            if hid < len(self.indices):
+                self.indices[hid].insert(c[hid])
+                self._count[hid] += 1
             
-            if self._count[hid] > self.capacity:
+            if self._count[hid] > self.memory_capacity:
                 self._evict_and_rebuild(hid)
     
 
@@ -400,6 +402,9 @@ class PerCellMemory:
     def _evict_and_rebuild(self, h):
         keep_from = self.evict_batch
         surviving_vectors = self.indices[h].vectors[keep_from:]
+        surviving_values_1 = self._values_1[h][keep_from:]
+        surviving_values_2 = self._values_2[h][keep_from:]
+        surviving_values_3 = self._values_3[h][keep_from]
 
         fresh_index = HNSW(dim=self.head_dim, M=self.indices[h].M,
                             ef_construction=self.indices[h].ef_construction,
@@ -408,7 +413,7 @@ class PerCellMemory:
             fresh_index.insert(vec)
  
         self.indices[h] = fresh_index
-        self._count[h] = len(surviving_values)    
+        self._count[h] = len(surviving_values_1) + len(surviving_values_2) + len(surviving_values_3) // 3
 
 
     def retrieve(self, f):
@@ -428,9 +433,12 @@ class PerCellMemory:
             for j, (node_id, _dist) in enumerate(results):
                 c_memory[t, j] = self.indices[t].vectors[node_id]
 
-                i_memory[t, j] = self._values_3[t].vectors[node_id]
-                o_memory[t, j] = self._values_4[t].vectors[node_id]
-                g_memory[t, j] = self._values_5[t].vectors[node_id]
+                if node_id < len(self._values_1[t]):
+                    i_memory[t, j] = self._values_1[t][node_id]
+                if node_id < len(self._values_2[t]):
+                    o_memory[t, j] = self._values_2[t][node_id]
+                if node_id < len(self._values_3[t]):
+                    g_memory[t, j] = self._values_3[t][node_id]
                 mem_mask[t, j] = 1.0
 
         return c_memory, i_memory, o_memory, g_memory, mem_mask
@@ -523,6 +531,7 @@ class LSTMCell:
             h, c = h_new, c_new
             hs[t] = h
             cs[t] = c
+
 
         return hs, cs, cache
 
@@ -638,6 +647,7 @@ class kNNAugmentedLSTM(LSTMCell):
         dz_mem = (z_scores @ (tanh_deriv(tanh_c_mem) + dc).T).sum(axis=1)
         return dz_mem
 
+
     def _gate_and_mem_grads(self, dc_new):
         gate = self.cache['gate']
         has_memory = self.cache['has_memory']
@@ -706,6 +716,9 @@ class kNNAugmentedLSTM(LSTMCell):
             h, c = h_out, cell_out
             hs[t] = h
             cs[t] = c
+
+        if self.memory_write_enabled:
+            self.memory.write(c_new, i, o, g)
 
         return hs, cs, cache
         
