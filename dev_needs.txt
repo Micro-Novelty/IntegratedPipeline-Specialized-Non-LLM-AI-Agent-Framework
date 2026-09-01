@@ -16,7 +16,7 @@ mypy>=2.3.1
 pylint>=4.0.6
 
 # ===== Benchmarking =====
-pytest-benchmark>=5.2.3
+pytest-benchmark>=5.3.0
 memory-profiler>=0.61.0
 
 # ===== Documentation =====
