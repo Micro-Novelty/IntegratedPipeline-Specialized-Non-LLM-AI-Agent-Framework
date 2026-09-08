@@ -1,6 +1,6 @@
 # [=] Experimental Options 
 
-- This branch actively Documents what will be applied in the Future, and it was still Categorized as Experimental architectures for AbstractIntegratedModule library, and will be scrapped if its deemed useless and Don't benefit the user's application.
+- This branch actively Documents what will be applied in the Future, and it was still Categorized as Experimental architectures for future AbstractIntegratedModule version, and will be scrapped if its deemed useless and Don't benefit the user's application.
 
 ## Experimental Architectures:
 
