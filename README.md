@@ -18,7 +18,7 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.2.0 Official Release.
+- Development Stage on PyPi: 1.2.1 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -73,8 +73,9 @@ ________________________________________________________________________________
           - kNN-Augmented Transformer.
           - PerHeadMemory class to Apply memory to each Transformers Head.
         - Added new Functions to call the kNN-Augmented Transformer for separate usage.
-            
-          
+     - v1.2.1:
+        - Removed Useless print statements that happens during Advanced prediction to prevent the cause of print flooding in large samples.
+    
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
        
