@@ -327,15 +327,8 @@ ________________________________________________________________________________
    # Mount your local directory and run a script
    docker run -it -v $(pwd)/data:/app/data integrated-agent:latest python main.py # main.py could be replaced
    ```
-   
-6. Run with GPU Support (Optional):
-   - ```bash
-     # For NVIDIA GPU support
-     docker run -it --gpus all -v $(pwd)/data:/app/data integrated-agent:latest python main.py
-     ```
      
-7. For Single Agent and Multi-Agent P2P:
-   
+6. For Single Agent and Multi-Agent P2P:
    [=] Single agent:
    ```bash
    # Build image
