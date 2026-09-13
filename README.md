@@ -18,7 +18,7 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.2.2 Official Release.
+- Development Stage on PyPi: 1.2.3 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -66,10 +66,13 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, reduced Memory overhead and Reduce CPU Usage, With Reduced Training Time is guaranteed.
 -----
   - Changelog:
-     - v1.2.1:
-        - Removed Useless print statements that happens during Advanced prediction to prevent the cause of print flooding in large samples.
      - v1.2.2:
        - Refined kNN Augmented Transformer inference function to finnaly do a proper Prediction using dictionary type of label map.
+     - v1.2.3:
+       - New Separate Architecture:
+       - SNN Architecture:
+         - Used for event series prediction, or sensor based motion prediction, or Processing sparse, time-series data (like audio or event camera streams) with low power consumption.
+       - Fixed bug where kNN augmented Transformer is unusable when Transformer model is not initiated properly and kNN inference function will create a new instance of Transformer model.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -150,6 +153,7 @@ Transformers are the modern standard for AI, introduced in 2017 with the famous 
         - Honest Limitation: Our Transformer can still analyze Images, by receiving Input that is an Image converted into X samples, its accuracy is expected to be much lower since Analyzing images requires larger datasets.
           
       - LSTM doesn't act as a Main orchestrator, instead it Provides coherent Short-term memory for the Ensemble architecture, acting as a support mechanism to provides proof-of-credibility of a given answer from past previous context input, this allows flexible and achievable Aggreement between Transformer and MLP over a short period of time.
+      - Specialized SNN helps for sensor based motion prediction, and Neuromorphic computing.
       - Ensemble weighting provides the model a much more robust classification best from both worlds perspective, weighting both MLP and Transformer confidence and probability, combined with Attention quality from the transformer to get the final prediction of an input if transformer is allowed and permitted to be in use.
    
 
@@ -865,7 +869,7 @@ print('[==] Initiating advanced batch prediction')
  - When event loop is not triggered, Asynchronous prediction can't be initiated and must be restarted/retried.
  - Script setup can be downloaded here: [async_script](scripts/async_script.py)
 
-8. Peer-to-Peer Probability coordination:
+9. Peer-to-Peer Probability coordination:
    - Each peer is both server and client simultaneously for robustness and resilience during during P2P.
    - To Make the Agent cooperate with other peers, consider using this setup:
    - [=] for ensemble prediction from multiple peers, exchanging predicted label with each other, consider using this setup:
@@ -1083,14 +1087,34 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
      - [multi_agent_client.py](P2P_Setups/multi_agent_client.py) for a In-depth start for client testing.
      - [multi_agent_server.py](P2P_Setups/multi_agent_server.py) for a In-depth start for server testing.
    - If you get undefined NoneType Behavior when using .accept(), consider see [Troubleshooting](#Troubleshooting) Issue 7 for a Quick fix.
-        
-6. Cross-Session availability:
+
+10. SNN Prediction Usage (Separated from IntegratedPipeline):
+    - Example usage:
+    - ```python
+      from AbstractIntegratedModule import train_snn_network
+      from AbstractIntegratedModule import snn_predict
+
+      encoder, net, reports, warnings = train_snn_network(X=X, y=y, epochs=50, # passed samples and Training epochs
+            batch_size=32, n_steps=20, # n number of steps for Input encoding for Noise robustness, higher steps, higher robustness from Noise.
+            n_hidden=64, lr=2e-3,  # pass hidden layers (n_hidden) for the SNN Network, and learning rate for the SNN network.
+            pretrain_steps=200, unsupervised_stdp=False # pretrain steps can be set to 0 if unsupervised_std is set to False (This is for STDP Unsupervised leearning for the SNN before BPTT Training in order to shape better Weights)
+            )
+      # This function already includes diagnostic modules for the Whole SNN network to give you a Clearer picture of the SNN Condition before Prediction.
+      # Very High Dead neurons is a sign of Bad development, consider to Increase hidden layers or learning rate in order for the Model to improve.
+
+      results = snn_predict(X=X, y=y, label_map=label_map, encoder=encoder, net=net)
+      # net is the SNNNetwork Class, and Encoder is PoissonEncoder, both are required for Prediction and must be passed in this function, consider saving the SNN net and the encoder using json for later use.
+      # Small Note:
+        - This architecture is not guaranteed to work best for Classifying tabular datas, its good for time series event based activity classification.
+      ```
+      
+12. Cross-Session availability:
    - To use Cross-session avialability to transfer or import memory, consider using this setup:
      - ```python
        main_model._cross_session_availability() # cross session capability function
        ```
 
-7. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
+12. As an option, You can add more feature's directly to what it should predict, behave using rules you have given, Create a visual dashboard, create a distributed mesh of this agent, and much more features you can try.
 
 ________________________________________________________________________________________
 ## [+] Troubleshooting
