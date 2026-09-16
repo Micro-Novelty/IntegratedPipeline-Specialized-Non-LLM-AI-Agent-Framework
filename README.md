@@ -18,7 +18,7 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________
 ### Library Short Description
-- Development Stage on PyPi: 1.2.3 Official Release.
+- Development Stage on PyPi: 1.2.4 Official Release.
 - Author and Maintainer: Micro-Novelty and EpsitronNet-bot.
 - library Source-Code is Open-sourced with MIT License.
 - Purpose: Specifically Designed for providing Non-LLM AI Agent Framework for edge Devices, Optimized for ARM64 architecture.
@@ -66,13 +66,16 @@ ________________________________________________________________________________
    - Transformer Optimized using Cython, reduced Memory overhead and Reduce CPU Usage, With Reduced Training Time is guaranteed.
 -----
   - Changelog:
-     - v1.2.2:
-       - Refined kNN Augmented Transformer inference function to finnaly do a proper Prediction using dictionary type of label map.
      - v1.2.3:
        - New Separate Architecture:
        - SNN Architecture:
          - Used for event series prediction, or sensor based motion prediction, or Processing sparse, time-series data (like audio or event camera streams) with low power consumption.
        - Fixed bug where kNN augmented Transformer is unusable when Transformer model is not initiated properly and kNN inference function will create a new instance of Transformer model.
+     - v1.2.4:
+       - Fixed 2 months old Bug where similarity matching in Correct answer cache reach beyond 100%.
+       - Advanced prediction method now returns the most frequently Predicted labels instead of the prediction over the first sample only.
+       - Reworks confidence and agreement counts handling to match the most frequently predicted label instead of only the first sample agreement from MLP and Transformer prediction inside Advanced prediction.
+       - SNN predicted labels print reports now cant reach 50 times to avoid print flooding the IDE terminal.
     
      - Note: if you want to see the Changelog history of the library Older versions consider visiting this link:
        - PyPi history: https://pypi.org/project/AbstractIntegratedModule/#history
@@ -695,6 +698,7 @@ ________________________________________________________________________________
    # Important Note: If you set titles and rules to None, you must provide X and y samples for prediction, otherwise the models cant predict anything.
    # Note: The X and y samples will be organized and processed using train_test_split() scikit-learn function for creating better generalization behavior for the model, so when you pass the X and y samples, you must pass the raw X sample (Not modified, just raw X) and the already y hot-encoded sample,
    # batch size=2 is needed during transformer training for batching, if you have larger samples consider using batch_size > 8, for medium amount of samples (>10 -> <50 samples) consider using 2 or 4 batch_size.
+   # the returned 'results' here returns all the predicted labels over each batch inside the given sample, so you can get the full picture of How the model predicts label over each batch in X sample.
 
    # This setup below would allow you to save the Accurate answer (if the model guessed a specific problem correct) directly to the database,
    # without initiating prediction over the sample repeatedly.
@@ -1105,7 +1109,7 @@ calibrated_probability = main_model._handle_distributed_connections(probs, attn_
       results = snn_predict(X=X, y=y, label_map=label_map, encoder=encoder, net=net)
       # net is the SNNNetwork Class, and Encoder is PoissonEncoder, both are required for Prediction and must be passed in this function, consider saving the SNN net and the encoder using json for later use.
       # Small Note:
-        - This architecture is not guaranteed to work best for Classifying tabular datas, its good for time series event based activity classification.
+      # - This architecture is not guaranteed to work best for Classifying tabular datas, its good for time series event based activity classification.
       ```
       
 12. Cross-Session availability:
